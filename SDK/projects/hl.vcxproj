@@ -159,6 +159,14 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\debughl/hl.bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Command>cd /D "$(ProjectDir)\..\.."
+cmd /c copy-server.bat
+EXIT /B 0</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Run copy-server.bat</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\game_shared\voice_gamemgr.cpp" />

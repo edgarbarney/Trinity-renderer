@@ -99,6 +99,12 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>$(OutputPath)$(TargetName).bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Message>Run copy-client.bat</Message>
+      <Command>cd /D "$(ProjectDir)\..\.."
+cmd /c copy-client.bat
+EXIT /B 0</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <CustomBuildStep>
