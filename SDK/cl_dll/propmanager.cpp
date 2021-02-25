@@ -12,6 +12,9 @@ Written by Andrew Lucas
 Transparency code by Neil "Jed" Jedrzejewski
 */
 
+#include <cstdlib>
+#include <cmath>
+
 #include "windows.h"
 #include "hud.h"
 #include "cl_util.h"
@@ -24,10 +27,8 @@ Transparency code by Neil "Jed" Jedrzejewski
 #include "event_api.h"
 #include "pm_defs.h"
 
-#include <stdio.h>
 #include <string.h>
 #include <memory.h>
-#include <math.h>
 
 #include "propmanager.h"
 #include "bsprenderer.h"
@@ -547,13 +548,13 @@ void CPropManager::LoadEntVars( void )
 			pValue = ValueForKey(&m_pBSPEntities[i], "skin");
 
 			if (pValue)
-				sscanf(pValue, "%d", &m_pEntities[m_iNumEntities].curstate.skin);
+				sscanf(pValue, "%hi", &m_pEntities[m_iNumEntities].curstate.skin);
 
 
 			pValue = ValueForKey(&m_pBSPEntities[i], "scale");
 
 			if (pValue)
-				sscanf(pValue, "%d", &m_pEntities[m_iNumEntities].curstate.scale);
+				sscanf(pValue, "%f", &m_pEntities[m_iNumEntities].curstate.scale);
 
 
 			pValue = ValueForKey(&m_pBSPEntities[i], "renderfx");

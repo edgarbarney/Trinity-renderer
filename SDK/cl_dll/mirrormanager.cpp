@@ -12,6 +12,9 @@ Code by Andrew Lucas
 Additional code taken from Id Software
 */
 
+#include <cstdlib>
+#include <cmath>
+
 #include "windows.h"
 #include "hud.h"
 #include "cl_util.h"
@@ -24,10 +27,8 @@ Additional code taken from Id Software
 #include "event_api.h"
 #include "pm_defs.h"
 
-#include <stdio.h>
 #include <string.h>
 #include <memory.h>
-#include <math.h>
 
 #include "propmanager.h"
 #include "particle_engine.h"

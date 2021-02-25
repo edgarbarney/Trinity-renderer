@@ -12,6 +12,10 @@ Original code by Buzer and Id Software
 Extended and/or recoded by Andrew Lucas
 */
 
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+
 #include "windows.h"
 #include "hud.h"
 #include "cl_util.h"
@@ -25,10 +29,8 @@ Extended and/or recoded by Andrew Lucas
 #include "pm_defs.h"
 #include "pm_movevars.h"
 
-#include <stdio.h>
 #include <string.h>
 #include <memory.h>
-#include <math.h>
 #include <fstream> 
 #include <iostream>
 
@@ -1574,7 +1576,7 @@ void CBSPRenderer::GenerateVertexArray( void )
 				{
 					if(pVertexes[j].pos.z < 0)
 					{
-						pVertexes[j].fogcoord = abs(pVertexes[j].pos.z/(m_pWorld->mins.z+300));
+						pVertexes[j].fogcoord = fabs(pVertexes[j].pos.z/(m_pWorld->mins.z+300));
 
 						if(pVertexes[j].fogcoord > 1)
 							pVertexes[j].fogcoord = 1;
@@ -1584,7 +1586,7 @@ void CBSPRenderer::GenerateVertexArray( void )
 					}
 					else
 					{
-						pVertexes[j].fogcoord = abs(pVertexes[j].pos.z/(m_pWorld->maxs.z-300));
+						pVertexes[j].fogcoord = fabs(pVertexes[j].pos.z/(m_pWorld->maxs.z-300));
 						
 						if(pVertexes[j].fogcoord > 1)
 							pVertexes[j].fogcoord = 1;
@@ -1626,7 +1628,7 @@ void CBSPRenderer::GenerateVertexArray( void )
 				{
 					if(pVertexes[2].pos.z < 0)
 					{
-						pVertexes[2].fogcoord = abs(pVertexes[2].pos.z/(m_pWorld->mins.z+300));
+						pVertexes[2].fogcoord = fabs(pVertexes[2].pos.z/(m_pWorld->mins.z+300));
 						
 						if(pVertexes[2].fogcoord > 1)
 							pVertexes[2].fogcoord = 1;
@@ -1636,7 +1638,7 @@ void CBSPRenderer::GenerateVertexArray( void )
 					}
 					else
 					{
-						pVertexes[2].fogcoord = abs(pVertexes[2].pos.z/(m_pWorld->maxs.z-300));
+						pVertexes[2].fogcoord = fabs(pVertexes[2].pos.z/(m_pWorld->maxs.z-300));
 						
 						if(pVertexes[2].fogcoord > 1)
 							pVertexes[2].fogcoord = 1;
@@ -1732,7 +1734,7 @@ void CBSPRenderer::GenerateVertexArray( void )
 						{
 							if(pVertexes[k].pos.z < 0)
 							{
-								pVertexes[k].fogcoord = abs(pVertexes[k].pos.z/(m_pWorld->mins.z+300));
+								pVertexes[k].fogcoord = fabs(pVertexes[k].pos.z/(m_pWorld->mins.z+300));
 								
 								if(pVertexes[k].fogcoord > 1)
 									pVertexes[k].fogcoord = 1;
@@ -1742,7 +1744,7 @@ void CBSPRenderer::GenerateVertexArray( void )
 							}
 							else
 							{
-								pVertexes[k].fogcoord = abs(pVertexes[k].pos.z/(m_pWorld->maxs.z-300));
+								pVertexes[k].fogcoord = fabs(pVertexes[k].pos.z/(m_pWorld->maxs.z-300));
 								
 								if(pVertexes[k].fogcoord > 1)
 									pVertexes[k].fogcoord = 1;
@@ -1784,7 +1786,7 @@ void CBSPRenderer::GenerateVertexArray( void )
 						{
 							if(pVertexes[2].pos.z < 0)
 							{
-								pVertexes[2].fogcoord = abs(pVertexes[2].pos.z/(m_pWorld->mins.z+300));
+								pVertexes[2].fogcoord = fabs(pVertexes[2].pos.z/(m_pWorld->mins.z+300));
 								
 								if(pVertexes[2].fogcoord > 1)
 									pVertexes[2].fogcoord = 1;
@@ -1794,7 +1796,7 @@ void CBSPRenderer::GenerateVertexArray( void )
 							}
 							else
 							{
-								pVertexes[2].fogcoord = abs(pVertexes[2].pos.z/(m_pWorld->maxs.z-300));
+								pVertexes[2].fogcoord = fabs(pVertexes[2].pos.z/(m_pWorld->maxs.z-300));
 								
 								if(pVertexes[2].fogcoord > 1)
 									pVertexes[2].fogcoord = 1;
@@ -2323,7 +2325,8 @@ void CBSPRenderer::DrawDetails( void )
 
 				if(m_pCurrentDynLight->cone_size)
 				{
-					if(m_pCurrentDynLight->frustum.CullBox((const vec3_t)pCurObject->mins, (const vec3_t)pCurObject->maxs))
+					// Hack. (const vec3_t) DOESN'T WORK
+					if(m_pCurrentDynLight->frustum.CullBox( static_cast<float*> (pCurObject->mins), static_cast<float*> (pCurObject->maxs) ))
 						continue;
 				}
 				else
@@ -4919,9 +4922,9 @@ void CBSPRenderer::SetupDynLight( void )
 	glBindTexture(GL_TEXTURE_3D, m_iAtten3DPoint);
 
 	float r = 1 / (m_pCurrentDynLight->radius * 2);
-	GLfloat planeS[] = {r, 0, 0, -m_vCurDLightOrigin[0] * r + 0.5};
-	GLfloat planeT[] = {0, r, 0, -m_vCurDLightOrigin[1] * r + 0.5};
-	GLfloat planeR[] = {0, 0, r, -m_vCurDLightOrigin[2] * r + 0.5};
+	GLfloat planeS[] = {r, 0, 0, -m_vCurDLightOrigin[0] * r + 0.5f};
+	GLfloat planeT[] = {0, r, 0, -m_vCurDLightOrigin[1] * r + 0.5f};
+	GLfloat planeR[] = {0, 0, r, -m_vCurDLightOrigin[2] * r + 0.5f};
 
 	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR); 
 	glTexGenfv(GL_S, GL_EYE_PLANE, planeS);
@@ -5447,7 +5450,8 @@ bool CBSPRenderer::DynamicLighted( const vec3_t &vmins, const vec3_t &vmaxs )
 
 		if(m_pCurrentDynLight->cone_size)
 		{
-			if(m_pCurrentDynLight->frustum.CullBox((const vec3_t)vmins, (const vec3_t)vmaxs))
+			// Hack. (const vec3_t) DOESN'T WORK
+			if(m_pCurrentDynLight->frustum.CullBox( ( const_cast <Vector&> (vmins) ), ( const_cast <Vector&> (vmaxs) ) ))
 				continue;
 		}
 		else

@@ -18,6 +18,10 @@
 // this implementation handles the linking of the engine to the DLL
 //
 
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+
 #include "hud.h"
 #include "cl_util.h"
 #include "netadr.h"

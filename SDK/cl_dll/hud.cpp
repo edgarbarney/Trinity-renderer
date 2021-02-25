@@ -17,6 +17,9 @@
 //
 // implementation of CHud class
 //
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 
 #include "hud.h"
 #include "cl_util.h"

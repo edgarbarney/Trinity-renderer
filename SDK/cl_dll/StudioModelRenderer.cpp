@@ -13,6 +13,11 @@ Additional code written by Andrew Lucas
 Transparency code by Neil "Jed" Jedrzejewski
 */
 
+
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+
 #include <windows.h>
 #include <gl/gl.h>
 #include "gl/glext.h"
@@ -30,10 +35,8 @@ Transparency code by Neil "Jed" Jedrzejewski
 #include "event_api.h"
 #include "pmtrace.h"
 
-#include <stdio.h>
 #include <string.h>
 #include <memory.h>
-#include <math.h>
 
 #include "studio_util.h"
 #include "r_studioint.h"

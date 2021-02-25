@@ -583,12 +583,12 @@ void CBreakable::Die( void )
 {
 	Vector vecSpot;// shard origin
 	Vector vecVelocity;// shard velocity
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity* pEntity = NULL;
 	char cFlag = 0;
 	int pitch;
 	float fvol;
-	
-	pitch = 95 + RANDOM_LONG(0,29);
+
+	pitch = 95 + RANDOM_LONG(0, 29);
 
 	if (pitch > 97 && pitch < 103)
 		pitch = 100;
@@ -596,7 +596,7 @@ void CBreakable::Die( void )
 	// The more negative pev->health, the louder
 	// the sound should be.
 
-	fvol = RANDOM_FLOAT(0.85, 1.0) + (abs(pev->health) / 100.0);
+	fvol = RANDOM_FLOAT(0.85, 1.0) + (fabs(pev->health) / 100.0);
 
 	if (fvol > 1.0)
 		fvol = 1.0;
@@ -605,22 +605,22 @@ void CBreakable::Die( void )
 	switch (m_Material)
 	{
 	case matGlass:
-		switch ( RANDOM_LONG(0,1) )
+		switch (RANDOM_LONG(0, 1))
 		{
-		case 0:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustglass1.wav", fvol, ATTN_NORM, 0, pitch);	
+		case 0:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustglass1.wav", fvol, ATTN_NORM, 0, pitch);
 			break;
-		case 1:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustglass2.wav", fvol, ATTN_NORM, 0, pitch);	
+		case 1:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustglass2.wav", fvol, ATTN_NORM, 0, pitch);
 			break;
 		}
 		cFlag = BREAK_GLASS;
 		break;
 
 	case matWood:
-		switch ( RANDOM_LONG(0,1) )
+		switch (RANDOM_LONG(0, 1))
 		{
-		case 0:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustcrate1.wav", fvol, ATTN_NORM, 0, pitch);	
+		case 0:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustcrate1.wav", fvol, ATTN_NORM, 0, pitch);
 			break;
-		case 1:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustcrate2.wav", fvol, ATTN_NORM, 0, pitch);	
+		case 1:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustcrate2.wav", fvol, ATTN_NORM, 0, pitch);
 			break;
 		}
 		cFlag = BREAK_WOOD;
@@ -628,22 +628,22 @@ void CBreakable::Die( void )
 
 	case matComputer:
 	case matMetal:
-		switch ( RANDOM_LONG(0,1) )
+		switch (RANDOM_LONG(0, 1))
 		{
-		case 0:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustmetal1.wav", fvol, ATTN_NORM, 0, pitch);	
+		case 0:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustmetal1.wav", fvol, ATTN_NORM, 0, pitch);
 			break;
-		case 1:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustmetal2.wav", fvol, ATTN_NORM, 0, pitch);	
+		case 1:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustmetal2.wav", fvol, ATTN_NORM, 0, pitch);
 			break;
 		}
 		cFlag = BREAK_METAL;
 		break;
 
 	case matFlesh:
-		switch ( RANDOM_LONG(0,1) )
+		switch (RANDOM_LONG(0, 1))
 		{
-		case 0:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustflesh1.wav", fvol, ATTN_NORM, 0, pitch);	
+		case 0:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustflesh1.wav", fvol, ATTN_NORM, 0, pitch);
 			break;
-		case 1:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustflesh2.wav", fvol, ATTN_NORM, 0, pitch);	
+		case 1:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustflesh2.wav", fvol, ATTN_NORM, 0, pitch);
 			break;
 		}
 		cFlag = BREAK_FLESH;
@@ -651,11 +651,11 @@ void CBreakable::Die( void )
 
 	case matRocks:
 	case matCinderBlock:
-		switch ( RANDOM_LONG(0,1) )
+		switch (RANDOM_LONG(0, 1))
 		{
-		case 0:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustconcrete1.wav", fvol, ATTN_NORM, 0, pitch);	
+		case 0:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustconcrete1.wav", fvol, ATTN_NORM, 0, pitch);
 			break;
-		case 1:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustconcrete2.wav", fvol, ATTN_NORM, 0, pitch);	
+		case 1:	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustconcrete2.wav", fvol, ATTN_NORM, 0, pitch);
 			break;
 		}
 		cFlag = BREAK_CONCRETE;
@@ -665,8 +665,8 @@ void CBreakable::Die( void )
 		EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustceiling.wav", fvol, ATTN_NORM, 0, pitch);
 		break;
 	}
-    
-		
+
+
 	if (m_Explosion == expDirected)
 		vecVelocity = g_vecAttackDir * 200;
 	else
@@ -677,44 +677,44 @@ void CBreakable::Die( void )
 	}
 
 	vecSpot = pev->origin + (pev->mins + pev->maxs) * 0.5;
-	MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, vecSpot );
-		WRITE_BYTE( TE_BREAKMODEL);
+	MESSAGE_BEGIN(MSG_PVS, SVC_TEMPENTITY, vecSpot);
+	WRITE_BYTE(TE_BREAKMODEL);
 
-		// position
-		WRITE_COORD( vecSpot.x );
-		WRITE_COORD( vecSpot.y );
-		WRITE_COORD( vecSpot.z );
+	// position
+	WRITE_COORD(vecSpot.x);
+	WRITE_COORD(vecSpot.y);
+	WRITE_COORD(vecSpot.z);
 
-		// size
-		WRITE_COORD( pev->size.x);
-		WRITE_COORD( pev->size.y);
-		WRITE_COORD( pev->size.z);
+	// size
+	WRITE_COORD(pev->size.x);
+	WRITE_COORD(pev->size.y);
+	WRITE_COORD(pev->size.z);
 
-		// velocity
-		WRITE_COORD( vecVelocity.x ); 
-		WRITE_COORD( vecVelocity.y );
-		WRITE_COORD( vecVelocity.z );
+	// velocity
+	WRITE_COORD(vecVelocity.x);
+	WRITE_COORD(vecVelocity.y);
+	WRITE_COORD(vecVelocity.z);
 
-		// randomization
-		WRITE_BYTE( 10 ); 
+	// randomization
+	WRITE_BYTE(10);
 
-		// Model
-		WRITE_SHORT( m_idShard );	//model id#
+	// Model
+	WRITE_SHORT(m_idShard);	//model id#
 
-		// # of shards
-		WRITE_BYTE( 0 );	// let client decide
+	// # of shards
+	WRITE_BYTE(0);	// let client decide
 
-		// duration
-		WRITE_BYTE( 25 );// 2.5 seconds
+	// duration
+	WRITE_BYTE(25);// 2.5 seconds
 
-		// flags
-		WRITE_BYTE( cFlag );
+	// flags
+	WRITE_BYTE(cFlag);
 	MESSAGE_END();
 
 	float size = pev->size.x;
-	if ( size < pev->size.y )
+	if (size < pev->size.y)
 		size = pev->size.y;
-	if ( size < pev->size.z )
+	if (size < pev->size.z)
 		size = pev->size.z;
 
 	// !!! HACK  This should work!
@@ -725,13 +725,13 @@ void CBreakable::Die( void )
 	maxs.z += 8;
 
 	// BUGBUG -- can only find 256 entities on a breakable -- should be enough
-	CBaseEntity *pList[256];
-	int count = UTIL_EntitiesInBox( pList, 256, mins, maxs, FL_ONGROUND );
-	if ( count )
+	CBaseEntity* pList[256];
+	int count = UTIL_EntitiesInBox(pList, 256, mins, maxs, FL_ONGROUND);
+	if (count)
 	{
-		for ( int i = 0; i < count; i++ )
+		for (int i = 0; i < count; i++)
 		{
-			ClearBits( pList[i]->pev->flags, FL_ONGROUND );
+			ClearBits(pList[i]->pev->flags, FL_ONGROUND);
 			pList[i]->pev->groundentity = NULL;
 		}
 	}
@@ -741,17 +741,17 @@ void CBreakable::Die( void )
 
 	pev->solid = SOLID_NOT;
 	// Fire targets on break
-	SUB_UseTargets( NULL, USE_TOGGLE, 0 );
+	SUB_UseTargets(NULL, USE_TOGGLE, 0);
 
-	SetThink( &CBaseEntity::SUB_Remove );
+	SetThink(&CBreakable::SUB_Remove);
 	pev->nextthink = pev->ltime + 0.1;
-	if ( m_iszSpawnObject )
-		CBaseEntity::Create( (char *)STRING(m_iszSpawnObject), VecBModelOrigin(pev), pev->angles, edict() );
+	if (m_iszSpawnObject)
+		CBaseEntity::Create((char*)STRING(m_iszSpawnObject), VecBModelOrigin(pev), pev->angles, edict());
 
 
-	if ( Explodable() )
+	if (Explodable())
 	{
-		ExplosionCreate( Center(), pev->angles, edict(), ExplosionMagnitude(), TRUE );
+		ExplosionCreate(Center(), pev->angles, edict(), ExplosionMagnitude(), TRUE);
 	}
 }
 

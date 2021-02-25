@@ -7,6 +7,10 @@
 
 // Client side entity management functions
 
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+
 #include <memory.h>
 
 #include "hud.h"
@@ -25,7 +29,6 @@
 #include "particle_engine.h"
 #include "mirrormanager.h"
 
-#include "studio.h"
 #include "StudioModelRenderer.h"
 #include "GameStudioModelRenderer.h"
 

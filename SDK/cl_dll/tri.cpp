@@ -5,6 +5,10 @@
 // $NoKeywords: $
 //=============================================================================
 
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+
 // Triangle rendering, if any
 
 #include "hud.h"
@@ -24,7 +28,6 @@
 #include "watershader.h"
 #include "mirrormanager.h"
 
-#include "studio.h"
 #include "StudioModelRenderer.h"
 #include "GameStudioModelRenderer.h"
 

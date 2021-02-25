@@ -7,6 +7,10 @@
 
 // view/refresh setup functions
 
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+
 #include "hud.h"
 #include "cl_util.h"
 #include "cvardef.h"

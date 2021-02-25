@@ -11,13 +11,13 @@ Renderer base definitions and functions
 Written by Andrew Lucas, Richard Rohac, BUzer, Laurie, Botman and Id Software
 */
 
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+
 #include "windows.h"
 #include <gl/gl.h>
 #include "gl/glext.h"
-
-#include "STDIO.H"
-#include "STDLIB.H"
-#include "MATH.H"
 
 #include "hud.h"
 #include "cl_util.h"

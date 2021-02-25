@@ -567,34 +567,34 @@ void CFuncRotating :: RampPitchVol (int fUp)
 	float fvol;
 	float fpitch;
 	int pitch;
-	
+
 	// get current angular velocity
 
-	vecCur = abs(vecAVel.x != 0 ? vecAVel.x : (vecAVel.y != 0 ? vecAVel.y : vecAVel.z));
-	
+	vecCur = fabs(vecAVel.x != 0 ? vecAVel.x : (vecAVel.y != 0 ? vecAVel.y : vecAVel.z));
+
 	// get target angular velocity
 
 	vecFinal = (pev->movedir.x != 0 ? pev->movedir.x : (pev->movedir.y != 0 ? pev->movedir.y : pev->movedir.z));
 	vecFinal *= pev->speed;
-	vecFinal = abs(vecFinal);
+	vecFinal = fabs(vecFinal);
 
 	// calc volume and pitch as % of final vol and pitch
 
 	fpct = vecCur / vecFinal;
-//	if (fUp)
-//		fvol = m_flVolume * (0.5 + fpct/2.0); // spinup volume ramps up from 50% max vol
-//	else
-		fvol = m_flVolume * fpct;			  // slowdown volume ramps down to 0
+	//	if (fUp)
+	//		fvol = m_flVolume * (0.5 + fpct/2.0); // spinup volume ramps up from 50% max vol
+	//	else
+	fvol = m_flVolume * fpct;			  // slowdown volume ramps down to 0
 
-	fpitch = FANPITCHMIN + (FANPITCHMAX - FANPITCHMIN) * fpct;	
-	
-	pitch = (int) fpitch;
+	fpitch = FANPITCHMIN + (FANPITCHMAX - FANPITCHMIN) * fpct;
+
+	pitch = (int)fpitch;
 	if (pitch == PITCH_NORM)
-		pitch = PITCH_NORM-1;
+		pitch = PITCH_NORM - 1;
 
 	// change the fan's vol and pitch
 
-	EMIT_SOUND_DYN(ENT(pev), CHAN_STATIC, (char *)STRING(pev->noiseRunning), 
+	EMIT_SOUND_DYN(ENT(pev), CHAN_STATIC, (char*)STRING(pev->noiseRunning),
 		fvol, m_flAttenuation, SND_CHANGE_PITCH | SND_CHANGE_VOL, pitch);
 
 }
@@ -607,22 +607,22 @@ void CFuncRotating :: SpinUp( void )
 	Vector	vecAVel;//rotational velocity
 
 	pev->nextthink = pev->ltime + 0.1;
-	pev->avelocity = pev->avelocity + ( pev->movedir * ( pev->speed * m_flFanFriction ) );
+	pev->avelocity = pev->avelocity + (pev->movedir * (pev->speed * m_flFanFriction));
 
 	vecAVel = pev->avelocity;// cache entity's rotational velocity
 
 	// if we've met or exceeded target speed, set target speed and stop thinking
-	if (	abs(vecAVel.x) >= abs(pev->movedir.x * pev->speed)	&&
-			abs(vecAVel.y) >= abs(pev->movedir.y * pev->speed)	&&
-			abs(vecAVel.z) >= abs(pev->movedir.z * pev->speed) )
+	if (fabs(vecAVel.x) >= fabs(pev->movedir.x * pev->speed) &&
+		fabs(vecAVel.y) >= fabs(pev->movedir.y * pev->speed) &&
+		fabs(vecAVel.z) >= fabs(pev->movedir.z * pev->speed))
 	{
 		pev->avelocity = pev->movedir * pev->speed;// set speed in case we overshot
-		EMIT_SOUND_DYN(ENT(pev), CHAN_STATIC, (char *)STRING(pev->noiseRunning), 
+		EMIT_SOUND_DYN(ENT(pev), CHAN_STATIC, (char*)STRING(pev->noiseRunning),
 			m_flVolume, m_flAttenuation, SND_CHANGE_PITCH | SND_CHANGE_VOL, FANPITCHMAX);
-		
-		SetThink( &CFuncRotating::Rotate );
+
+		SetThink(&CFuncRotating::Rotate);
 		Rotate();
-	} 
+	}
 	else
 	{
 		RampPitchVol(TRUE);

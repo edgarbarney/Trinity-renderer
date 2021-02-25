@@ -12,6 +12,11 @@
 *   without written permission from Valve LLC.
 *
 ****/
+
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+
 #include "hud.h"
 #include "cl_util.h"
 #include "const.h"
