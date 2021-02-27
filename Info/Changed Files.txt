@@ -9,22 +9,22 @@ ails.
 ===============Client Side:
 
 Renderer files:
-cl_dll\bsprenderer.cpp
-cl_dll\bsprenderer.h
-cl_dll\frustum.cpp
-cl_dll\frustum.h
-cl_dll\mirrormanager.cpp
-cl_dll\mirrormanager.h
-cl_dll\particle_engine.cpp
-cl_dll\particle_engine.h
-cl_dll\propmanager.cpp
-cl_dll\propmanager.h
-cl_dll\rendererdefs.cpp
-cl_dll\rendererdefs.h
++cl_dll\bsprenderer.cpp
++cl_dll\bsprenderer.h
++cl_dll\frustum.cpp
++cl_dll\frustum.h
++cl_dll\mirrormanager.cpp
++cl_dll\mirrormanager.h
++cl_dll\particle_engine.cpp
++cl_dll\particle_engine.h
++cl_dll\propmanager.cpp
++cl_dll\propmanager.h
++cl_dll\rendererdefs.cpp
++cl_dll\rendererdefs.h
 cl_dll\StudioModelRenderer.cpp
 cl_dll\StudioModelRenderer.h
-cl_dll\watershader.cpp
-cl_dll\watershader.h
++cl_dll\watershader.cpp
++cl_dll\watershader.h
 
 common\const.h
 common\com_model.h

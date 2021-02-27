@@ -328,7 +328,7 @@ typedef struct
 #define STUDIO_NF_CHROME		0x0002
 #define STUDIO_NF_ADDITIVE		32 // buz
 #define STUDIO_NF_ALPHATEST		64 // buz
-#define STUDIO_NF_FULLBRIGHT		512
+#define STUDIO_NF_FULLBRIGHT	512
 #define STUDIO_NF_NOMIPMAP		256
 
 // motion flags
