@@ -36,7 +36,7 @@ extern DLL_GLOBAL Vector		g_vecAttackDir;
 // be spawned, and still remain fairly flexible
 const char *CBreakable::pSpawnObjects[] =
 {
-	NULL,				// 0
+	nullptr,				// 0
 	"item_battery",		// 1
 	"item_healthkit",	// 2
 	"weapon_9mmhandgun",// 3
@@ -141,7 +141,7 @@ TYPEDESCRIPTION CBreakable::m_SaveData[] =
 
 IMPLEMENT_SAVERESTORE( CBreakable, CBaseEntity );
 
-void CBreakable::Spawn( void )
+void CBreakable::Spawn( )
 {
     Precache( );    
 
@@ -166,7 +166,7 @@ void CBreakable::Spawn( void )
 
 	SetTouch( &CBreakable::BreakTouch );
 	if ( FBitSet( pev->spawnflags, SF_BREAK_TRIGGER_ONLY ) )		// Only break on trigger
-		SetTouch( NULL );
+		SetTouch( nullptr );
 
 	// Flag unbreakable glass as "worldbrush" so it will block ALL tracelines
 	if ( !IsBreakable() && pev->rendermode != kRenderNormal )
@@ -215,7 +215,7 @@ const char *CBreakable::pSoundsGlass[] =
 
 const char **CBreakable::MaterialSoundList( Materials precacheMaterial, int &soundCount )
 {
-	const char	**pSoundList = NULL;
+	const char	**pSoundList = nullptr;
 
     switch ( precacheMaterial ) 
 	{
@@ -281,7 +281,7 @@ void CBreakable::MaterialSoundRandom( edict_t *pEdict, Materials soundMaterial, 
 }
 
 
-void CBreakable::Precache( void )
+void CBreakable::Precache( )
 {
 	const char *pGibName;
 
@@ -354,7 +354,7 @@ void CBreakable::Precache( void )
 // the more damage, the louder the shard sound.
 
 
-void CBreakable::DamageSound( void )
+void CBreakable::DamageSound( )
 {
 	int pitch;
 	float fvol;
@@ -445,7 +445,7 @@ void CBreakable::BreakTouch( CBaseEntity *pOther )
 
 		if (flDamage >= pev->health)
 		{
-			SetTouch( NULL );
+			SetTouch( nullptr );
 			TakeDamage(pevToucher, pevToucher, flDamage, DMG_CRUSH);
 
 			// do a little damage to player if we broke glass or computer
@@ -460,7 +460,7 @@ void CBreakable::BreakTouch( CBaseEntity *pOther )
 		DamageSound();
 
 		SetThink ( &CBreakable::Die );
-		SetTouch( NULL );
+		SetTouch( nullptr );
 		
 		if ( m_flDelay == 0 )
 		{// !!!BUGBUG - why doesn't zero delay work?
@@ -579,11 +579,11 @@ int CBreakable :: TakeDamage( entvars_t* pevInflictor, entvars_t* pevAttacker, f
 }
 
 
-void CBreakable::Die( void )
+void CBreakable::Die( )
 {
 	Vector vecSpot;// shard origin
 	Vector vecVelocity;// shard velocity
-	CBaseEntity* pEntity = NULL;
+	CBaseEntity* pEntity = nullptr;
 	char cFlag = 0;
 	int pitch;
 	float fvol;
@@ -732,7 +732,7 @@ void CBreakable::Die( void )
 		for (int i = 0; i < count; i++)
 		{
 			ClearBits(pList[i]->pev->flags, FL_ONGROUND);
-			pList[i]->pev->groundentity = NULL;
+			pList[i]->pev->groundentity = nullptr;
 		}
 	}
 
@@ -741,7 +741,7 @@ void CBreakable::Die( void )
 
 	pev->solid = SOLID_NOT;
 	// Fire targets on break
-	SUB_UseTargets(NULL, USE_TOGGLE, 0);
+	SUB_UseTargets(nullptr, USE_TOGGLE, 0);
 
 	SetThink(&CBreakable::SUB_Remove);
 	pev->nextthink = pev->ltime + 0.1;
@@ -757,7 +757,7 @@ void CBreakable::Die( void )
 
 
 
-BOOL CBreakable :: IsBreakable( void ) 
+BOOL CBreakable :: IsBreakable( ) 
 { 
 	return m_Material != matUnbreakableGlass;
 }
@@ -767,7 +767,7 @@ BOOL CBreakable :: IsBreakable( void )
 char *CBreakable :: DamageDecal( int bitsDamageType )
 {
 	if ( pev->rendermode == kRenderTransAlpha )
-		return 0;
+		return nullptr;
 
 	if ( pev->rendermode != kRenderNormal )
 		return "shot_glass";
@@ -780,23 +780,23 @@ char *CBreakable :: DamageDecal( int bitsDamageType )
 class CPushable : public CBreakable
 {
 public:
-	void	Spawn ( void );
-	void	Precache( void );
-	void	Touch ( CBaseEntity *pOther );
+	void	Spawn ( ) override;
+	void	Precache( ) override;
+	void	Touch ( CBaseEntity *pOther ) override;
 	void	Move( CBaseEntity *pMover, int push );
-	void	KeyValue( KeyValueData *pkvd );
-	void	Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	void	EXPORT StopSound( void );
+	void	KeyValue( KeyValueData *pkvd ) override;
+	void	Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value ) override;
+	void	EXPORT StopSound( );
 //	virtual void	SetActivator( CBaseEntity *pActivator ) { m_pPusher = pActivator; }
 
-	virtual int	ObjectCaps( void ) { return (CBaseEntity :: ObjectCaps() & ~FCAP_ACROSS_TRANSITION) | FCAP_CONTINUOUS_USE; }
-	virtual int		Save( CSave &save );
-	virtual int		Restore( CRestore &restore );
+	int	ObjectCaps( ) override { return (CBaseEntity :: ObjectCaps() & ~FCAP_ACROSS_TRANSITION) | FCAP_CONTINUOUS_USE; }
+	int		Save( CSave &save ) override;
+	int		Restore( CRestore &restore ) override;
 
-	inline float MaxSpeed( void ) { return m_maxSpeed; }
+	inline float MaxSpeed( ) { return m_maxSpeed; }
 	
 	// breakables use an overridden takedamage
-	virtual int TakeDamage( entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType );
+	int TakeDamage( entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType ) override;
 	
 	static	TYPEDESCRIPTION m_SaveData[];
 
@@ -819,7 +819,7 @@ LINK_ENTITY_TO_CLASS( func_pushable, CPushable );
 char *CPushable :: m_soundNames[3] = { "debris/pushbox1.wav", "debris/pushbox2.wav", "debris/pushbox3.wav" };
 
 
-void CPushable :: Spawn( void )
+void CPushable :: Spawn( )
 {
 	if ( pev->spawnflags & SF_PUSH_BREAKABLE )
 		CBreakable::Spawn();
@@ -846,7 +846,7 @@ void CPushable :: Spawn( void )
 }
 
 
-void CPushable :: Precache( void )
+void CPushable :: Precache( )
 {
 	for ( int i = 0; i < 3; i++ )
 		PRECACHE_SOUND( m_soundNames[i] );

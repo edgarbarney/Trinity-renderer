@@ -117,17 +117,17 @@ dynpitchvol_t rgdpvpreset[CDPVPRESETMAX] =
 class CAmbientGeneric : public CBaseEntity
 {
 public:
-	void KeyValue( KeyValueData* pkvd);
-	void Spawn( void );
-	void Precache( void );
+	void KeyValue( KeyValueData* pkvd) override;
+	void Spawn( ) override;
+	void Precache( ) override;
 	void EXPORT ToggleUse ( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	void EXPORT RampThink( void );
-	void InitModulationParms(void);
+	void EXPORT RampThink( );
+	void InitModulationParms();
 
-	virtual int		Save( CSave &save );
-	virtual int		Restore( CRestore &restore );
+	int		Save( CSave &save ) override;
+	int		Restore( CRestore &restore ) override;
 	static	TYPEDESCRIPTION m_SaveData[];
-	virtual int	ObjectCaps( void ) { return (CBaseEntity :: ObjectCaps() & ~FCAP_ACROSS_TRANSITION); }
+	int	ObjectCaps( ) override { return (CBaseEntity :: ObjectCaps() & ~FCAP_ACROSS_TRANSITION); }
 
 	float m_flAttenuation;		// attenuation value
 	dynpitchvol_t m_dpv;	
@@ -156,7 +156,7 @@ IMPLEMENT_SAVERESTORE( CAmbientGeneric, CBaseEntity );
 //
 // ambient_generic - general-purpose user-defined static sound
 //
-void CAmbientGeneric :: Spawn( void )
+void CAmbientGeneric :: Spawn( )
 {
 /*
 		-1 : "Default"
@@ -220,7 +220,7 @@ void CAmbientGeneric :: Spawn( void )
 }
 
 
-void CAmbientGeneric :: Precache( void )
+void CAmbientGeneric :: Precache( )
 {
 	char* szSoundFile = (char*) STRING(pev->message);
 
@@ -252,7 +252,7 @@ void CAmbientGeneric :: Precache( void )
 // ramp pitch and/or volume up or down, modify pitch/volume
 // with lfo if active.
 
-void CAmbientGeneric :: RampThink( void )
+void CAmbientGeneric :: RampThink( )
 {
 	char* szSoundFile = (char*) STRING(pev->message);
 	int pitch = m_dpv.pitch; 
@@ -445,7 +445,7 @@ void CAmbientGeneric :: RampThink( void )
 // Init all ramp params in preparation to 
 // play a new sound
 
-void CAmbientGeneric :: InitModulationParms(void)
+void CAmbientGeneric :: InitModulationParms()
 {
 	int pitchinc;
 
@@ -802,13 +802,13 @@ void CAmbientGeneric :: KeyValue( KeyValueData *pkvd )
 class CEnvSound : public CPointEntity
 {
 public:
-	void KeyValue( KeyValueData* pkvd);
-	void Spawn( void );
+	void KeyValue( KeyValueData* pkvd) override;
+	void Spawn( ) override;
 
-	void Think( void );
+	void Think( ) override;
 
-	virtual int		Save( CSave &save );
-	virtual int		Restore( CRestore &restore );
+	int		Save( CSave &save ) override;
+	int		Restore( CRestore &restore ) override;
 	static	TYPEDESCRIPTION m_SaveData[];
 
 	float m_flRadius;
@@ -884,13 +884,13 @@ BOOL FEnvSoundInRange(entvars_t *pev, entvars_t *pevTarget, float *pflRange)
 
 // CONSIDER: if player in water state, autoset roomtype to 14,15 or 16. 
 
-void CEnvSound :: Think( void )
+void CEnvSound :: Think( )
 {
 	// get pointer to client if visible; FIND_CLIENT_IN_PVS will
 	// cycle through visible clients on consecutive calls.
 
 	edict_t *pentPlayer = FIND_CLIENT_IN_PVS(edict());
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
 
 	if (FNullEnt(pentPlayer))
 		goto env_sound_Think_slow; // no player in pvs of sound entity, slow it down
@@ -950,7 +950,7 @@ void CEnvSound :: Think( void )
 
 			//CLIENT_COMMAND(pentPlayer, "room_type %f", m_flRoomtype);
 			
-			MESSAGE_BEGIN( MSG_ONE, SVC_ROOMTYPE, NULL, pentPlayer );		// use the magic #1 for "one client"
+			MESSAGE_BEGIN( MSG_ONE, SVC_ROOMTYPE, nullptr, pentPlayer );		// use the magic #1 for "one client"
 				WRITE_SHORT( (short)m_flRoomtype );					// sequence number
 			MESSAGE_END();
 
@@ -1285,7 +1285,7 @@ void SENTENCEG_Init()
 		return;
 
 	// for each line in the file...
-	while ( memfgets(pMemFile, fileSize, filePos, buffer, 511) != NULL )
+	while ( memfgets(pMemFile, fileSize, filePos, buffer, 511) != nullptr )
 	{
 		// skip whitespace
 		i = 0;
@@ -1487,10 +1487,10 @@ static char *memfgets( byte *pMemFile, int fileSize, int &filePos, char *pBuffer
 {
 	// Bullet-proofing
 	if ( !pMemFile || !pBuffer )
-		return NULL;
+		return nullptr;
 
 	if ( filePos >= fileSize )
-		return NULL;
+		return nullptr;
 
 	int i = filePos;
 	int last = fileSize;
@@ -1528,7 +1528,7 @@ static char *memfgets( byte *pMemFile, int fileSize, int &filePos, char *pBuffer
 	}
 
 	// No data read, bail
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1553,7 +1553,7 @@ void TEXTURETYPE_Init()
 		return;
 
 	// for each line in the file...
-	while (memfgets(pMemFile, fileSize, filePos, buffer, 511) != NULL && (gcTextures < CTEXTURESMAX))
+	while (memfgets(pMemFile, fileSize, filePos, buffer, 511) != nullptr && (gcTextures < CTEXTURESMAX))
 	{
 		// skip whitespace
 		i = 0;
@@ -1790,17 +1790,17 @@ float TEXTURETYPE_PlaySound(TraceResult *ptr,  Vector vecSrc, Vector vecEnd, int
 class CSpeaker : public CBaseEntity
 {
 public:
-	void KeyValue( KeyValueData* pkvd);
-	void Spawn( void );
-	void Precache( void );
+	void KeyValue( KeyValueData* pkvd) override;
+	void Spawn( ) override;
+	void Precache( ) override;
 	void EXPORT ToggleUse ( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	void EXPORT SpeakerThink( void );
+	void EXPORT SpeakerThink( );
 	
-	virtual int		Save( CSave &save );
-	virtual int		Restore( CRestore &restore );
+	int		Save( CSave &save ) override;
+	int		Restore( CRestore &restore ) override;
 	static	TYPEDESCRIPTION m_SaveData[];
 
-	virtual int	ObjectCaps( void ) { return (CBaseEntity :: ObjectCaps() & ~FCAP_ACROSS_TRANSITION); }
+	int	ObjectCaps( ) override { return (CBaseEntity :: ObjectCaps() & ~FCAP_ACROSS_TRANSITION); }
 	
 	int	m_preset;			// preset number
 };
@@ -1816,7 +1816,7 @@ IMPLEMENT_SAVERESTORE( CSpeaker, CBaseEntity );
 //
 // ambient_generic - general-purpose user-defined static sound
 //
-void CSpeaker :: Spawn( void )
+void CSpeaker :: Spawn( )
 {
 	char* szSoundFile = (char*) STRING(pev->message);
 
@@ -1844,13 +1844,13 @@ void CSpeaker :: Spawn( void )
 #define ANNOUNCE_MINUTES_MIN	0.25	 
 #define ANNOUNCE_MINUTES_MAX	2.25
 
-void CSpeaker :: Precache( void )
+void CSpeaker :: Precache( )
 {
 	if ( !FBitSet (pev->spawnflags, SPEAKER_START_SILENT ) )
 		// set first announcement time for random n second
 		pev->nextthink = gpGlobals->time + RANDOM_FLOAT(5.0, 15.0);
 }
-void CSpeaker :: SpeakerThink( void )
+void CSpeaker :: SpeakerThink( )
 {
 	char* szSoundFile;
 	float flvolume = pev->health * 0.1;

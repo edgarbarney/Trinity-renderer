@@ -54,7 +54,7 @@ void CCrowbar::Spawn( )
 }
 
 
-void CCrowbar::Precache( void )
+void CCrowbar::Precache( )
 {
 	PRECACHE_MODEL("models/v_crowbar.mdl");
 	PRECACHE_MODEL("models/w_crowbar.mdl");
@@ -72,9 +72,9 @@ void CCrowbar::Precache( void )
 int CCrowbar::GetItemInfo(ItemInfo *p)
 {
 	p->pszName = STRING(pev->classname);
-	p->pszAmmo1 = NULL;
+	p->pszAmmo1 = nullptr;
 	p->iMaxAmmo1 = -1;
-	p->pszAmmo2 = NULL;
+	p->pszAmmo2 = nullptr;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = WEAPON_NOCLIP;
 	p->iSlot = 0;
@@ -160,7 +160,7 @@ void CCrowbar::Smack( )
 }
 
 
-void CCrowbar::SwingAgain( void )
+void CCrowbar::SwingAgain( )
 {
 	Swing( 0 );
 }

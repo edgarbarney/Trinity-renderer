@@ -157,7 +157,7 @@ CTeamMenuPanel::CTeamMenuPanel(int iTrans, int iRemoveMe, int x,int y,int wide,i
 //-----------------------------------------------------------------------------
 // Purpose: Called each time a new level is started.
 //-----------------------------------------------------------------------------
-void CTeamMenuPanel::Initialize( void )
+void CTeamMenuPanel::Initialize( )
 {
 	m_bUpdatedMapName = false;
 	m_iCurrentInfo = 0;
@@ -167,7 +167,7 @@ void CTeamMenuPanel::Initialize( void )
 //-----------------------------------------------------------------------------
 // Purpose: Called everytime the Team Menu is displayed
 //-----------------------------------------------------------------------------
-void CTeamMenuPanel::Update( void )
+void CTeamMenuPanel::Update( )
 {
 	int	 iYPos = TEAMMENU_TOPLEFT_BUTTON_Y;
 
@@ -200,7 +200,7 @@ void CTeamMenuPanel::Update( void )
 				int iTotal = 0;
 				for ( int j = 1; j < MAX_PLAYERS; j++ )
 				{
-					if ( g_PlayerInfoList[j].name == NULL )
+					if ( g_PlayerInfoList[j].name == nullptr )
 						continue; // empty player slot, skip
 					if ( g_PlayerInfoList[j].thisplayer )
 						continue; // skip this player
@@ -209,8 +209,8 @@ void CTeamMenuPanel::Update( void )
 
 					iTotal++;
 					if (iTotal > 1)
-						strncat( szPlayerList, ", ", sizeof(szPlayerList) - strlen(szPlayerList) );
-					strncat( szPlayerList, g_PlayerInfoList[j].name, sizeof(szPlayerList) - strlen(szPlayerList) );
+						strncat( szPlayerList, ", ", sizeof(szPlayerList) - strlen(szPlayerList) - 1 );
+					strncat( szPlayerList, g_PlayerInfoList[j].name, sizeof(szPlayerList) - strlen(szPlayerList) - 1 );
 					szPlayerList[ sizeof(szPlayerList) - 1 ] = '\0';
 				}
 
@@ -222,7 +222,7 @@ void CTeamMenuPanel::Update( void )
 						sprintf(szText, "%s: %d Player (%d points)", gViewPort->GetTeamName(i), iTotal, g_TeamInfo[i].frags );
 					else
 						sprintf(szText, "%s: %d Players (%d points)", gViewPort->GetTeamName(i), iTotal, g_TeamInfo[i].frags );
-					strncat( szText, szPlayerList, sizeof(szText) - strlen(szText) );
+					strncat( szText, szPlayerList, sizeof(szText) - strlen(szText) - 1 );
 					szText[ sizeof(szText) - 1 ] = '\0';
 
 					m_pTeamInfoPanel[i]->setText( szText );
@@ -294,7 +294,7 @@ void CTeamMenuPanel::Update( void )
 			ch = strchr( sz, '.' );
 			*ch = '\0';
 			strcat( sz, ".txt" );
-			char *pfile = (char*)gEngfuncs.COM_LoadFile( sz, 5, NULL );
+			char *pfile = (char*)gEngfuncs.COM_LoadFile( sz, 5, nullptr );
 			if (pfile)
 			{
 				m_pBriefing->setText( pfile );
@@ -349,7 +349,7 @@ bool CTeamMenuPanel::SlotInput( int iSlot )
 
 //======================================
 // Update the Team menu before opening it
-void CTeamMenuPanel::Open( void )
+void CTeamMenuPanel::Open( )
 {
 	Update();
 	CMenuPanel::Open();

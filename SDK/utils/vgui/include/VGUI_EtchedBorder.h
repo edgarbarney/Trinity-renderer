@@ -21,7 +21,7 @@ class VGUIAPI EtchedBorder : public Border
 public:
 	EtchedBorder();
 protected:
-	virtual void paint(Panel* panel);
+	void paint(Panel* panel) override;
 };
 
 }

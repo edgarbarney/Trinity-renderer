@@ -34,7 +34,7 @@ DECLARE_MESSAGE( m_StatusBar, StatusValue );
 float *GetClientColor( int clientIndex );
 extern float g_ColorYellow[3];
 
-int CHudStatusBar :: Init( void )
+int CHudStatusBar :: Init( )
 {
 	gHUD.AddHudElem( this );
 
@@ -48,14 +48,14 @@ int CHudStatusBar :: Init( void )
 	return 1;
 }
 
-int CHudStatusBar :: VidInit( void )
+int CHudStatusBar :: VidInit( )
 {
 	// Load sprites here
 
 	return 1;
 }
 
-void CHudStatusBar :: Reset( void )
+void CHudStatusBar :: Reset( )
 {
 	int i = 0;
 
@@ -139,7 +139,7 @@ void CHudStatusBar :: ParseStatusString( int line_num )
 						{
 						case 'p':  // player name
 							GetPlayerInfo( indexval, &g_PlayerInfoList[indexval] );
-							if ( g_PlayerInfoList[indexval].name != NULL )
+							if ( g_PlayerInfoList[indexval].name != nullptr )
 							{
 								strncpy( szRepString, g_PlayerInfoList[indexval].name, MAX_PLAYER_NAME_LENGTH );
 								m_pflNameColors[line_num] = GetClientColor( indexval );
@@ -235,7 +235,7 @@ int CHudStatusBar :: MsgFunc_StatusText( const char *pszName, int iSize, void *p
 	strncpy( m_szStatusText[line], READ_STRING(), MAX_STATUSTEXT_LENGTH );
 	m_szStatusText[line][MAX_STATUSTEXT_LENGTH-1] = 0;  // ensure it's null terminated ( strncpy() won't null terminate if read string too long)
 
-	if ( m_szStatusText[0] == 0 )
+	if ( m_szStatusText[0] == nullptr )
 		m_iFlags &= ~HUD_ACTIVE;
 	else
 		m_iFlags |= HUD_ACTIVE;  // we have status text, so turn on the status bar

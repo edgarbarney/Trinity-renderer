@@ -28,7 +28,7 @@ static int	context_id;
 
 #define NET_API gEngfuncs.pNetAPI
 
-static CHudServers *g_pServers = NULL;
+static CHudServers *g_pServers = nullptr;
 
 /*
 ===================
@@ -335,7 +335,7 @@ server_t *list;
 	// Head of list?
 	if ( !list )
 	{
-		p->next = NULL;
+		p->next = nullptr;
 		*ppList = p;
 		return;
 	}
@@ -362,7 +362,7 @@ server_t *list;
 		}
 
 		// Just add at end
-		p->next = NULL;
+		p->next = nullptr;
 		list->next = p;
 	}
 }
@@ -401,7 +401,7 @@ QueryThink
 
 ===================
 */
-void CHudServers::QueryThink( void )
+void CHudServers::QueryThink( )
 {
 	request_t *p;
 
@@ -455,7 +455,7 @@ ServerListSize
 # of servers in active query and in pending to be queried lists
 ==================
 */
-int	CHudServers::ServerListSize( void )
+int	CHudServers::ServerListSize( )
 {
 	int c = 0;
 	request_t *p;
@@ -495,7 +495,7 @@ CHudServers::request_t *CHudServers::FindRequest( int context, request_t *pList 
 
 		p = p->next;
 	}
-	return NULL;
+	return nullptr;
 }
 
 /*
@@ -508,7 +508,7 @@ Remote, but don't delete, item from *ppList
 void CHudServers::RemoveServerFromList( request_t **ppList, request_t *item )
 {
 	request_t *p, *n;
-	request_t *newlist = NULL;
+	request_t *newlist = nullptr;
 
 	if ( !ppList )
 		return;
@@ -547,7 +547,7 @@ void CHudServers::ClearRequestList( request_t **ppList )
 		delete p;
 		p = n;
 	}
-	*ppList = NULL;
+	*ppList = nullptr;
 }
 
 /*
@@ -571,7 +571,7 @@ void CHudServers::ClearServerList( server_t **ppList )
 		delete p;
 		p = n;
 	}
-	*ppList = NULL;
+	*ppList = nullptr;
 }
 
 int CompareField( CHudServers::server_t *p1, CHudServers::server_t *p2, const char *fieldname, int iSortOrder )
@@ -674,7 +674,7 @@ void CHudServers::SortServers( const char *fieldname )
 	{
 		pSortArray[ i ]->next = pSortArray[ i + 1 ];
 	}
-	pSortArray[ c - 1 ]->next = NULL;
+	pSortArray[ c - 1 ]->next = nullptr;
 
 	// Clean Up.
 	delete[] pSortArray;
@@ -701,7 +701,7 @@ CHudServers::server_t *CHudServers::GetServer( int server )
 		c++;
 		p = p->next;
 	}
-	return NULL;
+	return nullptr;
 }
 
 /*
@@ -718,7 +718,7 @@ char *CHudServers::GetServerInfo( int server )
 	{
 		return p->info;
 	}
-	return NULL;
+	return nullptr;
 }
 
 /*
@@ -728,7 +728,7 @@ CancelRequest
 Kill all pending requests in engine
 ===================
 */
-void CHudServers::CancelRequest( void )
+void CHudServers::CancelRequest( )
 {
 	m_nRequesting = 0;
 	m_nQuerying   = 0;
@@ -749,8 +749,8 @@ int CHudServers::LoadMasterAddresses( int maxservers, int *count, netadr_t *padr
 	int			i;
 	char		szMaster[ 256 ];
 	char		szMasterFile[256];
-	char		*pbuffer = NULL;
-	char		*pstart = NULL ;
+	char		*pbuffer = nullptr;
+	char		*pstart = nullptr ;
 	netadr_t	adr;
 	char		szAdr[64];
 	int			nPort;
@@ -770,7 +770,7 @@ int CHudServers::LoadMasterAddresses( int maxservers, int *count, netadr_t *padr
 	}
 
 	// Read them in from proper file
-	pbuffer = (char *)gEngfuncs.COM_LoadFile( szMasterFile, 5, NULL ); // Use malloc
+	pbuffer = (char *)gEngfuncs.COM_LoadFile( szMasterFile, 5, nullptr ); // Use malloc
 	if ( !pbuffer )
 	{
 		goto finish_master;
@@ -877,7 +877,7 @@ RequestList
 Request list of game servers from master
 ===================
 */
-void CHudServers::RequestList( void )
+void CHudServers::RequestList( )
 {
 	m_nRequesting	= 1;
 	m_nDone			= 0;
@@ -1007,7 +1007,7 @@ GetServerCount
 Return number of servers in browser list
 ===================
 */
-int CHudServers::GetServerCount( void )
+int CHudServers::GetServerCount( )
 {
 	return m_nServerCount;
 }
@@ -1018,23 +1018,23 @@ CHudServers
 
 ===================
 */
-CHudServers::CHudServers( void )
+CHudServers::CHudServers( )
 {
 	m_nRequesting		= 0;
 	m_dStarted			= 0.0;
 	m_nDone				= 0;
-	m_pServerList		= NULL;
-	m_pServers			= NULL;
-	m_pActiveList		= NULL;
+	m_pServerList		= nullptr;
+	m_pServers			= nullptr;
+	m_pActiveList		= nullptr;
 	m_nQuerying			= 0;
 	m_nActiveQueries	= 0;
 	
 	m_fElapsed			= 0.0;
 
 
-	m_pPingRequest		= NULL;
-	m_pRulesRequest		= NULL;
-	m_pPlayersRequest	= NULL;
+	m_pPingRequest		= nullptr;
+	m_pRulesRequest		= nullptr;
+	m_pPlayersRequest	= nullptr;
 }
 
 /*
@@ -1043,7 +1043,7 @@ CHudServers::CHudServers( void )
 
 ===================
 */
-CHudServers::~CHudServers( void )
+CHudServers::~CHudServers( )
 {
 	ClearRequestList( &m_pActiveList );
 	ClearRequestList( &m_pServerList );
@@ -1054,20 +1054,20 @@ CHudServers::~CHudServers( void )
 	if ( m_pPingRequest )
 	{
 		delete m_pPingRequest;
-		m_pPingRequest = NULL;
+		m_pPingRequest = nullptr;
 
 	}
 	
 	if ( m_pRulesRequest )
 	{
 		delete m_pRulesRequest;
-		m_pRulesRequest = NULL;
+		m_pRulesRequest = nullptr;
 	}
 
 	if ( m_pPlayersRequest )
 	{
 		delete m_pPlayersRequest;
-		m_pPlayersRequest = NULL;
+		m_pPlayersRequest = nullptr;
 	}
 }
 
@@ -1083,7 +1083,7 @@ ServersGetCount
 
 ===================
 */
-int	ServersGetCount( void )
+int	ServersGetCount( )
 {
 	if ( g_pServers )
 	{
@@ -1092,7 +1092,7 @@ int	ServersGetCount( void )
 	return 0;
 }
 
-int	ServersIsQuerying( void )
+int	ServersIsQuerying( )
 {
 	if ( g_pServers )
 	{
@@ -1114,7 +1114,7 @@ const char *ServersGetInfo( int server )
 		return g_pServers->GetServerInfo( server );
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 void SortServers( const char *fieldname )
@@ -1131,12 +1131,12 @@ ServersShutdown
 
 ===================
 */
-void ServersShutdown( void )
+void ServersShutdown( )
 {
 	if ( g_pServers )
 	{
 		delete g_pServers;
-		g_pServers = NULL;
+		g_pServers = nullptr;
 	}
 }
 
@@ -1146,7 +1146,7 @@ ServersInit
 
 ===================
 */
-void ServersInit( void )
+void ServersInit( )
 {
 	// Kill any previous instance
 	ServersShutdown();
@@ -1174,7 +1174,7 @@ ServersCancel
 
 ===================
 */
-void ServersCancel( void )
+void ServersCancel( )
 {
 	if ( g_pServers )
 	{
@@ -1189,7 +1189,7 @@ ServersList
 
 ===================
 */
-void ServersList( void )
+void ServersList( )
 {
 	if ( g_pServers )
 	{

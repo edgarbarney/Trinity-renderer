@@ -32,34 +32,34 @@ extern int gmsgMOTD;
 
 //=========================================================
 //=========================================================
-CHalfLifeRules::CHalfLifeRules( void )
+CHalfLifeRules::CHalfLifeRules( )
 {
 	RefreshSkillData();
 }
 
 //=========================================================
 //=========================================================
-void CHalfLifeRules::Think ( void )
+void CHalfLifeRules::Think ( )
 {
 }
 
 //=========================================================
 //=========================================================
-BOOL CHalfLifeRules::IsMultiplayer( void )
-{
-	return FALSE;
-}
-
-//=========================================================
-//=========================================================
-BOOL CHalfLifeRules::IsDeathmatch ( void )
+BOOL CHalfLifeRules::IsMultiplayer( )
 {
 	return FALSE;
 }
 
 //=========================================================
 //=========================================================
-BOOL CHalfLifeRules::IsCoOp( void )
+BOOL CHalfLifeRules::IsDeathmatch ( )
+{
+	return FALSE;
+}
+
+//=========================================================
+//=========================================================
+BOOL CHalfLifeRules::IsCoOp( )
 {
 	return FALSE;
 }
@@ -125,7 +125,7 @@ void CHalfLifeRules :: PlayerSpawn( CBasePlayer *pPlayer )
 
 //=========================================================
 //=========================================================
-BOOL CHalfLifeRules :: AllowAutoTargetCrosshair( void )
+BOOL CHalfLifeRules :: AllowAutoTargetCrosshair( )
 {
 	return ( g_iSkillLevel == SKILL_EASY );
 }
@@ -293,7 +293,7 @@ Vector CHalfLifeRules::VecAmmoRespawnSpot( CBasePlayerAmmo *pAmmo )
 
 //=========================================================
 //=========================================================
-float CHalfLifeRules::FlHealthChargerRechargeTime( void )
+float CHalfLifeRules::FlHealthChargerRechargeTime( )
 {
 	return 0;// don't recharge
 }
@@ -322,7 +322,7 @@ int CHalfLifeRules::PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarg
 
 //=========================================================
 //=========================================================
-BOOL CHalfLifeRules :: FAllowMonsters( void )
+BOOL CHalfLifeRules :: FAllowMonsters( )
 {
 	return TRUE;
 }

@@ -18,9 +18,9 @@
 // implementation of CHudHealth class
 //
 
-#include "STDIO.H"
-#include "STDLIB.H"
-#include "MATH.H"
+#include "stdio.h"
+#include "stdlib.h"
+#include "math.h"
 
 #include "hud.h"
 #include "cl_util.h"
@@ -52,7 +52,7 @@ int giDmgFlags[NUM_DMG_TYPES] =
 	DMG_HALLUC
 };
 
-int CHudHealth::Init(void)
+int CHudHealth::Init()
 {
 	HOOK_MESSAGE(Health);
 	HOOK_MESSAGE(Damage);
@@ -71,7 +71,7 @@ int CHudHealth::Init(void)
 	return 1;
 }
 
-void CHudHealth::Reset( void )
+void CHudHealth::Reset( )
 {
 	// make sure the pain compass is cleared when the player respawns
 	m_fAttackFront = m_fAttackRear = m_fAttackRight = m_fAttackLeft = 0;
@@ -85,7 +85,7 @@ void CHudHealth::Reset( void )
 	}
 }
 
-int CHudHealth::VidInit(void)
+int CHudHealth::VidInit()
 {
 	m_SpriteHandle_t = 0;
 
@@ -313,7 +313,7 @@ int CHudHealth::DrawPain(float flTime)
 
 		x = ScreenWidth/2 - SPR_Width(m_SpriteHandle_t, 0)/2;
 		y = ScreenHeight/2 - SPR_Height(m_SpriteHandle_t,0) * 3;
-		SPR_DrawAdditive(0, x, y, NULL);
+		SPR_DrawAdditive(0, x, y, nullptr);
 		m_fAttackFront = max( 0, m_fAttackFront - fFade );
 	} else
 		m_fAttackFront = 0;
@@ -327,7 +327,7 @@ int CHudHealth::DrawPain(float flTime)
 
 		x = ScreenWidth/2 + SPR_Width(m_SpriteHandle_t, 1) * 2;
 		y = ScreenHeight/2 - SPR_Height(m_SpriteHandle_t,1)/2;
-		SPR_DrawAdditive(1, x, y, NULL);
+		SPR_DrawAdditive(1, x, y, nullptr);
 		m_fAttackRight = max( 0, m_fAttackRight - fFade );
 	} else
 		m_fAttackRight = 0;
@@ -341,7 +341,7 @@ int CHudHealth::DrawPain(float flTime)
 
 		x = ScreenWidth/2 - SPR_Width(m_SpriteHandle_t, 2)/2;
 		y = ScreenHeight/2 + SPR_Height(m_SpriteHandle_t,2) * 2;
-		SPR_DrawAdditive(2, x, y, NULL);
+		SPR_DrawAdditive(2, x, y, nullptr);
 		m_fAttackRear = max( 0, m_fAttackRear - fFade );
 	} else
 		m_fAttackRear = 0;
@@ -355,7 +355,7 @@ int CHudHealth::DrawPain(float flTime)
 
 		x = ScreenWidth/2 - SPR_Width(m_SpriteHandle_t, 3) * 3;
 		y = ScreenHeight/2 - SPR_Height(m_SpriteHandle_t,3)/2;
-		SPR_DrawAdditive(3, x, y, NULL);
+		SPR_DrawAdditive(3, x, y, nullptr);
 
 		m_fAttackLeft = max( 0, m_fAttackLeft - fFade );
 	} else

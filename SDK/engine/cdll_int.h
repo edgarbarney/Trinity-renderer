@@ -112,7 +112,7 @@ typedef struct cl_enginefuncs_s
 	void						( *pfnSPR_DrawHoles )		( int frame, int x, int y, const wrect_t *prc );
 	void						( *pfnSPR_DrawAdditive )	( int frame, int x, int y, const wrect_t *prc );
 	void						( *pfnSPR_EnableScissor )	( int x, int y, int width, int height );
-	void						( *pfnSPR_DisableScissor )	( void );
+	void						( *pfnSPR_DisableScissor )	( );
 	client_sprite_t				*( *pfnSPR_GetList )			( char *psz, int *piCount );
 
 	// screen handlers
@@ -126,7 +126,7 @@ typedef struct cl_enginefuncs_s
 	char*						( *pfnGetCvarString )		( char *szName );
 
 	// command handlers
-	int							( *pfnAddCommand )			( char *cmd_name, void (*function)(void) );
+	int							( *pfnAddCommand )			( char *cmd_name, void (*function)() );
 	int							( *pfnHookUserMsg )			( char *szMsgName, pfnUserMsgHook pfn );
 	int							( *pfnServerCmd )			( char *szCmdString );
 	int							( *pfnClientCmd )			( char *szCmdString );
@@ -152,14 +152,14 @@ typedef struct cl_enginefuncs_s
 
 
 // Added for user input processing
-	int							( *GetWindowCenterX )		( void );
-	int							( *GetWindowCenterY )		( void );
+	int							( *GetWindowCenterX )		( );
+	int							( *GetWindowCenterY )		( );
 	void						( *GetViewAngles )			( float * );
 	void						( *SetViewAngles )			( float * );
-	int							( *GetMaxClients )			( void );
+	int							( *GetMaxClients )			( );
 	void						( *Cvar_SetValue )			( char *cvar, float value );
 
-	int       					(*Cmd_Argc)					(void);	
+	int       					(*Cmd_Argc)					();	
 	char						*( *Cmd_Argv )				( int arg );
 	void						( *Con_Printf )				( char *fmt, ... );
 	void						( *Con_DPrintf )			( char *fmt, ... );
@@ -168,18 +168,18 @@ typedef struct cl_enginefuncs_s
 
 	const char					*( *PhysInfo_ValueForKey )	( const char *key );
 	const char					*( *ServerInfo_ValueForKey )( const char *key );
-	float						( *GetClientMaxspeed )		( void );
+	float						( *GetClientMaxspeed )		( );
 	int							( *CheckParm )				( char *parm, char **ppnext );
 	void						( *Key_Event )				( int key, int down );
 	void						( *GetMousePosition )		( int *mx, int *my );
-	int							( *IsNoClipping )			( void );
+	int							( *IsNoClipping )			( );
 
-	struct cl_entity_s			*( *GetLocalPlayer )		( void );
-	struct cl_entity_s			*( *GetViewModel )			( void );
+	struct cl_entity_s			*( *GetLocalPlayer )		( );
+	struct cl_entity_s			*( *GetViewModel )			( );
 	struct cl_entity_s			*( *GetEntityByIndex )		( int idx );
 
-	float						( *GetClientTime )			( void );
-	void						( *V_CalcShake )			( void );
+	float						( *GetClientTime )			( );
+	void						( *V_CalcShake )			( );
 	void						( *V_ApplyShake )			( float *origin, float *angles, float factor );
 
 	int							( *PM_PointContents )		( float *point, int *truecontents );
@@ -199,10 +199,10 @@ typedef struct cl_enginefuncs_s
 	long						( *pfnRandomLong )			( long lLow, long lHigh );
 	void						( *pfnHookEvent )			( char *name, void ( *pfnEvent )( struct event_args_s *args ) );
 	int							(*Con_IsVisible)			();
-	const char					*( *pfnGetGameDirectory )	( void );
+	const char					*( *pfnGetGameDirectory )	( );
 	struct cvar_s				*( *pfnGetCvarPointer )		( const char *szName );
 	const char					*( *Key_LookupBinding )		( const char *pBinding );
-	const char					*( *pfnGetLevelName )		( void );
+	const char					*( *pfnGetLevelName )		( );
 	void						( *pfnGetScreenFade )		( struct screenfade_s *fade );
 	void						( *pfnSetScreenFade )		( struct screenfade_s *fade );
 	void                        *( *VGui_GetPanel )         ( );
@@ -220,7 +220,7 @@ typedef struct cl_enginefuncs_s
 	struct IVoiceTweak_s		*pVoiceTweak;
 
 	// returns 1 if the client is a spectator only (connected to a proxy), 0 otherwise or 2 if in dev_overview mode
-	int							( *IsSpectateOnly ) ( void );
+	int							( *IsSpectateOnly ) ( );
 	struct model_s				*( *LoadMapSprite )			( const char *filename );
 
 	// file search functions

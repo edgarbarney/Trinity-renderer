@@ -57,7 +57,7 @@ extern int gmsgSayText;
 
 extern int g_teamplay;
 
-void LinkUserMessages( void );
+void LinkUserMessages( );
 
 /*
  * used by kill command and disconnect command
@@ -87,7 +87,7 @@ unsigned int ByteToInt( byte *byte )
 }
 
 typedef void (__cdecl *CLGETMDL)(int, void **);
-void ExportDetails( void )
+void ExportDetails( )
 {	 
 	CLGETMDL ClientGetModelByIndex;
 
@@ -140,7 +140,7 @@ void ExportDetails( void )
 
 	for(int i = 0; i < iNumDetailEnts; i++)
 	{
-		void *pVModel = NULL;
+		void *pVModel = nullptr;
 		ClientGetModelByIndex(pEdicts[i]->v.modelindex, &pVModel);
 
 		if(!pVModel)
@@ -232,7 +232,7 @@ void ClientDisconnect( edict_t *pEntity )
 
 	char text[256];
 	sprintf( text, "- %s has left the game\n", STRING(pEntity->v.netname) );
-	MESSAGE_BEGIN( MSG_ALL, gmsgSayText, NULL );
+	MESSAGE_BEGIN( MSG_ALL, gmsgSayText, nullptr );
 		WRITE_BYTE( ENTINDEX(pEntity) );
 		WRITE_STRING( text );
 	MESSAGE_END();
@@ -394,15 +394,15 @@ void Host_Say( edict_t *pEntity, int teamonly )
 
 // make sure the text has content
 	char *pc;
-	for ( pc = p; pc != NULL && *pc != 0; pc++ )
+	for ( pc = p; pc != nullptr && *pc != 0; pc++ )
 	{
 		if ( isprint( *pc ) && !isspace( *pc ) )
 		{
-			pc = NULL;	// we've found an alphanumeric character,  so text is valid
+			pc = nullptr;	// we've found an alphanumeric character,  so text is valid
 			break;
 		}
 	}
-	if ( pc != NULL )
+	if ( pc != nullptr )
 		return;  // no character found, so say nothing
 
 // turn on color set 2  (color on,  no sound)
@@ -426,8 +426,8 @@ void Host_Say( edict_t *pEntity, int teamonly )
 	// This may return the world in single player if the client types something between levels or during spawn
 	// so check it, or it will infinite loop
 
-	client = NULL;
-	while ( ((client = (CBasePlayer*)UTIL_FindEntityByClassname( client, "player" )) != NULL) && (!FNullEnt(client->edict())) ) 
+	client = nullptr;
+	while ( ((client = (CBasePlayer*)UTIL_FindEntityByClassname( client, "player" )) != nullptr) && (!FNullEnt(client->edict())) ) 
 	{
 		if ( !client->pev )
 			continue;
@@ -445,7 +445,7 @@ void Host_Say( edict_t *pEntity, int teamonly )
 		if ( teamonly && g_pGameRules->PlayerRelationship(client, CBaseEntity::Instance(pEntity)) != GR_TEAMMATE )
 			continue;
 
-		MESSAGE_BEGIN( MSG_ONE, gmsgSayText, NULL, client->pev );
+		MESSAGE_BEGIN( MSG_ONE, gmsgSayText, nullptr, client->pev );
 			WRITE_BYTE( ENTINDEX(pEntity) );
 			WRITE_STRING( text );
 		MESSAGE_END();
@@ -453,7 +453,7 @@ void Host_Say( edict_t *pEntity, int teamonly )
 	}
 
 	// print to the sending client
-	MESSAGE_BEGIN( MSG_ONE, gmsgSayText, NULL, &pEntity->v );
+	MESSAGE_BEGIN( MSG_ONE, gmsgSayText, nullptr, &pEntity->v );
 		WRITE_BYTE( ENTINDEX(pEntity) );
 		WRITE_STRING( text );
 	MESSAGE_END();
@@ -556,7 +556,7 @@ void ClientCommand( edict_t *pEntity )
 	{
 		GetClassPtr((CBasePlayer *)pev)->SelectItem((char *)CMD_ARGV(1));
 	}
-	else if (((pstr = strstr(pcmd, "weapon_")) != NULL)  && (pstr == pcmd))
+	else if (((pstr = strstr(pcmd, "weapon_")) != nullptr)  && (pstr == pcmd))
 	{
 		GetClassPtr((CBasePlayer *)pev)->SelectItem(pcmd);
 	}
@@ -607,7 +607,7 @@ void ClientUserInfoChanged( edict_t *pEntity, char *infobuffer )
 		return;
 
 	// msg everyone if someone changes their name,  and it isn't the first time (changing no name to current name)
-	if ( pEntity->v.netname && STRING(pEntity->v.netname)[0] != 0 && !FStrEq( STRING(pEntity->v.netname), g_engfuncs.pfnInfoKeyValue( infobuffer, "name" )) )
+	if ( pEntity->v.netname && STRING(pEntity->v.netname)[0] != nullptr && !FStrEq( STRING(pEntity->v.netname), g_engfuncs.pfnInfoKeyValue( infobuffer, "name" )) )
 	{
 		char sName[256];
 		char *pName = g_engfuncs.pfnInfoKeyValue( infobuffer, "name" );
@@ -615,7 +615,7 @@ void ClientUserInfoChanged( edict_t *pEntity, char *infobuffer )
 		sName[ sizeof(sName) - 1 ] = '\0';
 
 		// First parse the name and remove any %'s
-		for ( char *pApersand = sName; pApersand != NULL && *pApersand != 0; pApersand++ )
+		for ( char *pApersand = sName; pApersand != nullptr && *pApersand != 0; pApersand++ )
 		{
 			// Replace it with a space
 			if ( *pApersand == '%' )
@@ -627,7 +627,7 @@ void ClientUserInfoChanged( edict_t *pEntity, char *infobuffer )
 
 		char text[256];
 		sprintf( text, "* %s changed name to %s\n", STRING(pEntity->v.netname), g_engfuncs.pfnInfoKeyValue( infobuffer, "name" ) );
-		MESSAGE_BEGIN( MSG_ALL, gmsgSayText, NULL );
+		MESSAGE_BEGIN( MSG_ALL, gmsgSayText, nullptr );
 			WRITE_BYTE( ENTINDEX(pEntity) );
 			WRITE_STRING( text );
 		MESSAGE_END();
@@ -658,7 +658,7 @@ void ClientUserInfoChanged( edict_t *pEntity, char *infobuffer )
 
 static int g_serveractive = 0;
 
-void ServerDeactivate( void )
+void ServerDeactivate( )
 {
 	// It's possible that the engine will call this function more times than is necessary
 	//  Therefore, only run it one time for each call to ServerActivate 
@@ -742,12 +742,12 @@ void PlayerPostThink( edict_t *pEntity )
 
 
 
-void ParmsNewLevel( void )
+void ParmsNewLevel( )
 {
 }
 
 
-void ParmsChangeLevel( void )
+void ParmsChangeLevel( )
 {
 	// retrieve the pointer to the save data
 	SAVERESTOREDATA *pSaveData = (SAVERESTOREDATA *)gpGlobals->pSaveData;
@@ -760,7 +760,7 @@ void ParmsChangeLevel( void )
 //
 // GLOBALS ASSUMED SET:  g_ulFrameCount
 //
-void StartFrame( void )
+void StartFrame( )
 {
 	if ( g_pGameRules )
 		g_pGameRules->Think();
@@ -773,7 +773,7 @@ void StartFrame( void )
 }
 
 
-void ClientPrecache( void )
+void ClientPrecache( )
 {
 	// setup precaches always needed
 	PRECACHE_SOUND("player/sprayer.wav");			// spray paint sound for PreAlpha
@@ -1036,8 +1036,8 @@ void SetupVisibility( edict_t *pViewEntity, edict_t *pClient, unsigned char **pv
 
 	if ( pClient->v.flags & FL_PROXY )
 	{
-		*pvs = NULL;	// the spectator proxy sees
-		*pas = NULL;	// and hears everything
+		*pvs = nullptr;	// the spectator proxy sees
+		*pas = nullptr;	// and hears everything
 		return;
 	}
 
@@ -1552,7 +1552,7 @@ RegisterEncoders
 Allows game .dll to override network encoding of certain types of entities and tweak values, etc.
 =================
 */
-void RegisterEncoders( void )
+void RegisterEncoders( )
 {
 	DELTA_ADDENCODER( "Entity_Encode", Entity_Encode );
 	DELTA_ADDENCODER( "Custom_Encode", Custom_Encode );
@@ -1821,7 +1821,7 @@ Create pseudo-baselines for items that aren't placed in the map at spawn time, b
 to be created during play ( e.g., grenades, ammo packs, projectiles, corpses, etc. )
 ================================
 */
-void CreateInstancedBaselines ( void )
+void CreateInstancedBaselines ( )
 {
 	int iret = 0;
 	entity_state_t state;
@@ -1867,7 +1867,7 @@ AllowLagCompensation
   if you want.
 ================================
 */
-int AllowLagCompensation( void )
+int AllowLagCompensation( )
 {
 	return 1;
 }

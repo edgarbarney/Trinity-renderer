@@ -6,7 +6,7 @@
 //=============================================================================
 
 #include"vgui_int.h"
-#include<VGUI_Label.h>
+#include<vgui_label.h>
 #include<VGUI_BorderLayout.h>
 #include<VGUI_LineBorder.h>
 #include<VGUI_SurfaceBase.h>
@@ -42,19 +42,19 @@ public:
 		_textEntry->addActionSignal(this);
 	}
 public:
-	virtual bool isWithin(int x,int y)
+	bool isWithin(int x,int y) override
 	{
 		return _textEntry->isWithin(x,y);
 	}
 public:
-	virtual void actionPerformed(Panel* panel)
+	void actionPerformed(Panel* panel) override
 	{
 		char buf[256];
 		_textEntry->getText(0,buf,256);
 		sscanf(buf,"%d",&_bindIndex);
 	}
 protected:
-	virtual void paintBackground()
+	void paintBackground() override
 	{
 			Panel::paintBackground();
 			
@@ -93,7 +93,7 @@ void VGui_Startup()
 	
 	//root->getSurfaceBase()->setEmulatedCursorVisible(true);
 
-	if (gViewPort != NULL)
+	if (gViewPort != nullptr)
 	{
 //		root->removeChild(gViewPort);
 
@@ -119,7 +119,7 @@ void VGui_Startup()
 void VGui_Shutdown()
 {
 	delete gViewPort;
-	gViewPort = NULL;
+	gViewPort = nullptr;
 }
 
 

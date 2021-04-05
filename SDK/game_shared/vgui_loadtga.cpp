@@ -7,9 +7,9 @@
 
 #include "../cl_dll/wrect.h"
 #include "../cl_dll/cl_dll.h"
-#include "vgui.h"
-#include "vgui_loadtga.h"
-#include "vgui_inputstream.h"
+#include "VGUI.h"
+#include "vgui_LoadTGA.h"
+#include "VGUI_InputStream.h"
 
 
 // ---------------------------------------------------------------------- //
@@ -20,16 +20,16 @@ class MemoryInputStream : public vgui::InputStream
 public:
 				MemoryInputStream()
 				{
-					m_pData = NULL;
+					m_pData = nullptr;
 					m_DataLen = m_ReadPos = 0;
 				}
 		
-	virtual void  seekStart(bool& success)					{m_ReadPos=0; success=true;}
-	virtual void  seekRelative(int count,bool& success)		{m_ReadPos+=count; success=true;}
-	virtual void  seekEnd(bool& success)					{m_ReadPos=m_DataLen; success=true;}
-	virtual int   getAvailable(bool& success)				{success=false; return 0;} // This is what vgui does for files...
+	void  seekStart(bool& success) override					{m_ReadPos=0; success=true;}
+	void  seekRelative(int count,bool& success) override		{m_ReadPos+=count; success=true;}
+	void  seekEnd(bool& success) override					{m_ReadPos=m_DataLen; success=true;}
+	int   getAvailable(bool& success) override				{success=false; return 0;} // This is what vgui does for files...
 	
-	virtual uchar readUChar(bool& success)					
+	uchar readUChar(bool& success) override					
 	{
 		if(m_ReadPos>=0 && m_ReadPos<m_DataLen)
 		{
@@ -45,15 +45,15 @@ public:
 		}
 	}
 
-	virtual void  readUChar(uchar* buf,int count,bool& success)
+	void  readUChar(uchar* buf,int count,bool& success) override
 	{
 		for(int i=0; i < count; i++)
 			buf[i] = readUChar(success);
 	}
 
-	virtual void  close(bool& success) 
+	void  close(bool& success) override 
 	{
-		m_pData = NULL;
+		m_pData = nullptr;
 		m_DataLen = m_ReadPos = 0;
 	}
 
@@ -68,7 +68,7 @@ vgui::BitmapTGA* vgui_LoadTGA(char const *pFilename)
 	
 	stream.m_pData = gEngfuncs.COM_LoadFile((char*)pFilename, 5, &stream.m_DataLen);
 	if(!stream.m_pData)
-		return NULL;
+		return nullptr;
 	
 	stream.m_ReadPos = 0;
 	vgui::BitmapTGA *pRet = new vgui::BitmapTGA(&stream, true);
@@ -83,7 +83,7 @@ vgui::BitmapTGA* vgui_LoadTGANoInvertAlpha(char const *pFilename)
 	
 	stream.m_pData = gEngfuncs.COM_LoadFile((char*)pFilename, 5, &stream.m_DataLen);
 	if(!stream.m_pData)
-		return NULL;
+		return nullptr;
 	
 	stream.m_ReadPos = 0;
 	vgui::BitmapTGA *pRet = new vgui::BitmapTGA(&stream, false);

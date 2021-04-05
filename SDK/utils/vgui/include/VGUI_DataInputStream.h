@@ -21,18 +21,18 @@ private:
 public:
 	DataInputStream(InputStream* is);
 public:
-	virtual void  seekStart(bool& success);
-	virtual void  seekRelative(int count,bool& success);
-	virtual void  seekEnd(bool& success);
-	virtual int   getAvailable(bool& success);
+	void  seekStart(bool& success) override;
+	void  seekRelative(int count,bool& success) override;
+	void  seekEnd(bool& success) override;
+	int   getAvailable(bool& success) override;
 	//virtual uchar readUChar(bool& success);
-	virtual void  readUChar(uchar* buf,int count,bool& success);
-	virtual void  close(bool& success);
+	void  readUChar(uchar* buf,int count,bool& success) override;
+	void  close(bool& success) override;
 	virtual void  close();
 public:
 	virtual bool   readBool(bool& success);
 	virtual char   readChar(bool& success);
-	virtual uchar  readUChar(bool& success);
+	uchar  readUChar(bool& success) override;
 	virtual short  readShort(bool& success);
 	virtual ushort readUShort(bool& success);
 	virtual int    readInt(bool& success);

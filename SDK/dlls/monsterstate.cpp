@@ -46,7 +46,7 @@ void CBaseMonster :: SetState ( MONSTERSTATE State )
 
 		if ( m_hEnemy != NULL )
 		{
-			m_hEnemy = NULL;// not allowed to have an enemy anymore.
+			m_hEnemy = nullptr;// not allowed to have an enemy anymore.
 			ALERT ( at_aiconsole, "Stripped\n" );
 		}
 		break;
@@ -59,7 +59,7 @@ void CBaseMonster :: SetState ( MONSTERSTATE State )
 //=========================================================
 // RunAI
 //=========================================================
-void CBaseMonster :: RunAI ( void )
+void CBaseMonster :: RunAI ( )
 {
 	// to test model's eye height
 	//UTIL_ParticleEffect ( pev->origin + pev->view_ofs, g_vecZero, 255, 10 );
@@ -116,7 +116,7 @@ void CBaseMonster :: RunAI ( void )
 // GetIdealState - surveys the Conditions information available
 // and finds the best new state for a monster.
 //=========================================================
-MONSTERSTATE CBaseMonster :: GetIdealState ( void )
+MONSTERSTATE CBaseMonster :: GetIdealState ( )
 {
 	int	iConditions;
 
@@ -156,7 +156,7 @@ MONSTERSTATE CBaseMonster :: GetIdealState ( void )
 				CSound *pSound;
 				
 				pSound = PBestSound();
-				ASSERT( pSound != NULL );
+				ASSERT( pSound != nullptr );
 				if ( pSound )
 				{
 					MakeIdealYaw ( pSound->m_vecOrigin );
@@ -187,7 +187,7 @@ MONSTERSTATE CBaseMonster :: GetIdealState ( void )
 			{
 				m_IdealMonsterState = MONSTERSTATE_ALERT;
 				CSound *pSound = PBestSound();
-				ASSERT( pSound != NULL );
+				ASSERT( pSound != nullptr );
 				if ( pSound )
 					MakeIdealYaw ( pSound->m_vecOrigin );
 			}

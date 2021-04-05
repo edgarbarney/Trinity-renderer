@@ -49,7 +49,7 @@ LINK_ENTITY_TO_CLASS( info_node_air, CNodeEnt );
 // memory currently in use by the world graph, NULLs 
 // all pointers, and zeros the node count.
 //=========================================================
-void CGraph :: InitGraph( void)
+void CGraph :: InitGraph( )
 {
 
 	// Make the graph unavailable
@@ -63,7 +63,7 @@ void CGraph :: InitGraph( void)
 	if ( m_pLinkPool )
 	{
 		free ( m_pLinkPool );
-		m_pLinkPool = NULL;
+		m_pLinkPool = nullptr;
 	}
 		
 	// Free the node info
@@ -71,13 +71,13 @@ void CGraph :: InitGraph( void)
 	if ( m_pNodes )
 	{
 		free ( m_pNodes );
-		m_pNodes = NULL;
+		m_pNodes = nullptr;
 	}
 
 	if ( m_di )
 	{
 		free ( m_di );
-		m_di = NULL;
+		m_di = nullptr;
 	}
 
 	// Free the routing info.
@@ -85,13 +85,13 @@ void CGraph :: InitGraph( void)
 	if ( m_pRouteInfo )
 	{
 		free ( m_pRouteInfo );
-		m_pRouteInfo = NULL;
+		m_pRouteInfo = nullptr;
 	}
 
 	if (m_pHashLinks)
 	{
 		free(m_pHashLinks);
-		m_pHashLinks = NULL;
+		m_pHashLinks = nullptr;
 	}
 
 	// Zero node and link counts
@@ -109,7 +109,7 @@ void CGraph :: InitGraph( void)
 // reasonable number of nodes so we can build the path which
 // will be saved to disk.
 //=========================================================
-int CGraph :: AllocNodes ( void )
+int CGraph :: AllocNodes ( )
 {
 //  malloc all of the nodes
 	WorldGraph.m_pNodes = (CNode *)calloc ( sizeof ( CNode ), MAX_NODES );
@@ -147,9 +147,9 @@ entvars_t* CGraph :: LinkEntForLink ( CLink *pLink, CNode *pNode )
 	
 	pevLinkEnt = pLink->m_pLinkEnt;
 	if ( !pevLinkEnt )
-		return NULL;
+		return nullptr;
 
-	pentSearch = NULL;// start search at the top of the ent list.
+	pentSearch = nullptr;// start search at the top of the ent list.
 			
 	if ( FClassnameIs ( pevLinkEnt, "func_door" ) || FClassnameIs ( pevLinkEnt, "func_door_rotating" ) )
 	{
@@ -196,7 +196,7 @@ entvars_t* CGraph :: LinkEntForLink ( CLink *pLink, CNode *pNode )
 	else
 	{
 		ALERT ( at_aiconsole, "Unsupported PathEnt:\n'%s'\n", STRING ( pevLinkEnt->classname ) );
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -223,7 +223,7 @@ int	CGraph :: HandleLinkEnt ( int iNode, entvars_t *pevLinkEnt, int afCapMask, N
 		ALERT ( at_aiconsole, "dead path ent!\n" );
 		return TRUE;
 	}
-	pentWorld = NULL;
+	pentWorld = nullptr;
 
 // func_door
 	if ( FClassnameIs( pevLinkEnt, "func_door" ) || FClassnameIs( pevLinkEnt, "func_door_rotating" ) )
@@ -688,7 +688,7 @@ int CGraph :: FindShortestPath ( int *piPath, int iStart, int iDest, int iHull, 
 					continue;
 				}
 				// check the connection from the current node to the node we're about to mark visited and push into the queue				
-				if ( m_pLinkPool[ m_pNodes[ iCurrentNode ].m_iFirstLink + i ].m_pLinkEnt != NULL )
+				if ( m_pLinkPool[ m_pNodes[ iCurrentNode ].m_iFirstLink + i ].m_pLinkEnt != nullptr )
 				{// there's a brush ent in the way! Don't mark this node or put it into the queue unless the monster can negotiate it
 					
 					if ( !HandleLinkEnt ( iCurrentNode, m_pLinkPool[ m_pNodes[ iCurrentNode ].m_iFirstLink + i ].m_pLinkEnt, afCapMask, NODEGRAPH_STATIC ) )
@@ -825,7 +825,7 @@ void CGraph :: CheckNode(Vector vecOrigin, int iNode)
 		TraceResult tr;
 
 		// make sure that vecOrigin can trace to this node!
-		UTIL_TraceLine ( vecOrigin, m_pNodes[ iNode ].m_vecOriginPeek, ignore_monsters, 0, &tr );
+		UTIL_TraceLine ( vecOrigin, m_pNodes[ iNode ].m_vecOriginPeek, ignore_monsters, nullptr, &tr );
 
 		if ( tr.flFraction == 1.0 )
 		{
@@ -1186,7 +1186,7 @@ int CGraph :: LinkVisibleNodes ( CLink *pLinkPool, FILE *file, int *piBadNode )
 		{// clear out the important fields in the link pool for this node
 			pLinkPool [ cTotalLinks + z ].m_iSrcNode = i;// so each link knows which node it originates from
 			pLinkPool [ cTotalLinks + z ].m_iDestNode = 0;
-			pLinkPool [ cTotalLinks + z ].m_pLinkEnt = NULL;
+			pLinkPool [ cTotalLinks + z ].m_pLinkEnt = nullptr;
 		}
 
 		m_pNodes [ i ].m_iFirstLink = cTotalLinks;
@@ -1214,8 +1214,8 @@ int CGraph :: LinkVisibleNodes ( CLink *pLinkPool, FILE *file, int *piBadNode )
 			}
 #endif
 
-			tr.pHit = NULL;// clear every time so we don't get stuck with last trace's hit ent
-			pTraceEnt = 0;
+			tr.pHit = nullptr;// clear every time so we don't get stuck with last trace's hit ent
+			pTraceEnt = nullptr;
 
 			UTIL_TraceLine ( m_pNodes[ i ].m_vecOrigin,
 							 m_pNodes[ j ].m_vecOrigin,
@@ -1431,12 +1431,12 @@ class CTestHull : public CBaseMonster
 
 public:
 	void Spawn( entvars_t *pevMasterNode );
-	virtual int	ObjectCaps( void ) { return CBaseMonster :: ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
-	void EXPORT CallBuildNodeGraph ( void );
-	void BuildNodeGraph ( void );
-	void EXPORT ShowBadNode ( void );
-	void EXPORT DropDelay ( void );
-	void EXPORT PathFind ( void );
+	int	ObjectCaps( ) override { return CBaseMonster :: ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
+	void EXPORT CallBuildNodeGraph ( );
+	void BuildNodeGraph ( );
+	void EXPORT ShowBadNode ( );
+	void EXPORT DropDelay ( );
+	void EXPORT PathFind ( );
 
 	Vector	vecBadNodeOrigin;
 };
@@ -1478,7 +1478,7 @@ void CTestHull :: Spawn( entvars_t *pevMasterNode )
 // TestHull::DropDelay - spawns TestHull on top of 
 // the 0th node and drops it to the ground.
 //=========================================================
-void CTestHull::DropDelay ( void )
+void CTestHull::DropDelay ( )
 {
 	UTIL_CenterPrintAll( "Node Graph out of Date. Rebuilding..." );
 
@@ -1512,7 +1512,7 @@ void CNodeEnt :: KeyValue( KeyValueData *pkvd )
 
 //=========================================================
 //=========================================================
-void CNodeEnt :: Spawn( void )
+void CNodeEnt :: Spawn( )
 {
 	pev->movetype = MOVETYPE_NONE;
 	pev->solid = SOLID_NOT;// always solid_not 
@@ -1525,7 +1525,7 @@ void CNodeEnt :: Spawn( void )
 
 	if ( WorldGraph.m_cNodes == 0 )
 	{// this is the first node to spawn, spawn the test hull entity that builds and walks the node tree
-		CTestHull *pHull = GetClassPtr((CTestHull *)NULL);
+		CTestHull *pHull = GetClassPtr((CTestHull *)nullptr);
 		pHull->Spawn( pev );
 	}
 
@@ -1557,7 +1557,7 @@ void CNodeEnt :: Spawn( void )
 // hull will be placed up the bad node's location and will generate
 // particles
 //=========================================================
-void CTestHull :: ShowBadNode( void )
+void CTestHull :: ShowBadNode( )
 {
 	pev->movetype = MOVETYPE_FLY;
 	pev->angles.y = pev->angles.y + 4;
@@ -1574,7 +1574,7 @@ void CTestHull :: ShowBadNode( void )
 }
 
 extern BOOL gTouchDisabled;
-void CTestHull::CallBuildNodeGraph( void )
+void CTestHull::CallBuildNodeGraph( )
 {
 	// TOUCH HACK -- Don't allow this entity to call anyone's "touch" function
 	gTouchDisabled = TRUE;
@@ -1591,7 +1591,7 @@ void CTestHull::CallBuildNodeGraph( void )
 // hull that walks between each node and each of its links
 // to ensure that a monster can actually fit through the space
 //=========================================================
-void CTestHull :: BuildNodeGraph( void )
+void CTestHull :: BuildNodeGraph( )
 {
 	TraceResult	tr;
 	FILE	*file;
@@ -1647,9 +1647,9 @@ void CTestHull :: BuildNodeGraph( void )
 	// make sure directories have been made
 	GET_GAME_DIR( szNrpFilename );
 	strcat( szNrpFilename, "/maps" );
-	CreateDirectory( szNrpFilename, NULL );
+	CreateDirectory( szNrpFilename, nullptr );
 	strcat( szNrpFilename, "/graphs" );
-	CreateDirectory( szNrpFilename, NULL );
+	CreateDirectory( szNrpFilename, nullptr );
 
 	strcat( szNrpFilename, "/" );
 	strcat( szNrpFilename, STRING( gpGlobals->mapname ) );
@@ -2057,7 +2057,7 @@ void CTestHull :: BuildNodeGraph( void )
 //=========================================================
 // returns a hardcoded path.
 //=========================================================
-void CTestHull :: PathFind ( void )
+void CTestHull :: PathFind ( )
 {
 	int	iPath[ 50 ];
 	int	iPathSize;
@@ -2108,7 +2108,7 @@ void CTestHull :: PathFind ( void )
 //=========================================================
 // CStack Constructor
 //=========================================================
-CStack :: CStack( void )
+CStack :: CStack( )
 {
 	m_level = 0;
 }
@@ -2130,7 +2130,7 @@ void CStack :: Push( int value )
 //=========================================================
 // pops a value off of the stack
 //=========================================================
-int CStack :: Pop( void )
+int CStack :: Pop( )
 {
 	if ( m_level <= 0 )
 		return -1;
@@ -2142,7 +2142,7 @@ int CStack :: Pop( void )
 //=========================================================
 // returns the value on the top of the stack
 //=========================================================
-int CStack :: Top ( void )
+int CStack :: Top ( )
 {
 	return m_stack[ m_level - 1 ];
 }
@@ -2163,7 +2163,7 @@ void CStack :: CopyToArray ( int *piArray )
 //=========================================================
 // CQueue constructor
 //=========================================================
-CQueue :: CQueue( void )
+CQueue :: CQueue( )
 {
 	m_cSize = 0;
 	m_head = 0;
@@ -2212,7 +2212,7 @@ int CQueue :: Remove ( float &fPriority )
 //=========================================================
 // CQueue constructor
 //=========================================================
-CQueuePriority :: CQueuePriority( void )
+CQueuePriority :: CQueuePriority( )
 {
 	m_cSize = 0;
 }
@@ -2283,7 +2283,7 @@ void CQueuePriority::Heap_SiftDown(int iSubRoot)
 	m_heap[ parent ] = Ref;
 }
 
-void CQueuePriority::Heap_SiftUp(void)
+void CQueuePriority::Heap_SiftUp()
 {
 	int child = m_cSize-1;
 	while (child)
@@ -2319,9 +2319,9 @@ int CGraph :: FLoadGraph ( char *szMapName )
 	char	szDirName[MAX_PATH];
 	GET_GAME_DIR( szDirName );
 	strcat( szDirName, "/maps" );
-	CreateDirectory( szDirName, NULL );
+	CreateDirectory( szDirName, nullptr );
 	strcat( szDirName, "/graphs" );
-	CreateDirectory( szDirName, NULL );
+	CreateDirectory( szDirName, nullptr );
 
 	strcpy ( szFilename, "maps/graphs/" );
 	strcat ( szFilename, szMapName );
@@ -2359,11 +2359,11 @@ int CGraph :: FLoadGraph ( char *szMapName )
 
 		// Set the pointers to zero, just in case we run out of memory.
 		//
-		m_pNodes     = NULL;
-		m_pLinkPool  = NULL;
-		m_di         = NULL;
-		m_pRouteInfo = NULL;
-		m_pHashLinks = NULL;
+		m_pNodes     = nullptr;
+		m_pLinkPool  = nullptr;
+		m_di         = nullptr;
+		m_pRouteInfo = nullptr;
+		m_pHashLinks = nullptr;
 
 
 		// Malloc for the nodes
@@ -2497,9 +2497,9 @@ int CGraph :: FSaveGraph ( char *szMapName )
 	// make sure directories have been made
 	GET_GAME_DIR( szFilename );
 	strcat( szFilename, "/maps" );
-	CreateDirectory( szFilename, NULL );
+	CreateDirectory( szFilename, nullptr );
 	strcat( szFilename, "/graphs" );
-	CreateDirectory( szFilename, NULL );
+	CreateDirectory( szFilename, nullptr );
 
 	strcat( szFilename, "/" );
 	strcat( szFilename, szMapName );
@@ -2553,7 +2553,7 @@ int CGraph :: FSaveGraph ( char *szMapName )
 // this is done after loading the graph from disk, whereupon
 // the pointers are not valid.
 //=========================================================
-int CGraph :: FSetGraphPointers ( void )
+int CGraph :: FSetGraphPointers ( )
 {
 	int	i;
 	edict_t	*pentLinkEnt;
@@ -2561,7 +2561,7 @@ int CGraph :: FSetGraphPointers ( void )
 	for ( i = 0 ; i < m_cLinks ; i++ )
 	{// go through all of the links
 		
-		if ( m_pLinkPool[ i ].m_pLinkEnt != NULL )
+		if ( m_pLinkPool[ i ].m_pLinkEnt != nullptr )
 		{
 			char name[5];
 			// when graphs are saved, any valid pointers are will be non-zero, signifying that we should
@@ -2571,14 +2571,14 @@ int CGraph :: FSetGraphPointers ( void )
 			// m_szLinkEntModelname is not necessarily NULL terminated (so we can store it in a more alignment-friendly 4 bytes)
 			memcpy( name, m_pLinkPool[ i ].m_szLinkEntModelname, 4 );
 			name[4] = 0;
-			pentLinkEnt =  FIND_ENTITY_BY_STRING( NULL, "model", name );
+			pentLinkEnt =  FIND_ENTITY_BY_STRING( nullptr, "model", name );
 
 			if ( FNullEnt ( pentLinkEnt ) )
 			{
 			// the ent isn't around anymore? Either there is a major problem, or it was removed from the world
 			// ( like a func_breakable that's been destroyed or something ). Make sure that LinkEnt is null.
 				ALERT ( at_aiconsole, "**Could not find model %s\n", name );
-				m_pLinkPool[ i ].m_pLinkEnt = NULL;
+				m_pLinkPool[ i ].m_pLinkEnt = nullptr;
 			}
 			else
 			{
@@ -2784,7 +2784,7 @@ void CGraph::HashChoosePrimes(int TableSize)
 // Renumber nodes so that nodes that link together are together.
 //
 #define UNNUMBERED_NODE -1
-void CGraph::SortNodes(void)
+void CGraph::SortNodes()
 {
 	// We are using m_iPreviousNode to be the new node number.
 	// After assigning new node numbers to everything, we move
@@ -2847,7 +2847,7 @@ void CGraph::SortNodes(void)
 	}
 }
 
-void CGraph::BuildLinkLookups(void)
+void CGraph::BuildLinkLookups()
 {
 	m_nHashLinks = 3*m_cLinks/2 + 3;
 
@@ -2883,7 +2883,7 @@ void CGraph::BuildLinkLookups(void)
 #endif
 }
 
-void CGraph::BuildRegionTables(void)
+void CGraph::BuildRegionTables()
 {
 	if (m_di) free(m_di);
 
@@ -3032,7 +3032,7 @@ void CGraph::BuildRegionTables(void)
 	memset(m_Cache, 0, sizeof(m_Cache));
 }
 
-void CGraph :: ComputeStaticRoutingTables( void )
+void CGraph :: ComputeStaticRoutingTables( )
 {
 	int nRoutes = m_cNodes*m_cNodes;
 #define FROM_TO(x,y) ((x)*m_cNodes+(y))
@@ -3319,14 +3319,14 @@ void CGraph :: ComputeStaticRoutingTables( void )
 		}		
 		ALERT( at_aiconsole, "Size of Routes = %d\n", nTotalCompressedSize);
 	}
-	if (Routes) delete Routes;
-	if (BestNextNodes) delete BestNextNodes;
-	if (pRoute) delete pRoute;
-	if (pMyPath) delete pMyPath;
-	Routes = 0;
-	BestNextNodes = 0;
-	pRoute = 0;
-	pMyPath = 0;
+	if (Routes) delete[] Routes;
+	if (BestNextNodes) delete[] BestNextNodes;
+	if (pRoute) delete[] pRoute;
+	if (pMyPath) delete[] pMyPath;
+	Routes = nullptr;
+	BestNextNodes = nullptr;
+	pRoute = nullptr;
+	pMyPath = nullptr;
 
 #if 0
 	TestRoutingTables();
@@ -3336,7 +3336,7 @@ void CGraph :: ComputeStaticRoutingTables( void )
 
 // Test those routing tables. Doesn't really work, yet.
 //
-void CGraph :: TestRoutingTables( void )
+void CGraph :: TestRoutingTables( )
 {
 	int *pMyPath = new int[m_cNodes];
 	int *pMyPath2 = new int[m_cNodes];
@@ -3454,10 +3454,10 @@ void CGraph :: TestRoutingTables( void )
 
 EnoughSaid:
 
-	if (pMyPath) delete pMyPath;
-	if (pMyPath2) delete pMyPath2;
-	pMyPath = 0;
-	pMyPath2 = 0;
+	if (pMyPath) delete[] pMyPath;
+	if (pMyPath2) delete[] pMyPath2;
+	pMyPath = nullptr;
+	pMyPath2 = nullptr;
 }
 
 
@@ -3476,7 +3476,7 @@ EnoughSaid:
 class CNodeViewer : public CBaseEntity
 {
 public:
-	void Spawn( void );
+	void Spawn( ) override;
 
 	int m_iBaseNode;
 	int m_iDraw;
@@ -3489,7 +3489,7 @@ public:
 
 	void FindNodeConnections( int iNode );
 	void AddNode( int iFrom, int iTo );
-	void EXPORT DrawThink( void );
+	void EXPORT DrawThink( );
 
 };
 LINK_ENTITY_TO_CLASS( node_viewer, CNodeViewer );
@@ -3607,7 +3607,7 @@ void CNodeViewer::AddNode( int iFrom, int iTo )
 }
 
 
-void CNodeViewer :: DrawThink( void )
+void CNodeViewer :: DrawThink( )
 {
 	pev->nextthink = gpGlobals->time;
 

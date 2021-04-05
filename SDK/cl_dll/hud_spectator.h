@@ -57,10 +57,10 @@ typedef struct overviewEntity_s {
 class CHudSpectator : public CHudBase
 {
 public:
-	void Reset();
+	void Reset() override;
 	int  ToggleInset(bool allowOff);
 	void CheckSettings();
-	void InitHUDData( void );
+	void InitHUDData( ) override;
 	bool AddOverviewEntityToList( SpriteHandle_t sprite, cl_entity_t * ent, double killTime);
 	void DeathMessage(int victim);
 	bool AddOverviewEntity( int type, struct cl_entity_s *ent, const char *modelname );
@@ -78,10 +78,10 @@ public:
 	void FindNextPlayer( bool bReverse );
 	void DirectorMessage( int iSize, void *pbuf );
 	void SetSpectatorStartPosition();
-	int Init();
-	int VidInit();
+	int Init() override;
+	int VidInit() override;
 
-	int Draw(float flTime);
+	int Draw(float flTime) override;
 
 	int m_iDrawCycle;
 	client_textmessage_t m_HUDMessages[MAX_SPEC_HUD_MESSAGES];

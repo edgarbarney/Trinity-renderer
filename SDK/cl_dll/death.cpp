@@ -64,10 +64,10 @@ float *GetClientColor( int clientIndex )
 		default	: return g_ColorGrey;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
-int CHudDeathNotice :: Init( void )
+int CHudDeathNotice :: Init( )
 {
 	gHUD.AddHudElem( this );
 
@@ -79,13 +79,13 @@ int CHudDeathNotice :: Init( void )
 }
 
 
-void CHudDeathNotice :: InitHUDData( void )
+void CHudDeathNotice :: InitHUDData( )
 {
 	memset( rgDeathNoticeList, 0, sizeof(rgDeathNoticeList) );
 }
 
 
-int CHudDeathNotice :: VidInit( void )
+int CHudDeathNotice :: VidInit( )
 {
 	m_HUD_d_skull = gHUD.GetSpriteIndex( "d_skull" );
 
@@ -204,7 +204,7 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 	}
 
 	// Get the Victim's name
-	char *victim_name = NULL;
+	char *victim_name = nullptr;
 	// If victim is -1, the killer killed a specific, non-player object (like a sentrygun)
 	if ( ((char)victim) != -1 )
 		victim_name = g_PlayerInfoList[ victim ].name;

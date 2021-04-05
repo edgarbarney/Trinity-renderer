@@ -114,7 +114,7 @@ void CSquadMonster :: VacateSlot()
 //=========================================================
 // ScheduleChange
 //=========================================================
-void CSquadMonster :: ScheduleChange ( void )
+void CSquadMonster :: ScheduleChange ( )
 {
 	VacateSlot();
 }
@@ -145,7 +145,7 @@ void CSquadMonster :: Killed( entvars_t *pevAttacker, int iGib )
 //=========================================================
 void CSquadMonster :: SquadRemove( CSquadMonster *pRemove )
 {
-	ASSERT( pRemove!=NULL );
+	ASSERT( pRemove!=nullptr );
 	ASSERT( this->IsLeader() );
 	ASSERT( pRemove->m_hSquadLeader == this );
 
@@ -157,8 +157,8 @@ void CSquadMonster :: SquadRemove( CSquadMonster *pRemove )
 			CSquadMonster *pMember = MySquadMember(i);
 			if (pMember)
 			{
-				pMember->m_hSquadLeader = NULL;
-				m_hSquadMember[i] = NULL;
+				pMember->m_hSquadLeader = nullptr;
+				m_hSquadMember[i] = nullptr;
 			}
 		}
 	}
@@ -171,14 +171,14 @@ void CSquadMonster :: SquadRemove( CSquadMonster *pRemove )
 			{
 				if (pSquadLeader->m_hSquadMember[i] == this)
 				{
-					pSquadLeader->m_hSquadMember[i] = NULL;
+					pSquadLeader->m_hSquadMember[i] = nullptr;
 					break;
 				}
 			}
 		}
 	}
 
-	pRemove->m_hSquadLeader = NULL;
+	pRemove->m_hSquadLeader = nullptr;
 }
 
 //=========================================================
@@ -188,7 +188,7 @@ void CSquadMonster :: SquadRemove( CSquadMonster *pRemove )
 //=========================================================
 BOOL CSquadMonster :: SquadAdd( CSquadMonster *pAdd )
 {
-	ASSERT( pAdd!=NULL );
+	ASSERT( pAdd!=nullptr );
 	ASSERT( !pAdd->InSquad() );
 	ASSERT( this->IsLeader() );
 
@@ -213,7 +213,7 @@ BOOL CSquadMonster :: SquadAdd( CSquadMonster *pAdd )
 // members who don't have current info.
 //
 //=========================================================
-void CSquadMonster :: SquadPasteEnemyInfo ( void )
+void CSquadMonster :: SquadPasteEnemyInfo ( )
 {
 	CSquadMonster *pSquadLeader = MySquadLeader( );
 	if (pSquadLeader)
@@ -228,7 +228,7 @@ void CSquadMonster :: SquadPasteEnemyInfo ( void )
 // so the most recent data is always available here.
 //
 //=========================================================
-void CSquadMonster :: SquadCopyEnemyInfo ( void )
+void CSquadMonster :: SquadCopyEnemyInfo ( )
 {
 	CSquadMonster *pSquadLeader = MySquadLeader( );
 	if (pSquadLeader)
@@ -282,7 +282,7 @@ void CSquadMonster :: SquadMakeEnemy ( CBaseEntity *pEnemy )
 // callable from leaders & followers
 //
 //=========================================================
-int CSquadMonster :: SquadCount( void )
+int CSquadMonster :: SquadCount( )
 {
 	if (!InSquad())
 		return 0;
@@ -291,7 +291,7 @@ int CSquadMonster :: SquadCount( void )
 	int squadCount = 0;
 	for (int i = 0; i < MAX_SQUAD_MEMBERS; i++)
 	{
-		if (pSquadLeader->MySquadMember(i) != NULL)
+		if (pSquadLeader->MySquadMember(i) != nullptr)
 			squadCount++;
 	}
 
@@ -322,7 +322,7 @@ int CSquadMonster :: SquadRecruit( int searchRadius, int maxMembers )
 	m_hSquadLeader = this;
 	squadCount = 1;
 
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	if ( !FStringNull( pev->netname ) )
 	{
@@ -348,7 +348,7 @@ int CSquadMonster :: SquadRecruit( int searchRadius, int maxMembers )
 	}
 	else 
 	{
-		while ((pEntity = UTIL_FindEntityInSphere( pEntity, pev->origin, searchRadius )) != NULL)
+		while ((pEntity = UTIL_FindEntityInSphere( pEntity, pev->origin, searchRadius )) != nullptr)
 		{
 			CSquadMonster *pRecruit = pEntity->MySquadMonsterPointer( );
 
@@ -376,7 +376,7 @@ int CSquadMonster :: SquadRecruit( int searchRadius, int maxMembers )
 	// no single member squads
 	if (squadCount == 1)
 	{
-		m_hSquadLeader = NULL;
+		m_hSquadLeader = nullptr;
 	}
 
 	return squadCount;
@@ -412,7 +412,7 @@ int CSquadMonster :: CheckEnemy ( CBaseEntity *pEnemy )
 //=========================================================
 // StartMonster
 //=========================================================
-void CSquadMonster :: StartMonster( void )
+void CSquadMonster :: StartMonster( )
 {
 	CBaseMonster :: StartMonster();
 
@@ -450,7 +450,7 @@ void CSquadMonster :: StartMonster( void )
 // Builds a large box in front of the grunt and checks to see 
 // if any squad members are in that box. 
 //=========================================================
-BOOL CSquadMonster :: NoFriendlyFire( void )
+BOOL CSquadMonster :: NoFriendlyFire( )
 {
 	if ( !InSquad() )
 	{
@@ -517,7 +517,7 @@ BOOL CSquadMonster :: NoFriendlyFire( void )
 // GetIdealState - surveys the Conditions information available
 // and finds the best new state for a monster.
 //=========================================================
-MONSTERSTATE CSquadMonster :: GetIdealState ( void )
+MONSTERSTATE CSquadMonster :: GetIdealState ( )
 {
 	int	iConditions;
 
@@ -563,7 +563,7 @@ BOOL CSquadMonster :: FValidateCover ( const Vector &vecCoverLocation )
 // SquadEnemySplit- returns TRUE if not all squad members
 // are fighting the same enemy. 
 //=========================================================
-BOOL CSquadMonster :: SquadEnemySplit ( void )
+BOOL CSquadMonster :: SquadEnemySplit ( )
 {
 	if (!InSquad())
 		return FALSE;
@@ -574,7 +574,7 @@ BOOL CSquadMonster :: SquadEnemySplit ( void )
 	for (int i = 0; i < MAX_SQUAD_MEMBERS; i++)
 	{
 		CSquadMonster *pMember = pSquadLeader->MySquadMember(i);
-		if (pMember != NULL && pMember->m_hEnemy != NULL && pMember->m_hEnemy != pEnemy)
+		if (pMember != nullptr && pMember->m_hEnemy != NULL && pMember->m_hEnemy != pEnemy)
 		{
 			return TRUE;
 		}

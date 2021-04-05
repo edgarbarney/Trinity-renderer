@@ -32,7 +32,7 @@
 
 #include "demo.h"
 #include "demo_api.h"
-#include "vgui_scorepanel.h"
+#include "vgui_ScorePanel.h"
 
 //RENDERERS START
 #include "bsprenderer.h"
@@ -54,7 +54,7 @@ extern engine_studio_api_t IEngineStudio;
 class CHLVoiceStatusHelper : public IVoiceStatusHelper
 {
 public:
-	virtual void GetPlayerTextColor(int entindex, int color[3])
+	void GetPlayerTextColor(int entindex, int color[3]) override
 	{
 		color[0] = color[1] = color[2] = 255;
 
@@ -75,17 +75,17 @@ public:
 		}
 	}
 
-	virtual void UpdateCursorState()
+	void UpdateCursorState() override
 	{
 		gViewPort->UpdateCursorState();
 	}
 
-	virtual int	GetAckIconHeight()
+	int	GetAckIconHeight() override
 	{
 		return ScreenHeight - gHUD.m_iFontHeight*3 - 6;
 	}
 
-	virtual bool			CanShowSpeakerLabels()
+	bool			CanShowSpeakerLabels() override
 	{
 		if( gViewPort && gViewPort->m_pScoreBoard )
 			return !gViewPort->m_pScoreBoard->isVisible();
@@ -99,9 +99,9 @@ static CHLVoiceStatusHelper g_VoiceStatusHelper;
 extern client_sprite_t *GetSpriteList(client_sprite_t *pList, const char *psz, int iRes, int iCount);
 
 extern cvar_t *sensitivity;
-cvar_t *cl_lw = NULL;
+cvar_t *cl_lw = nullptr;
 
-void ShutdownInput (void);
+void ShutdownInput ();
 
 //DECLARE_MESSAGE(m_Logo, Logo)
 int __MsgFunc_Logo(const char *pszName, int iSize, void *pbuf)
@@ -143,7 +143,7 @@ int __MsgFunc_GameMode(const char *pszName, int iSize, void *pbuf )
 }
 
 // TFFree Command Menu
-void __CmdFunc_OpenCommandMenu(void)
+void __CmdFunc_OpenCommandMenu()
 {
 	if ( gViewPort )
 	{
@@ -152,7 +152,7 @@ void __CmdFunc_OpenCommandMenu(void)
 }
 
 // TFC "special" command
-void __CmdFunc_InputPlayerSpecial(void)
+void __CmdFunc_InputPlayerSpecial()
 {
 	if ( gViewPort )
 	{
@@ -160,7 +160,7 @@ void __CmdFunc_InputPlayerSpecial(void)
 	}
 }
 
-void __CmdFunc_CloseCommandMenu(void)
+void __CmdFunc_CloseCommandMenu()
 {
 	if ( gViewPort )
 	{
@@ -168,7 +168,7 @@ void __CmdFunc_CloseCommandMenu(void)
 	}
 }
 
-void __CmdFunc_ForceCloseCommandMenu( void )
+void __CmdFunc_ForceCloseCommandMenu( )
 {
 	if ( gViewPort )
 	{
@@ -176,7 +176,7 @@ void __CmdFunc_ForceCloseCommandMenu( void )
 	}
 }
 
-void __CmdFunc_ToggleServerBrowser( void )
+void __CmdFunc_ToggleServerBrowser( )
 {
 	if ( gViewPort )
 	{
@@ -323,7 +323,7 @@ int __MsgFunc_Particle(const char *pszName, int iSize, void *pbuf )
 //RENDERERS END
 
 // This is called every time the DLL is loaded
-void CHud :: Init( void )
+void CHud :: Init( )
 {
 	HOOK_MESSAGE( Logo );
 	HOOK_MESSAGE( ResetHUD );
@@ -389,7 +389,7 @@ void CHud :: Init( void )
 	m_pCvarDraw = CVAR_CREATE( "hud_draw", "1", FCVAR_ARCHIVE );
 	cl_lw = gEngfuncs.pfnGetCvarPointer( "cl_lw" );
 
-	m_pSpriteList = NULL;
+	m_pSpriteList = nullptr;
 
 	// Clear any old HUD list
 	if ( m_pHudList )
@@ -401,7 +401,7 @@ void CHud :: Init( void )
 			m_pHudList = m_pHudList->pNext;
 			free( pList );
 		}
-		m_pHudList = NULL;
+		m_pHudList = nullptr;
 	}
 
 	// In case we get messages before the first update -- time will be valid
@@ -427,7 +427,7 @@ void CHud :: Init( void )
 	
 	ServersInit();
 
-	MsgFunc_ResetHUD(0, 0, NULL );
+	MsgFunc_ResetHUD(nullptr, 0, nullptr );
 }
 
 // CHud destructor
@@ -447,7 +447,7 @@ CHud :: ~CHud()
 			m_pHudList = m_pHudList->pNext;
 			free( pList );
 		}
-		m_pHudList = NULL;
+		m_pHudList = nullptr;
 	}
 
 //RENDERERS START
@@ -474,7 +474,7 @@ int CHud :: GetSpriteIndex( const char *SpriteName )
 	return -1; // invalid sprite
 }
 
-void CHud :: VidInit( void )
+void CHud :: VidInit( )
 {
 	m_scrinfo.iSize = sizeof(m_scrinfo);
 	GetScreenInfo(&m_scrinfo);
@@ -669,7 +669,7 @@ HUD_GetFOV
 Returns last FOV
 =====================
 */
-float HUD_GetFOV( void )
+float HUD_GetFOV( )
 {
 	if ( gEngfuncs.pDemoAPI->IsRecording() )
 	{
@@ -761,7 +761,7 @@ void CHud::AddHudElem(CHudBase *phudelem)
 	ptemp->pNext = pdl;
 }
 
-float CHud::GetSensitivity( void )
+float CHud::GetSensitivity( )
 {
 	return m_flMouseSensitivity;
 }

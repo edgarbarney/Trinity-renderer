@@ -37,20 +37,20 @@
 class CRoach : public CBaseMonster
 {
 public:
-	void Spawn( void );
-	void Precache( void );
-	void SetYawSpeed( void );
-	void EXPORT MonsterThink ( void );
-	void Move ( float flInterval );
+	void Spawn( ) override;
+	void Precache( ) override;
+	void SetYawSpeed( ) override;
+	void EXPORT MonsterThink ( ) override;
+	void Move ( float flInterval ) override;
 	void PickNewDest ( int iCondition );
-	void EXPORT Touch ( CBaseEntity *pOther );
-	void Killed( entvars_t *pevAttacker, int iGib );
+	void EXPORT Touch ( CBaseEntity *pOther ) override;
+	void Killed( entvars_t *pevAttacker, int iGib ) override;
 
 	float	m_flLastLightLevel;
 	float	m_flNextSmellTime;
-	int		Classify ( void );
-	void	Look ( int iDistance );
-	int		ISoundMask ( void );
+	int		Classify ( ) override;
+	void	Look ( int iDistance ) override;
+	int		ISoundMask ( ) override;
 	
 	// UNDONE: These don't necessarily need to be save/restored, but if we add more data, it may
 	BOOL	m_fLightHacked;
@@ -64,7 +64,7 @@ LINK_ENTITY_TO_CLASS( monster_cockroach, CRoach );
 // of sounds this monster regards. In the base class implementation,
 // monsters care about all sounds, but no scents.
 //=========================================================
-int CRoach :: ISoundMask ( void )
+int CRoach :: ISoundMask ( )
 {
 	return	bits_SOUND_CARCASS | bits_SOUND_MEAT;
 }
@@ -73,7 +73,7 @@ int CRoach :: ISoundMask ( void )
 // Classify - indicates this monster's place in the 
 // relationship table.
 //=========================================================
-int	CRoach :: Classify ( void )
+int	CRoach :: Classify ( )
 {
 	return CLASS_INSECT;
 }
@@ -104,7 +104,7 @@ void CRoach :: Touch ( CBaseEntity *pOther )
 // SetYawSpeed - allows each sequence to have a different
 // turn rate associated with it.
 //=========================================================
-void CRoach :: SetYawSpeed ( void )
+void CRoach :: SetYawSpeed ( )
 {
 	int ys;
 
@@ -185,7 +185,7 @@ void CRoach :: Killed( entvars_t *pevAttacker, int iGib )
 //=========================================================
 // MonsterThink, overridden for roaches.
 //=========================================================
-void CRoach :: MonsterThink( void  )
+void CRoach :: MonsterThink(  )
 {
 	if ( FNullEnt( FIND_CLIENT_IN_PVS( edict() ) ) )
 		pev->nextthink = gpGlobals->time + RANDOM_FLOAT(1,1.5);
@@ -402,7 +402,7 @@ void CRoach :: Move ( float flInterval )
 //=========================================================
 void CRoach :: Look ( int iDistance )
 {
-	CBaseEntity	*pSightEnt = NULL;// the current visible entity that we're dealing with
+	CBaseEntity	*pSightEnt = nullptr;// the current visible entity that we're dealing with
 	CBaseEntity	*pPreviousEnt;// the last entity added to the link list 
 	int			iSighted = 0;
 
@@ -416,13 +416,13 @@ void CRoach :: Look ( int iDistance )
 		return;
 	}
 
-	m_pLink = NULL;
+	m_pLink = nullptr;
 	pPreviousEnt = this;
 
 	// Does sphere also limit itself to PVS?
 	// Examine all entities within a reasonable radius
 	// !!!PERFORMANCE - let's trivially reject the ent list before radius searching!
-	while ((pSightEnt = UTIL_FindEntityInSphere( pSightEnt, pev->origin, iDistance )) != NULL)
+	while ((pSightEnt = UTIL_FindEntityInSphere( pSightEnt, pev->origin, iDistance )) != nullptr)
 	{
 		// only consider ents that can be damaged. !!!temporarily only considering other monsters and clients
 		if (  pSightEnt->IsPlayer() || FBitSet ( pSightEnt->pev->flags, FL_MONSTER ) )
@@ -432,7 +432,7 @@ void CRoach :: Look ( int iDistance )
 				// NULL the Link pointer for each ent added to the link list. If other ents follow, the will overwrite
 				// this value. If this ent happens to be the last, the list will be properly terminated.
 				pPreviousEnt->m_pLink = pSightEnt;
-				pSightEnt->m_pLink = NULL;
+				pSightEnt->m_pLink = nullptr;
 				pPreviousEnt = pSightEnt;
 
 				// don't add the Enemy's relationship to the conditions. We only want to worry about conditions when

@@ -43,7 +43,7 @@ enum gauss_e {
 
 LINK_ENTITY_TO_CLASS( weapon_gauss, CGauss );
 
-float CGauss::GetFullChargeTime( void )
+float CGauss::GetFullChargeTime( )
 {
 #ifdef CLIENT_DLL
 	if ( bIsMultiplayer() )
@@ -73,7 +73,7 @@ void CGauss::Spawn( )
 }
 
 
-void CGauss::Precache( void )
+void CGauss::Precache( )
 {
 	PRECACHE_MODEL("models/w_gauss.mdl");
 	PRECACHE_MODEL("models/v_gauss.mdl");
@@ -99,7 +99,7 @@ int CGauss::AddToPlayer( CBasePlayer *pPlayer )
 {
 	if ( CBasePlayerWeapon::AddToPlayer( pPlayer ) )
 	{
-		MESSAGE_BEGIN( MSG_ONE, gmsgWeapPickup, NULL, pPlayer->pev );
+		MESSAGE_BEGIN( MSG_ONE, gmsgWeapPickup, nullptr, pPlayer->pev );
 			WRITE_BYTE( m_iId );
 		MESSAGE_END();
 		return TRUE;
@@ -112,7 +112,7 @@ int CGauss::GetItemInfo(ItemInfo *p)
 	p->pszName = STRING(pev->classname);
 	p->pszAmmo1 = "uranium";
 	p->iMaxAmmo1 = URANIUM_MAX_CARRY;
-	p->pszAmmo2 = NULL;
+	p->pszAmmo2 = nullptr;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = WEAPON_NOCLIP;
 	p->iSlot = 3;
@@ -305,7 +305,7 @@ void CGauss::SecondaryAttack()
 // of weaponidle() and make its own function then to try to
 // merge this into Fire(), which has some identical variable names 
 //=========================================================
-void CGauss::StartFire( void )
+void CGauss::StartFire( )
 {
 	float flDamage;
 	
@@ -412,7 +412,7 @@ void CGauss::Fire( Vector vecOrigSrc, Vector vecDir, float flDamage )
 
 		CBaseEntity *pEntity = CBaseEntity::Instance(tr.pHit);
 
-		if (pEntity == NULL)
+		if (pEntity == nullptr)
 			break;
 
 		if ( fFirstBeam )
@@ -434,7 +434,7 @@ void CGauss::Fire( Vector vecOrigSrc, Vector vecDir, float flDamage )
 		{
 			float n;
 
-			pentIgnore = NULL;
+			pentIgnore = nullptr;
 
 			n = -DotProduct(tr.vecPlaneNormal, vecDir);
 
@@ -538,7 +538,7 @@ void CGauss::Fire( Vector vecOrigSrc, Vector vecDir, float flDamage )
 
 
 
-void CGauss::WeaponIdle( void )
+void CGauss::WeaponIdle( )
 {
 	ResetEmptySound( );
 
@@ -597,18 +597,18 @@ void CGauss::WeaponIdle( void )
 
 class CGaussAmmo : public CBasePlayerAmmo
 {
-	void Spawn( void )
+	void Spawn( ) override
 	{ 
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_gaussammo.mdl");
 		CBasePlayerAmmo::Spawn( );
 	}
-	void Precache( void )
+	void Precache( ) override
 	{
 		PRECACHE_MODEL ("models/w_gaussammo.mdl");
 		PRECACHE_SOUND("items/9mmclip1.wav");
 	}
-	BOOL AddAmmo( CBaseEntity *pOther ) 
+	BOOL AddAmmo( CBaseEntity *pOther ) override 
 	{ 
 		if (pOther->GiveAmmo( AMMO_URANIUMBOX_GIVE, "uranium", URANIUM_MAX_CARRY ) != -1)
 		{

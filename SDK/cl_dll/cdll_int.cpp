@@ -25,7 +25,7 @@
 #include "hud.h"
 #include "cl_util.h"
 #include "netadr.h"
-#include "vgui_schememanager.h"
+#include "vgui_SchemeManager.h"
 
 extern "C"
 {
@@ -59,7 +59,7 @@ extern engine_studio_api_t IEngineStudio;
 
 cl_enginefunc_t gEngfuncs;
 CHud gHUD;
-TeamFortressViewport *gViewPort = NULL;
+TeamFortressViewport *gViewPort = nullptr;
 
 //RENDERERS START
 CBSPRenderer gBSPRenderer;
@@ -71,9 +71,9 @@ CPropManager gPropManager;
 CMirrorManager gMirrorManager;
 //RENDERERS END
 
-void InitInput (void);
-void EV_HookEvents( void );
-void IN_Commands( void );
+void InitInput ();
+void EV_HookEvents( );
+void IN_Commands( );
 
 /*
 ========================== 
@@ -231,7 +231,7 @@ redraw the HUD.
 ===========================
 */
 //RENDERERS START
-extern void HUD_PrintSpeeds( void );
+extern void HUD_PrintSpeeds( );
 //RENDERERS END
 int DLLEXPORT HUD_Redraw( float time, int intermission )
 {

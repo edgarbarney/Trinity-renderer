@@ -42,9 +42,9 @@ cvar_t	allowmonsters={"mp_allowmonsters","0", FCVAR_SERVER };
 cvar_t  mp_chattime = {"mp_chattime","10", FCVAR_SERVER };
 
 // Engine Cvars
-cvar_t 	*g_psv_gravity = NULL;
-cvar_t	*g_psv_aim = NULL;
-cvar_t	*g_footsteps = NULL;
+cvar_t 	*g_psv_gravity = nullptr;
+cvar_t	*g_psv_aim = nullptr;
+cvar_t	*g_footsteps = nullptr;
 
 //CVARS FOR SKILL LEVEL SETTINGS
 // Agrunt
@@ -450,7 +450,7 @@ cvar_t	sk_player_leg3	= { "sk_player_leg3","1" };
 
 // Register your console variables here
 // This gets called one time when the game is initialied
-void GameDLLInit( void )
+void GameDLLInit( )
 {
 	// Register cvars here:
 

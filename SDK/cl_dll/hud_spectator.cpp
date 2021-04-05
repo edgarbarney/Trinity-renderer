@@ -46,7 +46,7 @@ extern vec3_t v_angles;		// last view angle
 extern vec3_t v_cl_angles;	// last client/mouse angle
 extern vec3_t v_sim_org;	// last sim origin
 
-void SpectatorMode(void)
+void SpectatorMode()
 {
 
 
@@ -63,7 +63,7 @@ void SpectatorMode(void)
 		gHUD.m_Spectator.SetModes( atoi( gEngfuncs.Cmd_Argv(1) ), atoi( gEngfuncs.Cmd_Argv(2) )  );	
 }
 
-void SpectatorSpray(void)
+void SpectatorSpray()
 {
 	vec3_t forward;
 	char string[128];
@@ -71,7 +71,7 @@ void SpectatorSpray(void)
 	if ( !gEngfuncs.IsSpectateOnly() )
 		return;
 
-	AngleVectors(v_angles,forward,NULL,NULL);
+	AngleVectors(v_angles,forward,nullptr,nullptr);
 	VectorScale(forward, 128, forward);
 	VectorAdd(forward, v_origin, forward);
 	pmtrace_t * trace = gEngfuncs.PM_TraceLine( v_origin, forward, PM_TRACELINE_PHYSENTSONLY, 2, -1 );
@@ -83,7 +83,7 @@ void SpectatorSpray(void)
 	}
 
 }
-void SpectatorHelp(void)
+void SpectatorHelp()
 {
 	if ( gViewPort )
 	{
@@ -105,7 +105,7 @@ void SpectatorHelp(void)
 	}
 }
 
-void SpectatorMenu( void )
+void SpectatorMenu( )
 {
 	if ( gEngfuncs.Cmd_Argc() <= 1 )
 	{
@@ -116,7 +116,7 @@ void SpectatorMenu( void )
 	gViewPort->m_pSpectatorPanel->ShowMenu( atoi( gEngfuncs.Cmd_Argv(1))!=0  );
 }
 
-void ToggleScores( void )
+void ToggleScores( )
 {
 	if ( gViewPort )
 	{
@@ -408,7 +408,7 @@ int CHudSpectator::Draw(float flTime)
 	if ( (m_moveDelta != 0.0f) && (g_iUser1 != OBS_ROAMING) )
 	{
 		vec3_t	right;
-		AngleVectors(v_angles, NULL, right, NULL);
+		AngleVectors(v_angles, nullptr, right, nullptr);
 		VectorNormalize(right);
 		VectorScale(right, m_moveDelta, right );
 
@@ -477,8 +477,8 @@ void CHudSpectator::DirectorMessage( int iSize, void *pbuf )
 							g_iTeamNumber = 0;
 
 							// fake a InitHUD & ResetHUD message
-							gHUD.MsgFunc_InitHUD(NULL,0, NULL);
-							gHUD.MsgFunc_ResetHUD(NULL, 0, NULL);
+							gHUD.MsgFunc_InitHUD(nullptr,0, nullptr);
+							gHUD.MsgFunc_ResetHUD(nullptr, 0, nullptr);
 														
 							break;
 
@@ -604,7 +604,7 @@ void CHudSpectator::FindNextPlayer(bool bReverse)
 	//				only a subset of the players. e.g. Make it check the target's team.
 
 	int		iStart;
-	cl_entity_t * pEnt = NULL;
+	cl_entity_t * pEnt = nullptr;
 
 	// if we are NOT in HLTV mode, spectator targets are set on server
 	if ( !gEngfuncs.IsSpectateOnly() )
@@ -874,7 +874,7 @@ void CHudSpectator::SetModes(int iNewMainMode, int iNewInsetMode)
 		char string[128];
 		sprintf(string, "#Spec_Mode%d", g_iUser1 );
 		sprintf(string, "%c%s", HUD_PRINTCENTER, CHudTextMessage::BufferedLocaliseTextString( string ));
-		gHUD.m_TextMessage.MsgFunc_TextMsg(NULL, strlen(string)+1, string );
+		gHUD.m_TextMessage.MsgFunc_TextMsg(nullptr, strlen(string)+1, string );
 	}
 
 	gViewPort->UpdateSpectatorPanel();
@@ -887,7 +887,7 @@ bool CHudSpectator::IsActivePlayer(cl_entity_t * ent)
 			 ent->player && 
 			 ent->curstate.solid != SOLID_NOT &&
 			 ent != gEngfuncs.GetLocalPlayer() &&
-			 g_PlayerInfoList[ent->index].name != NULL
+			 g_PlayerInfoList[ent->index].name != nullptr
 			);
 }
 
@@ -899,7 +899,7 @@ bool CHudSpectator::ParseOverviewFile( )
 	char token[1024];
 	float height;
 	
-	char *pfile  = NULL;
+	char *pfile  = nullptr;
 
 	memset( &m_OverviewData, 0, sizeof(m_OverviewData));
 
@@ -924,7 +924,7 @@ bool CHudSpectator::ParseOverviewFile( )
 	
 	sprintf(filename, "overviews/%s.txt", levelname );
 
-	pfile = (char *)gEngfuncs.COM_LoadFile( filename, 5, NULL);
+	pfile = (char *)gEngfuncs.COM_LoadFile( filename, 5, nullptr);
 
 	if (!pfile)
 	{
@@ -1062,7 +1062,7 @@ void CHudSpectator::LoadMapSprites()
 		m_MapSprite = gEngfuncs.LoadMapSprite( m_OverviewData.layersImages[0] );
 	}
 	else
-		m_MapSprite = NULL; // the standard "unkown map" sprite will be used instead
+		m_MapSprite = nullptr; // the standard "unkown map" sprite will be used instead
 }
 
 void CHudSpectator::DrawOverviewLayer()
@@ -1230,7 +1230,7 @@ void CHudSpectator::DrawOverviewEntities()
 		// see R_DrawSpriteModel
 		// draws players sprite
 
-		AngleVectors(ent->angles, right, up, NULL );
+		AngleVectors(ent->angles, right, up, nullptr );
 
 		VectorCopy(ent->origin,origin);
 
@@ -1346,7 +1346,7 @@ void CHudSpectator::DrawOverviewEntities()
 		VectorCopy( v_cl_angles, angles );
 	}
 	else
-		V_GetChasePos( g_iUser2, NULL, origin, angles );
+		V_GetChasePos( g_iUser2, nullptr, origin, angles );
 
 	
 	// draw camera sprite
@@ -1364,7 +1364,7 @@ void CHudSpectator::DrawOverviewEntities()
 	
 	gEngfuncs.pTriAPI->Color4f( r, g, b, 1.0 );
 
-	AngleVectors(angles, forward, NULL, NULL );
+	AngleVectors(angles, forward, nullptr, nullptr );
 	VectorScale (forward, 512.0f, forward);
 	
 	offset[0] =  0.0f; 
@@ -1472,7 +1472,7 @@ bool CHudSpectator::AddOverviewEntityToList(SpriteHandle_t sprite, cl_entity_t *
 	for ( int i = 0; i< MAX_OVERVIEW_ENTITIES; i++ )
 	{
 		// find empty entity slot
-		if ( m_OverviewEntities[i].entity == NULL)
+		if ( m_OverviewEntities[i].entity == nullptr)
 		{
 			m_OverviewEntities[i].entity = ent;
 			m_OverviewEntities[i].SpriteHandle_t = sprite;

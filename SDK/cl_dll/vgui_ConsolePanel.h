@@ -26,7 +26,7 @@ private:
 public:
 	ConsolePanel(int x,int y,int wide,int tall);
 public:
-	virtual void setSize(int wide,int tall);
+	void setSize(int wide,int tall) override;
 	virtual int  print(const char* text);
 	virtual int  vprintf(const char* format,va_list argList);
 	virtual int  printf(const char* format,...);

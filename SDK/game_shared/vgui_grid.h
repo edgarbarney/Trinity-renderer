@@ -12,7 +12,7 @@
 #endif
 
 
-#include "vgui_panel.h"
+#include "VGUI_Panel.h"
 
 
 namespace vgui
@@ -72,8 +72,8 @@ public:
 // Panel overrides.
 public:
 	
-	virtual void		paint();
-	virtual void		paintBackground();
+	void		paint() override;
+	void		paintBackground() override;
 
 protected:
 

@@ -26,9 +26,9 @@ extern int gmsgItemPickup;
 
 class CHealthKit : public CItem
 {
-	void Spawn( void );
-	void Precache( void );
-	BOOL MyTouch( CBasePlayer *pPlayer );
+	void Spawn( ) override;
+	void Precache( ) override;
+	BOOL MyTouch( CBasePlayer *pPlayer ) override;
 
 /*
 	virtual int		Save( CSave &save ); 
@@ -52,7 +52,7 @@ TYPEDESCRIPTION	CHealthKit::m_SaveData[] =
 IMPLEMENT_SAVERESTORE( CHealthKit, CItem);
 */
 
-void CHealthKit :: Spawn( void )
+void CHealthKit :: Spawn( )
 {
 	Precache( );
 	SET_MODEL(ENT(pev), "models/w_medkit.mdl");
@@ -60,7 +60,7 @@ void CHealthKit :: Spawn( void )
 	CItem::Spawn();
 }
 
-void CHealthKit::Precache( void )
+void CHealthKit::Precache( )
 {
 	PRECACHE_MODEL("models/w_medkit.mdl");
 	PRECACHE_SOUND("items/smallmedkit1.wav");
@@ -75,7 +75,7 @@ BOOL CHealthKit::MyTouch( CBasePlayer *pPlayer )
 
 	if ( pPlayer->TakeHealth( gSkillData.healthkitCapacity, DMG_GENERIC ) )
 	{
-		MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
+		MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, nullptr, pPlayer->pev );
 			WRITE_STRING( STRING(pev->classname) );
 		MESSAGE_END();
 
@@ -104,15 +104,15 @@ BOOL CHealthKit::MyTouch( CBasePlayer *pPlayer )
 class CWallHealth : public CBaseToggle
 {
 public:
-	void Spawn( );
-	void Precache( void );
-	void EXPORT Off(void);
-	void EXPORT Recharge(void);
-	void KeyValue( KeyValueData *pkvd );
-	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	virtual int	ObjectCaps( void ) { return (CBaseToggle :: ObjectCaps() | FCAP_CONTINUOUS_USE) & ~FCAP_ACROSS_TRANSITION; }
-	virtual int		Save( CSave &save );
-	virtual int		Restore( CRestore &restore );
+	void Spawn( ) override;
+	void Precache( ) override;
+	void EXPORT Off();
+	void EXPORT Recharge();
+	void KeyValue( KeyValueData *pkvd ) override;
+	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value ) override;
+	int	ObjectCaps( ) override { return (CBaseToggle :: ObjectCaps() | FCAP_CONTINUOUS_USE) & ~FCAP_ACROSS_TRANSITION; }
+	int		Save( CSave &save ) override;
+	int		Restore( CRestore &restore ) override;
 
 	static	TYPEDESCRIPTION m_SaveData[];
 
@@ -238,7 +238,7 @@ void CWallHealth::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE u
 	m_flNextCharge = gpGlobals->time + 0.1;
 }
 
-void CWallHealth::Recharge(void)
+void CWallHealth::Recharge()
 {
 		EMIT_SOUND(ENT(pev), CHAN_ITEM, "items/medshot4.wav", 1.0, ATTN_NORM );
 	m_iJuice = gSkillData.healthchargerCapacity;
@@ -246,7 +246,7 @@ void CWallHealth::Recharge(void)
 	SetThink( &CBaseEntity::SUB_DoNothing );
 }
 
-void CWallHealth::Off(void)
+void CWallHealth::Off()
 {
 	// Stop looping sound.
 	if (m_iOn > 1)

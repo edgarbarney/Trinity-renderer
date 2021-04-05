@@ -34,17 +34,17 @@
 class CMonsterMaker : public CBaseMonster
 {
 public:
-	void Spawn( void );
-	void Precache( void );
-	void KeyValue( KeyValueData* pkvd);
+	void Spawn( ) override;
+	void Precache( ) override;
+	void KeyValue( KeyValueData* pkvd) override;
 	void EXPORT ToggleUse ( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 	void EXPORT CyclicUse ( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	void EXPORT MakerThink ( void );
-	void DeathNotice ( entvars_t *pevChild );// monster maker children use this to tell the monster maker that they have died.
-	void MakeMonster( void );
+	void EXPORT MakerThink ( );
+	void DeathNotice ( entvars_t *pevChild ) override;// monster maker children use this to tell the monster maker that they have died.
+	void MakeMonster( );
 
-	virtual int		Save( CSave &save );
-	virtual int		Restore( CRestore &restore );
+	int		Save( CSave &save ) override;
+	int		Restore( CRestore &restore ) override;
 
 	static	TYPEDESCRIPTION m_SaveData[];
 	
@@ -148,7 +148,7 @@ void CMonsterMaker :: Spawn( )
 	m_flGround = 0;
 }
 
-void CMonsterMaker :: Precache( void )
+void CMonsterMaker :: Precache( )
 {
 	CBaseMonster::Precache();
 
@@ -158,7 +158,7 @@ void CMonsterMaker :: Precache( void )
 //=========================================================
 // MakeMonster-  this is the code that drops the monster
 //=========================================================
-void CMonsterMaker::MakeMonster( void )
+void CMonsterMaker::MakeMonster( )
 {
 	edict_t	*pent;
 	entvars_t		*pevCreate;
@@ -229,8 +229,8 @@ void CMonsterMaker::MakeMonster( void )
 	if ( m_cNumMonsters == 0 )
 	{
 		// Disable this forever.  Don't kill it because it still gets death notices
-		SetThink( NULL );
-		SetUse( NULL );
+		SetThink( nullptr );
+		SetUse( nullptr );
 	}
 }
 
@@ -254,7 +254,7 @@ void CMonsterMaker :: ToggleUse ( CBaseEntity *pActivator, CBaseEntity *pCaller,
 	if ( m_fActive )
 	{
 		m_fActive = FALSE;
-		SetThink ( NULL );
+		SetThink ( nullptr );
 	}
 	else
 	{
@@ -268,7 +268,7 @@ void CMonsterMaker :: ToggleUse ( CBaseEntity *pActivator, CBaseEntity *pCaller,
 //=========================================================
 // MakerThink - creates a new monster every so often
 //=========================================================
-void CMonsterMaker :: MakerThink ( void )
+void CMonsterMaker :: MakerThink ( )
 {
 	pev->nextthink = gpGlobals->time + m_flDelay;
 
@@ -285,7 +285,7 @@ void CMonsterMaker :: DeathNotice ( entvars_t *pevChild )
 
 	if ( !m_fFadeChildren )
 	{
-		pevChild->owner = NULL;
+		pevChild->owner = nullptr;
 	}
 }
 

@@ -54,7 +54,7 @@ void CHandGrenade::Spawn( )
 }
 
 
-void CHandGrenade::Precache( void )
+void CHandGrenade::Precache( )
 {
 	PRECACHE_MODEL("models/w_grenade.mdl");
 	PRECACHE_MODEL("models/v_grenade.mdl");
@@ -66,7 +66,7 @@ int CHandGrenade::GetItemInfo(ItemInfo *p)
 	p->pszName = STRING(pev->classname);
 	p->pszAmmo1 = "Hand Grenade";
 	p->iMaxAmmo1 = HANDGRENADE_MAX_CARRY;
-	p->pszAmmo2 = NULL;
+	p->pszAmmo2 = nullptr;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = WEAPON_NOCLIP;
 	p->iSlot = 4;
@@ -85,7 +85,7 @@ BOOL CHandGrenade::Deploy( )
 	return DefaultDeploy( "models/v_grenade.mdl", "models/p_grenade.mdl", HANDGRENADE_DRAW, "crowbar" );
 }
 
-BOOL CHandGrenade::CanHolster( void )
+BOOL CHandGrenade::CanHolster( )
 {
 	// can only holster hand grenades when not primed!
 	return ( m_flStartThrow == 0 );
@@ -123,7 +123,7 @@ void CHandGrenade::PrimaryAttack()
 }
 
 
-void CHandGrenade::WeaponIdle( void )
+void CHandGrenade::WeaponIdle( )
 {
 	if ( m_flReleaseThrow == 0 && m_flStartThrow )
 		 m_flReleaseThrow = gpGlobals->time;

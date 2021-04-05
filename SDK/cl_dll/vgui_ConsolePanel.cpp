@@ -34,7 +34,7 @@ public:
 
 public:
 
-	virtual void actionPerformed(Panel* panel)
+	void actionPerformed(Panel* panel) override
 	{
 		_consolePanel->doExecCommand();
 	}

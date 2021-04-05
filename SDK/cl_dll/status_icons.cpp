@@ -27,7 +27,7 @@
 
 DECLARE_MESSAGE( m_StatusIcons, StatusIcon );
 
-int CHudStatusIcons::Init( void )
+int CHudStatusIcons::Init( )
 {
 	HOOK_MESSAGE( StatusIcon );
 
@@ -38,13 +38,13 @@ int CHudStatusIcons::Init( void )
 	return 1;
 }
 
-int CHudStatusIcons::VidInit( void )
+int CHudStatusIcons::VidInit( )
 {
 
 	return 1;
 }
 
-void CHudStatusIcons::Reset( void )
+void CHudStatusIcons::Reset( )
 {
 	memset( m_IconList, 0, sizeof m_IconList );
 	m_iFlags &= ~HUD_ACTIVE;
@@ -156,7 +156,7 @@ void CHudStatusIcons::DisableIcon( char *pszIconName )
 		if ( !stricmp( m_IconList[i].szSpriteName, pszIconName ) )
 		{
 			// clear the item from the list
-			memset( &m_IconList[i], 0, sizeof icon_sprite_t );
+			memset( &m_IconList[i], 0, sizeof( icon_sprite_t) );
 			return;
 		}
 	}

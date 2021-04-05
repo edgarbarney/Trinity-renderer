@@ -47,7 +47,7 @@ static int line_height = 0;
 
 DECLARE_MESSAGE( m_SayText, SayText );
 
-int CHudSayText :: Init( void )
+int CHudSayText :: Init( )
 {
 	gHUD.AddHudElem( this );
 
@@ -64,20 +64,20 @@ int CHudSayText :: Init( void )
 }
 
 
-void CHudSayText :: InitHUDData( void )
+void CHudSayText :: InitHUDData( )
 {
 	memset( g_szLineBuffer, 0, sizeof g_szLineBuffer );
 	memset( g_pflNameColors, 0, sizeof g_pflNameColors );
 	memset( g_iNameLengths, 0, sizeof g_iNameLengths );
 }
 
-int CHudSayText :: VidInit( void )
+int CHudSayText :: VidInit( )
 {
 	return 1;
 }
 
 
-int ScrollTextUp( void )
+int ScrollTextUp( )
 {
 	ConsolePrint( g_szLineBuffer[0] ); // move the first line into the console buffer
 	g_szLineBuffer[MAX_LINES][0] = 0;
@@ -188,7 +188,7 @@ void CHudSayText :: SayTextPrint( const char *pszBuf, int iBufSize, int clientIn
 	}
 
 	g_iNameLengths[i] = 0;
-	g_pflNameColors[i] = NULL;
+	g_pflNameColors[i] = nullptr;
 
 	// if it's a say message, search for the players name in the string
 	if ( *pszBuf == 2 && clientIndex > 0 )
@@ -240,7 +240,7 @@ void CHudSayText :: EnsureTextFitsInOneLineAndWrapIfHaveTo( int line )
 		// scan the string until we find what word is too long,  and wrap the end of the sentence after the word
 		int length = LINE_START;
 		int tmp_len = 0;
-		char *last_break = NULL;
+		char *last_break = nullptr;
 		for ( char *x = g_szLineBuffer[line]; *x != 0; x++ )
 		{
 			// check for a color change, if so skip past it

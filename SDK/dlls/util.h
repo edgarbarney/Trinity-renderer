@@ -126,7 +126,7 @@ inline entvars_t *VARS(entvars_t *pev)					{ return pev; }
 inline entvars_t *VARS(edict_t *pent)			
 { 
 	if ( !pent )
-		return NULL;
+		return nullptr;
 
 	return &pent->v; 
 }
@@ -141,8 +141,8 @@ inline void MESSAGE_BEGIN( int msg_dest, int msg_type, const float *pOrigin, ent
 // Testing the three types of "entity" for nullity
 #define eoNullEntity 0
 inline BOOL FNullEnt(EOFFSET eoffset)			{ return eoffset == 0; }
-inline BOOL FNullEnt(const edict_t* pent)	{ return pent == NULL || FNullEnt(OFFSET(pent)); }
-inline BOOL FNullEnt(entvars_t* pev)				{ return pev == NULL || FNullEnt(OFFSET(pev)); }
+inline BOOL FNullEnt(const edict_t* pent)	{ return pent == nullptr || FNullEnt(OFFSET(pent)); }
+inline BOOL FNullEnt(entvars_t* pev)				{ return pev == nullptr || FNullEnt(OFFSET(pev)); }
 
 // Testing strings for nullity
 #define iStringNull 0
@@ -253,7 +253,7 @@ extern void			UTIL_TraceLine			(const Vector &vecStart, const Vector &vecEnd, IG
 extern void			UTIL_TraceLine			(const Vector &vecStart, const Vector &vecEnd, IGNORE_MONSTERS igmon, IGNORE_GLASS ignoreGlass, edict_t *pentIgnore, TraceResult *ptr);
 enum { point_hull=0, human_hull=1, large_hull=2, head_hull=3 };
 extern void			UTIL_TraceHull			(const Vector &vecStart, const Vector &vecEnd, IGNORE_MONSTERS igmon, int hullNumber, edict_t *pentIgnore, TraceResult *ptr);
-extern TraceResult	UTIL_GetGlobalTrace		(void);
+extern TraceResult	UTIL_GetGlobalTrace		();
 extern void			UTIL_TraceModel			(const Vector &vecStart, const Vector &vecEnd, int hullNumber, edict_t *pentModel, TraceResult *ptr);
 extern Vector		UTIL_GetAimVector		(edict_t* pent, float flSpeed);
 extern int			UTIL_PointContents		(const Vector &vec);
@@ -261,7 +261,7 @@ extern int			UTIL_PointContents		(const Vector &vec);
 extern int			UTIL_IsMasterTriggered	(string_t sMaster, CBaseEntity *pActivator);
 extern void			UTIL_BloodStream( const Vector &origin, const Vector &direction, int color, int amount );
 extern void			UTIL_BloodDrips( const Vector &origin, const Vector &direction, int color, int amount );
-extern Vector		UTIL_RandomBloodVector( void );
+extern Vector		UTIL_RandomBloodVector( );
 extern BOOL			UTIL_ShouldShowBlood( int bloodColor );
 extern void			UTIL_BloodDecalTrace( TraceResult *pTrace, int bloodColor );
 extern void			UTIL_DecalTrace( TraceResult *pTrace, int decalNumber );
@@ -293,8 +293,8 @@ extern void			UTIL_BubbleTrail( Vector from, Vector to, int count );
 extern void			UTIL_PrecacheOther( const char *szClassname );
 
 // prints a message to each client
-extern void			UTIL_ClientPrintAll( int msg_dest, const char *msg_name, const char *param1 = NULL, const char *param2 = NULL, const char *param3 = NULL, const char *param4 = NULL );
-inline void			UTIL_CenterPrintAll( const char *msg_name, const char *param1 = NULL, const char *param2 = NULL, const char *param3 = NULL, const char *param4 = NULL ) 
+extern void			UTIL_ClientPrintAll( int msg_dest, const char *msg_name, const char *param1 = nullptr, const char *param2 = nullptr, const char *param3 = nullptr, const char *param4 = nullptr );
+inline void			UTIL_CenterPrintAll( const char *msg_name, const char *param1 = nullptr, const char *param2 = nullptr, const char *param3 = nullptr, const char *param4 = nullptr ) 
 {
 	UTIL_ClientPrintAll( HUD_PRINTCENTER, msg_name, param1, param2, param3, param4 );
 }
@@ -304,7 +304,7 @@ class CBasePlayer;
 extern BOOL UTIL_GetNextBestWeapon( CBasePlayer *pPlayer, CBasePlayerItem *pCurrentWeapon );
 
 // prints messages through the HUD
-extern void ClientPrint( entvars_t *client, int msg_dest, const char *msg_name, const char *param1 = NULL, const char *param2 = NULL, const char *param3 = NULL, const char *param4 = NULL );
+extern void ClientPrint( entvars_t *client, int msg_dest, const char *msg_name, const char *param1 = nullptr, const char *param2 = nullptr, const char *param3 = nullptr, const char *param4 = nullptr );
 
 // prints a message to the HUD say (chat)
 extern void			UTIL_SayText( const char *pText, CBaseEntity *pEntity );
@@ -531,16 +531,16 @@ class UTIL_GroupTrace
 {
 public:
 	UTIL_GroupTrace( int groupmask, int op );
-	~UTIL_GroupTrace( void );
+	~UTIL_GroupTrace( );
 
 private:
 	int m_oldgroupmask, m_oldgroupop;
 };
 
 void UTIL_SetGroupTrace( int groupmask, int op );
-void UTIL_UnsetGroupTrace( void );
+void UTIL_UnsetGroupTrace( );
 
 int UTIL_SharedRandomLong( unsigned int seed, int low, int high );
 float UTIL_SharedRandomFloat( unsigned int seed, float low, float high );
 
-float UTIL_WeaponTimeBase( void );
+float UTIL_WeaponTimeBase( );

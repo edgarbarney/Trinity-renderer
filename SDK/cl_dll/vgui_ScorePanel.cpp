@@ -27,7 +27,7 @@
 #include "vgui_TeamFortressViewport.h"
 #include "vgui_ScorePanel.h"
 #include "..\game_shared\vgui_helpers.h"
-#include "..\game_shared\vgui_loadtga.h"
+#include "..\game_shared\vgui_LoadTGA.h"
 #include "vgui_SpectatorPanel.h"
 
 hud_player_info_t	 g_PlayerInfoList[MAX_PLAYERS+1];	   // player info from the engine
@@ -56,14 +56,14 @@ public:
 
 SBColumnInfo g_ColumnInfo[NUM_COLUMNS] =
 {
-	{NULL,			24,			Label::a_east},
-	{NULL,			140,		Label::a_east},		// name
-	{NULL,			56,			Label::a_east},		// class
+	{nullptr,			24,			Label::a_east},
+	{nullptr,			140,		Label::a_east},		// name
+	{nullptr,			56,			Label::a_east},		// class
 	{"#SCORE",		40,			Label::a_east},
 	{"#DEATHS",		46,			Label::a_east},
 	{"#LATENCY",	46,			Label::a_east},
 	{"#VOICE",		40,			Label::a_east},
-	{NULL,			2,			Label::a_east},		// blank column to take up the slack
+	{nullptr,			2,			Label::a_east},		// blank column to take up the slack
 };
 
 
@@ -99,7 +99,7 @@ ScorePanel::ScorePanel(int x,int y,int wide,int tall) : Panel(x,y,wide,tall)
 	Font *smallfont = pSchemes->getFont(hSmallScheme);
 
 	setBgColor(0, 0, 0, 96);
-	m_pCurrentHighlightLabel = NULL;
+	m_pCurrentHighlightLabel = nullptr;
 	m_iHighlightRow = -1;
 
 	// Initialize the top title.
@@ -236,7 +236,7 @@ ScorePanel::ScorePanel(int x,int y,int wide,int tall) : Panel(x,y,wide,tall)
 //-----------------------------------------------------------------------------
 // Purpose: Called each time a new level is started.
 //-----------------------------------------------------------------------------
-void ScorePanel::Initialize( void )
+void ScorePanel::Initialize( )
 {
 	// Clear out scoreboard data
 	m_iLastKilledBy = 0;
@@ -278,7 +278,7 @@ void ScorePanel::Update()
 
 	// If it's not teamplay, sort all the players. Otherwise, sort the teams.
 	if ( !gHUD.m_Teamplay )
-		SortPlayers( 0, NULL );
+		SortPlayers( 0, nullptr );
 	else
 		SortTeams();
 
@@ -314,7 +314,7 @@ void ScorePanel::SortTeams()
 	// recalc the team scores, then draw them
 	for ( i = 1; i < MAX_PLAYERS; i++ )
 	{
-		if ( g_PlayerInfoList[i].name == NULL )
+		if ( g_PlayerInfoList[i].name == nullptr )
 			continue; // empty player slot, skip
 
 		if ( g_PlayerExtraInfo[i].teamname[0] == 0 )
@@ -397,7 +397,7 @@ void ScorePanel::SortTeams()
 	}
 
 	// Add all the players who aren't in a team yet into spectators
-	SortPlayers( TEAM_SPECTATORS, NULL );
+	SortPlayers( TEAM_SPECTATORS, nullptr );
 }
 
 //-----------------------------------------------------------------------------
@@ -475,7 +475,7 @@ void ScorePanel::RebuildTeams()
 	m_iNumTeams = 0;
 	for ( i = 1; i < MAX_PLAYERS; i++ )
 	{
-		if ( g_PlayerInfoList[i].name == NULL )
+		if ( g_PlayerInfoList[i].name == nullptr )
 			continue;
 
 		if ( g_PlayerExtraInfo[i].teamname[0] == 0 )
@@ -573,7 +573,7 @@ void ScorePanel::FillGrid()
 
 			pLabel->setVisible(true);
 			pLabel->setText2("");
-			pLabel->setImage(NULL);
+			pLabel->setImage(nullptr);
 			pLabel->setFont(sfont);
 			pLabel->setTextOffset(0, 0);
 			
@@ -591,8 +591,8 @@ void ScorePanel::FillGrid()
 			pLabel->setBgColor(0, 0, 0, 255);
 			
 			char sz[128];
-			hud_player_info_t *pl_info = NULL;
-			team_info_t *team_info = NULL;
+			hud_player_info_t *pl_info = nullptr;
+			team_info_t *team_info = nullptr;
 
 			if (m_iIsATeam[row] == TEAM_BLANK)
 			{
@@ -696,11 +696,11 @@ void ScorePanel::FillGrid()
 				case COLUMN_NAME:
 					if ( m_iIsATeam[row] == TEAM_SPECTATORS )
 					{
-						sprintf( sz2, CHudTextMessage::BufferedLocaliseTextString( "#Spectators" ) );
+						sprintf( sz2, "%s", CHudTextMessage::BufferedLocaliseTextString( "#Spectators" ) );
 					}
 					else
 					{
-						sprintf( sz2, gViewPort->GetTeamName(team_info->teamnumber) );
+						sprintf( sz2, "%s", gViewPort->GetTeamName(team_info->teamnumber) );
 					}
 
 					strcpy(sz, sz2);
@@ -839,7 +839,7 @@ void ScorePanel::DeathMsg( int killer, int victim )
 }
 
 
-void ScorePanel::Open( void )
+void ScorePanel::Open( )
 {
 	RebuildTeams();
 	setVisible(true);
@@ -879,7 +879,7 @@ void ScorePanel::mousePressed(MouseCode code, Panel* panel)
 					sprintf( string1, CHudTextMessage::BufferedLocaliseTextString( "#Unmuted" ), pl_info->name );
 					sprintf( string, "%c** %s\n", HUD_PRINTTALK, string1 );
 
-					gHUD.m_TextMessage.MsgFunc_TextMsg(NULL, strlen(string)+1, string );
+					gHUD.m_TextMessage.MsgFunc_TextMsg(nullptr, strlen(string)+1, string );
 				}
 				else
 				{
@@ -890,10 +890,10 @@ void ScorePanel::mousePressed(MouseCode code, Panel* panel)
 					GetClientVoiceMgr()->SetPlayerBlockedState(iPlayer, true);
 
 					sprintf( string1, CHudTextMessage::BufferedLocaliseTextString( "#Muted" ), pl_info->name );
-					sprintf( string2, CHudTextMessage::BufferedLocaliseTextString( "#No_longer_hear_that_player" ) );
+					sprintf( string2, "%s", CHudTextMessage::BufferedLocaliseTextString( "#No_longer_hear_that_player" ) );
 					sprintf( string, "%c** %s %s\n", HUD_PRINTTALK, string1, string2 );
 
-					gHUD.m_TextMessage.MsgFunc_TextMsg(NULL, strlen(string)+1, string );
+					gHUD.m_TextMessage.MsgFunc_TextMsg(nullptr, strlen(string)+1, string );
 				}
 			}
 		}
@@ -929,7 +929,7 @@ void ScorePanel::MouseOverCell(int row, int col)
 	// clear the previously highlighted label
 	if (m_pCurrentHighlightLabel != label)
 	{
-		m_pCurrentHighlightLabel = NULL;
+		m_pCurrentHighlightLabel = nullptr;
 		m_iHighlightRow = -1;
 	}
 	if (!label)

@@ -21,9 +21,9 @@ class CBaseEntity;
 class CSaveRestoreBuffer
 {
 public:
-	CSaveRestoreBuffer( void );
+	CSaveRestoreBuffer( );
 	CSaveRestoreBuffer( SAVERESTOREDATA *pdata );
-	~CSaveRestoreBuffer( void );
+	~CSaveRestoreBuffer( );
 
 	int			EntityIndex( entvars_t *pevLookup );
 	int			EntityIndex( edict_t *pentLookup );
@@ -86,19 +86,19 @@ public:
 	int		ReadEntVars( const char *pname, entvars_t *pev );		// entvars_t
 	int		ReadFields( const char *pname, void *pBaseData, TYPEDESCRIPTION *pFields, int fieldCount );
 	int		ReadField( void *pBaseData, TYPEDESCRIPTION *pFields, int fieldCount, int startField, int size, char *pName, void *pData );
-	int		ReadInt( void );
-	short	ReadShort( void );
+	int		ReadInt( );
+	short	ReadShort( );
 	int		ReadNamedInt( const char *pName );
 	char	*ReadNamedString( const char *pName );
-	int		Empty( void ) { return (m_pdata == NULL) || ((m_pdata->pCurrentData-m_pdata->pBaseData)>=m_pdata->bufferSize); }
+	int		Empty( ) { return (m_pdata == nullptr) || ((m_pdata->pCurrentData-m_pdata->pBaseData)>=m_pdata->bufferSize); }
 	inline	void SetGlobalMode( int global ) { m_global = global; }
 	void	PrecacheMode( BOOL mode ) { m_precache = mode; }
 
 private:
-	char	*BufferPointer( void );
+	char	*BufferPointer( );
 	void	BufferReadBytes( char *pOutput, int size );
 	void	BufferSkipBytes( int bytes );
-	int		BufferSkipZString( void );
+	int		BufferSkipZString( );
 	int		BufferCheckZString( const char *string );
 
 	void	BufferReadHeader( HEADER *pheader );
@@ -142,20 +142,20 @@ class CGlobalState
 {
 public:
 					CGlobalState();
-	void			Reset( void );
-	void			ClearStates( void );
+	void			Reset( );
+	void			ClearStates( );
 	void			EntityAdd( string_t globalname, string_t mapName, GLOBALESTATE state );
 	void			EntitySetState( string_t globalname, GLOBALESTATE state );
 	void			EntityUpdate( string_t globalname, string_t mapname );
 	const globalentity_t	*EntityFromTable( string_t globalname );
 	GLOBALESTATE	EntityGetState( string_t globalname );
-	int				EntityInTable( string_t globalname ) { return (Find( globalname ) != NULL) ? 1 : 0; }
+	int				EntityInTable( string_t globalname ) { return (Find( globalname ) != nullptr) ? 1 : 0; }
 	int				Save( CSave &save );
 	int				Restore( CRestore &restore );
 	static TYPEDESCRIPTION m_SaveData[];
 
 //#ifdef _DEBUG
-	void			DumpGlobals( void );
+	void			DumpGlobals( );
 //#endif
 
 private:

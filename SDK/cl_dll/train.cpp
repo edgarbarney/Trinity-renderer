@@ -27,7 +27,7 @@
 DECLARE_MESSAGE(m_Train, Train )
 
 
-int CHudTrain::Init(void)
+int CHudTrain::Init()
 {
 	HOOK_MESSAGE( Train );
 
@@ -38,7 +38,7 @@ int CHudTrain::Init(void)
 	return 1;
 };
 
-int CHudTrain::VidInit(void)
+int CHudTrain::VidInit()
 {
 	m_SpriteHandle_t = 0;
 
@@ -61,7 +61,7 @@ int CHudTrain::Draw(float fTime)
 		y = ScreenHeight - SPR_Height(m_SpriteHandle_t,0) - gHUD.m_iFontHeight;
 		x = ScreenWidth/3 + SPR_Width(m_SpriteHandle_t,0)/4;
 
-		SPR_DrawAdditive( m_iPos - 1,  x, y, NULL);
+		SPR_DrawAdditive( m_iPos - 1,  x, y, nullptr);
 
 	}
 

@@ -10,9 +10,9 @@
 #pragma once
 
 
-#include "VGUI_Label.h"
+#include "vgui_label.h"
 #include "VGUI_LineBorder.h"
-#include "VGUI_ImagePanel.h"
+#include "vgui_imagepanel.h"
 #include "VGUI_BitmapTGA.h"
 #include "VGUI_InputSignal.h"
 #include "VGUI_Button.h"
@@ -61,7 +61,7 @@ public:
 //-----------------------------------------------------------------------------
 class VoiceImagePanel : public vgui::ImagePanel
 {
-	virtual void paintBackground()
+	void paintBackground() override
 	{
 		if (_image!=null)
 		{
@@ -78,7 +78,7 @@ class CVoiceStatus : public CHudBase, public vgui::CDefaultInputSignal
 {
 public:
 				CVoiceStatus();
-	virtual		~CVoiceStatus();
+			~CVoiceStatus() override;
 
 // CHudBase overrides.
 public:
@@ -89,7 +89,7 @@ public:
 		vgui::Panel **pParentPanel);
 	
 	// ackPosition is the bottom position of where CVoiceStatus will draw the voice acknowledgement labels.
-	virtual int VidInit();
+	int VidInit() override;
 
 
 public:

@@ -34,8 +34,8 @@ extern int gmsgItemPickup;
 class CWorldItem : public CBaseEntity
 {
 public:
-	void	KeyValue(KeyValueData *pkvd ); 
-	void	Spawn( void );
+	void	KeyValue(KeyValueData *pkvd ) override; 
+	void	Spawn( ) override;
 	int		m_iType;
 };
 
@@ -52,9 +52,9 @@ void CWorldItem::KeyValue(KeyValueData *pkvd)
 		CBaseEntity::KeyValue( pkvd );
 }
 
-void CWorldItem::Spawn( void )
+void CWorldItem::Spawn( )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	switch (m_iType) 
 	{
@@ -87,7 +87,7 @@ void CWorldItem::Spawn( void )
 }
 
 
-void CItem::Spawn( void )
+void CItem::Spawn( )
 {
 	pev->movetype = MOVETYPE_TOSS;
 	pev->solid = SOLID_TRIGGER;
@@ -125,7 +125,7 @@ void CItem::ItemTouch( CBaseEntity *pOther )
 	if (MyTouch( pPlayer ))
 	{
 		SUB_UseTargets( pOther, USE_TOGGLE, 0 );
-		SetTouch( NULL );
+		SetTouch( nullptr );
 		
 		// player grabbed the item. 
 		g_pGameRules->PlayerGotItem( pPlayer, this );
@@ -144,9 +144,9 @@ void CItem::ItemTouch( CBaseEntity *pOther )
 	}
 }
 
-CBaseEntity* CItem::Respawn( void )
+CBaseEntity* CItem::Respawn( )
 {
-	SetTouch( NULL );
+	SetTouch( nullptr );
 	pev->effects |= EF_NODRAW;
 
 	UTIL_SetOrigin( pev, g_pGameRules->VecItemRespawnSpot( this ) );// blip to whereever you should respawn.
@@ -156,7 +156,7 @@ CBaseEntity* CItem::Respawn( void )
 	return this;
 }
 
-void CItem::Materialize( void )
+void CItem::Materialize( )
 {
 	if ( pev->effects & EF_NODRAW )
 	{
@@ -173,17 +173,17 @@ void CItem::Materialize( void )
 
 class CItemSuit : public CItem
 {
-	void Spawn( void )
+	void Spawn( ) override
 	{ 
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_suit.mdl");
 		CItem::Spawn( );
 	}
-	void Precache( void )
+	void Precache( ) override
 	{
 		PRECACHE_MODEL ("models/w_suit.mdl");
 	}
-	BOOL MyTouch( CBasePlayer *pPlayer )
+	BOOL MyTouch( CBasePlayer *pPlayer ) override
 	{
 		if ( pPlayer->pev->weapons & (1<<WEAPON_SUIT) )
 			return FALSE;
@@ -204,18 +204,18 @@ LINK_ENTITY_TO_CLASS(item_suit, CItemSuit);
 
 class CItemBattery : public CItem
 {
-	void Spawn( void )
+	void Spawn( ) override
 	{ 
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_battery.mdl");
 		CItem::Spawn( );
 	}
-	void Precache( void )
+	void Precache( ) override
 	{
 		PRECACHE_MODEL ("models/w_battery.mdl");
 		PRECACHE_SOUND( "items/gunpickup2.wav" );
 	}
-	BOOL MyTouch( CBasePlayer *pPlayer )
+	BOOL MyTouch( CBasePlayer *pPlayer ) override
 	{
 		if ( pPlayer->pev->deadflag != DEAD_NO )
 		{
@@ -233,7 +233,7 @@ class CItemBattery : public CItem
 
 			EMIT_SOUND( pPlayer->edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
 
-			MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
+			MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, nullptr, pPlayer->pev );
 				WRITE_STRING( STRING(pev->classname) );
 			MESSAGE_END();
 
@@ -260,17 +260,17 @@ LINK_ENTITY_TO_CLASS(item_battery, CItemBattery);
 
 class CItemAntidote : public CItem
 {
-	void Spawn( void )
+	void Spawn( ) override
 	{ 
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_antidote.mdl");
 		CItem::Spawn( );
 	}
-	void Precache( void )
+	void Precache( ) override
 	{
 		PRECACHE_MODEL ("models/w_antidote.mdl");
 	}
-	BOOL MyTouch( CBasePlayer *pPlayer )
+	BOOL MyTouch( CBasePlayer *pPlayer ) override
 	{
 		pPlayer->SetSuitUpdate("!HEV_DET4", FALSE, SUIT_NEXT_IN_1MIN);
 		
@@ -284,17 +284,17 @@ LINK_ENTITY_TO_CLASS(item_antidote, CItemAntidote);
 
 class CItemSecurity : public CItem
 {
-	void Spawn( void )
+	void Spawn( ) override
 	{ 
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_security.mdl");
 		CItem::Spawn( );
 	}
-	void Precache( void )
+	void Precache( ) override
 	{
 		PRECACHE_MODEL ("models/w_security.mdl");
 	}
-	BOOL MyTouch( CBasePlayer *pPlayer )
+	BOOL MyTouch( CBasePlayer *pPlayer ) override
 	{
 		pPlayer->m_rgItems[ITEM_SECURITY] += 1;
 		return TRUE;
@@ -305,17 +305,17 @@ LINK_ENTITY_TO_CLASS(item_security, CItemSecurity);
 
 class CItemLongJump : public CItem
 {
-	void Spawn( void )
+	void Spawn( ) override
 	{ 
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_longjump.mdl");
 		CItem::Spawn( );
 	}
-	void Precache( void )
+	void Precache( ) override
 	{
 		PRECACHE_MODEL ("models/w_longjump.mdl");
 	}
-	BOOL MyTouch( CBasePlayer *pPlayer )
+	BOOL MyTouch( CBasePlayer *pPlayer ) override
 	{
 		if ( pPlayer->m_fLongJump )
 		{
@@ -328,7 +328,7 @@ class CItemLongJump : public CItem
 
 			g_engfuncs.pfnSetPhysicsKeyValue( pPlayer->edict(), "slj", "1" );
 
-			MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
+			MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, nullptr, pPlayer->pev );
 				WRITE_STRING( STRING(pev->classname) );
 			MESSAGE_END();
 

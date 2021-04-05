@@ -32,9 +32,9 @@ extern CGraph WorldGraph;
 // FHaveSchedule - Returns TRUE if monster's m_pSchedule
 // is anything other than NULL.
 //=========================================================
-BOOL CBaseMonster :: FHaveSchedule( void )
+BOOL CBaseMonster :: FHaveSchedule( )
 {
-	if ( m_pSchedule == NULL )
+	if ( m_pSchedule == nullptr )
 	{
 		return FALSE;
 	}
@@ -46,10 +46,10 @@ BOOL CBaseMonster :: FHaveSchedule( void )
 // ClearSchedule - blanks out the caller's schedule pointer
 // and index.
 //=========================================================
-void CBaseMonster :: ClearSchedule( void )
+void CBaseMonster :: ClearSchedule( )
 {
 	m_iTaskStatus = TASKSTATUS_NEW;
-	m_pSchedule = NULL;
+	m_pSchedule = nullptr;
 	m_iScheduleIndex = 0;
 }
 
@@ -57,9 +57,9 @@ void CBaseMonster :: ClearSchedule( void )
 // FScheduleDone - Returns TRUE if the caller is on the
 // last task in the schedule
 //=========================================================
-BOOL CBaseMonster :: FScheduleDone ( void )
+BOOL CBaseMonster :: FScheduleDone ( )
 {
-	ASSERT( m_pSchedule != NULL );
+	ASSERT( m_pSchedule != nullptr );
 	
 	if ( m_iScheduleIndex == m_pSchedule->cTasks )
 	{
@@ -76,7 +76,7 @@ BOOL CBaseMonster :: FScheduleDone ( void )
 //=========================================================
 void CBaseMonster :: ChangeSchedule ( Schedule_t *pNewSchedule )
 {
-	ASSERT( pNewSchedule != NULL );
+	ASSERT( pNewSchedule != nullptr );
 
 	m_pSchedule			= pNewSchedule;
 	m_iScheduleIndex	= 0;
@@ -135,9 +135,9 @@ void CBaseMonster :: ChangeSchedule ( Schedule_t *pNewSchedule )
 //=========================================================
 // NextScheduledTask - increments the ScheduleIndex
 //=========================================================
-void CBaseMonster :: NextScheduledTask ( void )
+void CBaseMonster :: NextScheduledTask ( )
 {
-	ASSERT( m_pSchedule != NULL );
+	ASSERT( m_pSchedule != nullptr );
 
 	m_iTaskStatus = TASKSTATUS_NEW;
 	m_iScheduleIndex++;
@@ -155,7 +155,7 @@ void CBaseMonster :: NextScheduledTask ( void )
 // bits that are currently set and also set in the current
 // schedule's Interrupt mask.
 //=========================================================
-int CBaseMonster :: IScheduleFlags ( void )
+int CBaseMonster :: IScheduleFlags ( )
 {
 	if( !m_pSchedule )
 	{
@@ -171,9 +171,9 @@ int CBaseMonster :: IScheduleFlags ( void )
 // schedule is still the proper schedule to be executing,
 // taking into account all conditions
 //=========================================================
-BOOL CBaseMonster :: FScheduleValid ( void )
+BOOL CBaseMonster :: FScheduleValid ( )
 {
-	if ( m_pSchedule == NULL )
+	if ( m_pSchedule == nullptr )
 	{
 		// schedule is empty, and therefore not valid.
 		return FALSE;
@@ -205,7 +205,7 @@ BOOL CBaseMonster :: FScheduleValid ( void )
 // ensures that the monster leaves this function with a valid
 // schedule!
 //=========================================================
-void CBaseMonster :: MaintainSchedule ( void )
+void CBaseMonster :: MaintainSchedule ( )
 {
 	Schedule_t	*pNewSchedule;
 	int			i;
@@ -213,7 +213,7 @@ void CBaseMonster :: MaintainSchedule ( void )
 	// UNDONE: Tune/fix this 10... This is just here so infinite loops are impossible
 	for ( i = 0; i < 10; i++ )
 	{
-		if ( m_pSchedule != NULL && TaskIsComplete() )
+		if ( m_pSchedule != nullptr && TaskIsComplete() )
 		{
 			NextScheduledTask();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 		}
@@ -268,7 +268,7 @@ void CBaseMonster :: MaintainSchedule ( void )
 		if ( m_iTaskStatus == TASKSTATUS_NEW )
 		{	
 			Task_t *pTask = GetTask();
-			ASSERT( pTask != NULL );
+			ASSERT( pTask != nullptr );
 			TaskBegin();
 			StartTask( pTask );
 		}
@@ -286,7 +286,7 @@ void CBaseMonster :: MaintainSchedule ( void )
 	if ( TaskIsRunning() )
 	{
 		Task_t *pTask = GetTask();
-		ASSERT( pTask != NULL );
+		ASSERT( pTask != nullptr );
 		RunTask( pTask );
 	}
 
@@ -454,7 +454,7 @@ void CBaseMonster :: RunTask ( Task_t *pTask )
 			{
 				pev->deadflag = DEAD_DEAD;
 				
-				SetThink ( NULL );
+				SetThink ( nullptr );
 				StopAnimation();
 
 				if ( !BBoxFlat() )
@@ -548,7 +548,7 @@ void CBaseMonster :: RunTask ( Task_t *pTask )
 // the monster is facing and determines whether or not to
 // select one of the 180 turn animations.
 //=========================================================
-void CBaseMonster :: SetTurnActivity ( void )
+void CBaseMonster :: SetTurnActivity ( )
 {
 	float flYD;
 	flYD = FlYawDiff();
@@ -790,7 +790,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 
 			pBestSound = PBestSound();
 
-			ASSERT( pBestSound != NULL );
+			ASSERT( pBestSound != nullptr );
 			/*
 			if ( pBestSound && FindLateralCover( pBestSound->m_vecOrigin, g_vecZero ) )
 			{
@@ -971,7 +971,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 		}
 	case TASK_GET_PATH_TO_ENEMY_LKP:
 		{
-			if ( BuildRoute ( m_vecEnemyLKP, bits_MF_TO_LOCATION, NULL ) )
+			if ( BuildRoute ( m_vecEnemyLKP, bits_MF_TO_LOCATION, nullptr ) )
 			{
 				TaskComplete();
 			}
@@ -991,7 +991,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 		{
 			CBaseEntity *pEnemy = m_hEnemy;
 
-			if ( pEnemy == NULL )
+			if ( pEnemy == nullptr )
 			{
 				TaskFail();
 				return;
@@ -1016,7 +1016,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 	case TASK_GET_PATH_TO_ENEMY_CORPSE:
 		{
 			UTIL_MakeVectors( pev->angles );
-			if ( BuildRoute ( m_vecEnemyLKP - gpGlobals->v_forward * 64, bits_MF_TO_LOCATION, NULL ) )
+			if ( BuildRoute ( m_vecEnemyLKP - gpGlobals->v_forward * 64, bits_MF_TO_LOCATION, nullptr ) )
 			{
 				TaskComplete();
 			}
@@ -1029,7 +1029,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 		break;
 	case TASK_GET_PATH_TO_SPOT:
 		{
-			CBaseEntity *pPlayer = CBaseEntity::Instance( FIND_ENTITY_BY_CLASSNAME( NULL, "player" ) );
+			CBaseEntity *pPlayer = CBaseEntity::Instance( FIND_ENTITY_BY_CLASSNAME( nullptr, "player" ) );
 			if ( BuildRoute ( m_vecMoveGoal, bits_MF_TO_LOCATION, pPlayer ) )
 			{
 				TaskComplete();
@@ -1328,12 +1328,12 @@ case TASK_GET_PATH_TO_BESTSCENT:
 // GetTask - returns a pointer to the current 
 // scheduled task. NULL if there's a problem.
 //=========================================================
-Task_t	*CBaseMonster :: GetTask ( void ) 
+Task_t	*CBaseMonster :: GetTask ( ) 
 {
 	if ( m_iScheduleIndex < 0 || m_iScheduleIndex >= m_pSchedule->cTasks )
 	{
 		// m_iScheduleIndex is not within valid range for the monster's current schedule.
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -1347,7 +1347,7 @@ Task_t	*CBaseMonster :: GetTask ( void )
 // monster's member function to get a pointer to a schedule
 // of the proper type.
 //=========================================================
-Schedule_t *CBaseMonster :: GetSchedule ( void )
+Schedule_t *CBaseMonster :: GetSchedule ( )
 {
 	switch	( m_MonsterState )
 	{
@@ -1413,7 +1413,7 @@ Schedule_t *CBaseMonster :: GetSchedule ( void )
 			if ( HasConditions( bits_COND_ENEMY_DEAD ) )
 			{
 				// clear the current (dead) enemy and try to find another.
-				m_hEnemy = NULL;
+				m_hEnemy = nullptr;
 
 				if ( GetEnemy() )
 				{
@@ -1493,7 +1493,7 @@ Schedule_t *CBaseMonster :: GetSchedule ( void )
 		}
 	case MONSTERSTATE_SCRIPT:
 		{
-			ASSERT( m_pCine != NULL );
+			ASSERT( m_pCine != nullptr );
 			if ( !m_pCine )
 			{
 				ALERT( at_aiconsole, "Script failed for %s\n", STRING(pev->classname) );

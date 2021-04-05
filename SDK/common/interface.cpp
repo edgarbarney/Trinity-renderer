@@ -19,7 +19,7 @@
 // ------------------------------------------------------------------------------------ //
 // InterfaceReg.
 // ------------------------------------------------------------------------------------ //
-InterfaceReg *InterfaceReg::s_pInterfaceRegs = NULL;
+InterfaceReg *InterfaceReg::s_pInterfaceRegs = nullptr;
 
 
 InterfaceReg::InterfaceReg( InstantiateInterfaceFn fn, const char *pName ) :
@@ -55,7 +55,7 @@ EXPORT_FUNCTION IBaseInterface *CreateInterface( const char *pName, int *pReturn
 	{
 		*pReturnCode = IFACE_FAILED;
 	}
-	return NULL;	
+	return nullptr;	
 }
 
 
@@ -117,7 +117,7 @@ void Sys_FreeModule(HINTERFACEMODULE hModule)
 // Purpose: returns the instance of this module
 // Output : interface_instance_t
 //-----------------------------------------------------------------------------
-CreateInterfaceFn Sys_GetFactoryThis( void )
+CreateInterfaceFn Sys_GetFactoryThis( )
 {
 	return CreateInterface;
 }
@@ -133,7 +133,7 @@ CreateInterfaceFn Sys_GetFactoryThis( void )
 CreateInterfaceFn Sys_GetFactory( HINTERFACEMODULE hModule )
 {
 	if(!hModule)
-		return NULL;
+		return nullptr;
 
 	return (CreateInterfaceFn)GetProcAddress((HMODULE)hModule, CREATEINTERFACE_PROCNAME);
 }

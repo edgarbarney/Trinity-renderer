@@ -34,7 +34,7 @@ int KB_ConvertString( char *in, char **ppout );
 
 DECLARE_MESSAGE( m_Menu, ShowMenu );
 
-int CHudMenu :: Init( void )
+int CHudMenu :: Init( )
 {
 	gHUD.AddHudElem( this );
 
@@ -45,20 +45,20 @@ int CHudMenu :: Init( void )
 	return 1;
 }
 
-void CHudMenu :: InitHUDData( void )
+void CHudMenu :: InitHUDData( )
 {
 	m_fMenuDisplayed = 0;
 	m_bitsValidSlots = 0;
 	Reset();
 }
 
-void CHudMenu :: Reset( void )
+void CHudMenu :: Reset( )
 {
 	g_szPrelocalisedMenuString[0] = 0;
 	m_fWaitingForMore = FALSE;
 }
 
-int CHudMenu :: VidInit( void )
+int CHudMenu :: VidInit( )
 {
 	return 1;
 }
@@ -136,7 +136,7 @@ void CHudMenu :: SelectMenuItem( int menu_item )
 // if this message is never received, then scores will simply be the combined totals of the players.
 int CHudMenu :: MsgFunc_ShowMenu( const char *pszName, int iSize, void *pbuf )
 {
-	char *temp = NULL;
+	char *temp = nullptr;
 
 	BEGIN_READ( pbuf, iSize );
 

@@ -63,7 +63,7 @@ void CEgon::Spawn( )
 }
 
 
-void CEgon::Precache( void )
+void CEgon::Precache( )
 {
 	PRECACHE_MODEL("models/w_egon.mdl");
 	PRECACHE_MODEL("models/v_egon.mdl");
@@ -86,7 +86,7 @@ void CEgon::Precache( void )
 }
 
 
-BOOL CEgon::Deploy( void )
+BOOL CEgon::Deploy( )
 {
 	m_deployed = FALSE;
 	m_fireState = FIRE_OFF;
@@ -97,7 +97,7 @@ int CEgon::AddToPlayer( CBasePlayer *pPlayer )
 {
 	if ( CBasePlayerWeapon::AddToPlayer( pPlayer ) )
 	{
-		MESSAGE_BEGIN( MSG_ONE, gmsgWeapPickup, NULL, pPlayer->pev );
+		MESSAGE_BEGIN( MSG_ONE, gmsgWeapPickup, nullptr, pPlayer->pev );
 			WRITE_BYTE( m_iId );
 		MESSAGE_END();
 		return TRUE;
@@ -120,7 +120,7 @@ int CEgon::GetItemInfo(ItemInfo *p)
 	p->pszName = STRING(pev->classname);
 	p->pszAmmo1 = "uranium";
 	p->iMaxAmmo1 = URANIUM_MAX_CARRY;
-	p->pszAmmo2 = NULL;
+	p->pszAmmo2 = nullptr;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = WEAPON_NOCLIP;
 	p->iSlot = 3;
@@ -135,17 +135,17 @@ int CEgon::GetItemInfo(ItemInfo *p)
 #define EGON_PULSE_INTERVAL			0.1
 #define EGON_DISCHARGE_INTERVAL		0.1
 
-float CEgon::GetPulseInterval( void )
+float CEgon::GetPulseInterval( )
 {
 	return EGON_PULSE_INTERVAL;
 }
 
-float CEgon::GetDischargeInterval( void )
+float CEgon::GetDischargeInterval( )
 {
 	return EGON_DISCHARGE_INTERVAL;
 }
 
-BOOL CEgon::HasAmmo( void )
+BOOL CEgon::HasAmmo( )
 {
 	if ( m_pPlayer->ammo_uranium <= 0 )
 		return FALSE;
@@ -161,7 +161,7 @@ void CEgon::UseAmmo( int count )
 		m_pPlayer->m_rgAmmo[m_iPrimaryAmmoType] = 0;
 }
 
-void CEgon::Attack( void )
+void CEgon::Attack( )
 {
 	// don't fire underwater
 	if ( m_pPlayer->pev->waterlevel == 3 )
@@ -237,7 +237,7 @@ void CEgon::Attack( void )
 	}
 }
 
-void CEgon::PrimaryAttack( void )
+void CEgon::PrimaryAttack( )
 {
 	m_fireMode = FIRE_WIDE;
 	Attack();
@@ -263,7 +263,7 @@ void CEgon::Fire( const Vector &vecOrigSrc, const Vector &vecDir )
 #ifndef CLIENT_DLL
 	CBaseEntity *pEntity = CBaseEntity::Instance(tr.pHit);
 
-	if (pEntity == NULL)
+	if (pEntity == nullptr)
 		return;
 
 	if ( g_pGameRules->IsMultiplayer() )
@@ -413,7 +413,7 @@ void CEgon::UpdateEffect( const Vector &startPoint, const Vector &endPoint, floa
 
 }
 
-void CEgon::CreateEffect( void )
+void CEgon::CreateEffect( )
 {
 
 #ifndef CLIENT_DLL
@@ -462,19 +462,19 @@ void CEgon::CreateEffect( void )
 }
 
 
-void CEgon::DestroyEffect( void )
+void CEgon::DestroyEffect( )
 {
 
 #ifndef CLIENT_DLL
 	if ( m_pBeam )
 	{
 		UTIL_Remove( m_pBeam );
-		m_pBeam = NULL;
+		m_pBeam = nullptr;
 	}
 	if ( m_pNoise )
 	{
 		UTIL_Remove( m_pNoise );
-		m_pNoise = NULL;
+		m_pNoise = nullptr;
 	}
 	if ( m_pSprite )
 	{
@@ -482,7 +482,7 @@ void CEgon::DestroyEffect( void )
 			m_pSprite->Expand( 10, 500 );
 		else
 			UTIL_Remove( m_pSprite );
-		m_pSprite = NULL;
+		m_pSprite = nullptr;
 	}
 #endif
 
@@ -490,7 +490,7 @@ void CEgon::DestroyEffect( void )
 
 
 
-void CEgon::WeaponIdle( void )
+void CEgon::WeaponIdle( )
 {
 	ResetEmptySound( );
 
@@ -521,7 +521,7 @@ void CEgon::WeaponIdle( void )
 
 
 
-void CEgon::EndAttack( void )
+void CEgon::EndAttack( )
 {
 	bool bMakeNoise = false;
 		
@@ -542,18 +542,18 @@ void CEgon::EndAttack( void )
 
 class CEgonAmmo : public CBasePlayerAmmo
 {
-	void Spawn( void )
+	void Spawn( ) override
 	{ 
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_chainammo.mdl");
 		CBasePlayerAmmo::Spawn( );
 	}
-	void Precache( void )
+	void Precache( ) override
 	{
 		PRECACHE_MODEL ("models/w_chainammo.mdl");
 		PRECACHE_SOUND("items/9mmclip1.wav");
 	}
-	BOOL AddAmmo( CBaseEntity *pOther ) 
+	BOOL AddAmmo( CBaseEntity *pOther ) override 
 	{ 
 		if (pOther->GiveAmmo( AMMO_URANIUMBOX_GIVE, "uranium", URANIUM_MAX_CARRY ) != -1)
 		{

@@ -40,33 +40,33 @@ typedef struct
 class COsprey : public CBaseMonster
 {
 public:
-	int		Save( CSave &save );
-	int		Restore( CRestore &restore );
+	int		Save( CSave &save ) override;
+	int		Restore( CRestore &restore ) override;
 	static	TYPEDESCRIPTION m_SaveData[];
-	int		ObjectCaps( void ) { return CBaseMonster :: ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
+	int		ObjectCaps( ) override { return CBaseMonster :: ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
 	
-	void Spawn( void );
-	void Precache( void );
-	int  Classify( void ) { return CLASS_MACHINE; };
-	int  BloodColor( void ) { return DONT_BLEED; }
-	void Killed( entvars_t *pevAttacker, int iGib );
+	void Spawn( ) override;
+	void Precache( ) override;
+	int  Classify( ) override { return CLASS_MACHINE; };
+	int  BloodColor( ) override { return DONT_BLEED; }
+	void Killed( entvars_t *pevAttacker, int iGib ) override;
 
-	void UpdateGoal( void );
-	BOOL HasDead( void );
-	void EXPORT FlyThink( void );
-	void EXPORT DeployThink( void );
-	void Flight( void );
+	void UpdateGoal( );
+	BOOL HasDead( );
+	void EXPORT FlyThink( );
+	void EXPORT DeployThink( );
+	void Flight( );
 	void EXPORT HitTouch( CBaseEntity *pOther );
-	void EXPORT FindAllThink( void );
-	void EXPORT HoverThink( void );
+	void EXPORT FindAllThink( );
+	void EXPORT HoverThink( );
 	CBaseMonster *MakeGrunt( Vector vecSrc );
 	void EXPORT CrashTouch( CBaseEntity *pOther );
-	void EXPORT DyingThink( void );
+	void EXPORT DyingThink( );
 	void EXPORT CommandUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 
 	// int  TakeDamage( entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType );
-	void TraceAttack( entvars_t *pevAttacker, float flDamage, Vector vecDir, TraceResult *ptr, int bitsDamageType);
-	void ShowDamage( void );
+	void TraceAttack( entvars_t *pevAttacker, float flDamage, Vector vecDir, TraceResult *ptr, int bitsDamageType) override;
+	void ShowDamage( );
 
 	CBaseEntity *m_pGoalEnt;
 	Vector m_vel1;
@@ -142,7 +142,7 @@ TYPEDESCRIPTION	COsprey::m_SaveData[] =
 IMPLEMENT_SAVERESTORE( COsprey, CBaseMonster );
 
 
-void COsprey :: Spawn( void )
+void COsprey :: Spawn( )
 {
 	Precache( );
 	// motor
@@ -181,7 +181,7 @@ void COsprey :: Spawn( void )
 }
 
 
-void COsprey::Precache( void )
+void COsprey::Precache( )
 {
 	UTIL_PrecacheOther( "monster_human_grunt" );
 
@@ -204,12 +204,12 @@ void COsprey::CommandUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYP
 	pev->nextthink = gpGlobals->time + 0.1;
 }
 
-void COsprey :: FindAllThink( void )
+void COsprey :: FindAllThink( )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	m_iUnits = 0;
-	while (m_iUnits < MAX_CARRY && (pEntity = UTIL_FindEntityByClassname( pEntity, "monster_human_grunt" )) != NULL)
+	while (m_iUnits < MAX_CARRY && (pEntity = UTIL_FindEntityByClassname( pEntity, "monster_human_grunt" )) != nullptr)
 	{
 		if (pEntity->IsAlive())
 		{
@@ -231,7 +231,7 @@ void COsprey :: FindAllThink( void )
 }
 
 
-void COsprey :: DeployThink( void )
+void COsprey :: DeployThink( )
 {
 	UTIL_MakeAimVectors( pev->angles );
 
@@ -288,7 +288,7 @@ CBaseMonster *COsprey :: MakeGrunt( Vector vecSrc )
 	TraceResult tr;
 	UTIL_TraceLine( vecSrc, vecSrc + Vector( 0, 0, -4096.0), dont_ignore_monsters, ENT(pev), &tr);
 	if ( tr.pHit && Instance( tr.pHit )->pev->solid != SOLID_BSP) 
-		return NULL;
+		return nullptr;
 
 	for (int i = 0; i < m_iUnits; i++)
 	{
@@ -318,11 +318,11 @@ CBaseMonster *COsprey :: MakeGrunt( Vector vecSrc )
 		}
 	}
 	// ALERT( at_console, "none dead\n");
-	return NULL;
+	return nullptr;
 }
 
 
-void COsprey :: HoverThink( void )
+void COsprey :: HoverThink( )
 {
 	int i;
 	for (i = 0; i < 4; i++)
@@ -381,14 +381,14 @@ void COsprey::UpdateGoal( )
 }
 
 
-void COsprey::FlyThink( void )
+void COsprey::FlyThink( )
 {
 	StudioFrameAdvance( );
 	pev->nextthink = gpGlobals->time + 0.1;
 
-	if ( m_pGoalEnt == NULL && !FStringNull(pev->target) )// this monster has a target
+	if ( m_pGoalEnt == nullptr && !FStringNull(pev->target) )// this monster has a target
 	{
-		m_pGoalEnt = CBaseEntity::Instance( FIND_ENTITY_BY_TARGETNAME ( NULL, STRING( pev->target ) ) );
+		m_pGoalEnt = CBaseEntity::Instance( FIND_ENTITY_BY_TARGETNAME ( nullptr, STRING( pev->target ) ) );
 		UpdateGoal( );
 	}
 
@@ -399,7 +399,7 @@ void COsprey::FlyThink( void )
 			SetThink( &COsprey::DeployThink );
 		}
 		do {
-			m_pGoalEnt = CBaseEntity::Instance( FIND_ENTITY_BY_TARGETNAME ( NULL, STRING( m_pGoalEnt->pev->target ) ) );
+			m_pGoalEnt = CBaseEntity::Instance( FIND_ENTITY_BY_TARGETNAME ( nullptr, STRING( m_pGoalEnt->pev->target ) ) );
 		} while (m_pGoalEnt->pev->speed < 400 && !HasDead());
 		UpdateGoal( );
 	}
@@ -454,9 +454,9 @@ void COsprey::Flight( )
 	}
 	else
 	{
-		CBaseEntity *pPlayer = NULL;
+		CBaseEntity *pPlayer = nullptr;
 
-		pPlayer = UTIL_FindEntityByClassname( NULL, "player" );
+		pPlayer = UTIL_FindEntityByClassname( nullptr, "player" );
 		// UNDONE: this needs to send different sounds to every player for multiplayer.	
 		if (pPlayer)
 		{
@@ -532,7 +532,7 @@ void COsprey::CrashTouch( CBaseEntity *pOther )
 	// only crash if we hit something solid
 	if ( pOther->pev->solid == SOLID_BSP) 
 	{
-		SetTouch( NULL );
+		SetTouch( nullptr );
 		m_startTime = gpGlobals->time;
 		pev->nextthink = gpGlobals->time;
 		m_velocity = pev->velocity;
@@ -540,7 +540,7 @@ void COsprey::CrashTouch( CBaseEntity *pOther )
 }
 
 
-void COsprey :: DyingThink( void )
+void COsprey :: DyingThink( )
 {
 	StudioFrameAdvance( );
 	pev->nextthink = gpGlobals->time + 0.1;
@@ -729,7 +729,7 @@ void COsprey :: DyingThink( void )
 }
 
 
-void COsprey :: ShowDamage( void )
+void COsprey :: ShowDamage( )
 {
 	if (m_iDoLeftSmokePuff > 0 || RANDOM_LONG(0,99) > m_flLeftHealth)
 	{

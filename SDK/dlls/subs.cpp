@@ -35,7 +35,7 @@ extern DLL_GLOBAL int g_iSkillLevel;
 
 
 // Landmark class
-void CPointEntity :: Spawn( void )
+void CPointEntity :: Spawn( )
 {
 	pev->solid = SOLID_NOT;
 //	UTIL_SetSize(pev, g_vecZero, g_vecZero);
@@ -45,12 +45,12 @@ void CPointEntity :: Spawn( void )
 class CNullEntity : public CBaseEntity
 {
 public:
-	void Spawn( void );
+	void Spawn( ) override;
 };
 
 
 // Null Entity, remove on startup
-void CNullEntity :: Spawn( void )
+void CNullEntity :: Spawn( )
 {
 	REMOVE_ENTITY(ENT(pev));
 }
@@ -59,8 +59,8 @@ LINK_ENTITY_TO_CLASS(info_null,CNullEntity);
 class CBaseDMStart : public CPointEntity
 {
 public:
-	void		KeyValue( KeyValueData *pkvd );
-	BOOL		IsTriggered( CBaseEntity *pEntity );
+	void		KeyValue( KeyValueData *pkvd ) override;
+	BOOL		IsTriggered( CBaseEntity *pEntity ) override;
 
 private:
 };
@@ -89,7 +89,7 @@ BOOL CBaseDMStart::IsTriggered( CBaseEntity *pEntity )
 }
 
 // This updates global tables that need to know about entities being removed
-void CBaseEntity::UpdateOnRemove( void )
+void CBaseEntity::UpdateOnRemove( )
 {
 	int	i;
 
@@ -102,7 +102,7 @@ void CBaseEntity::UpdateOnRemove( void )
 			if ( WorldGraph.m_pLinkPool [ i ].m_pLinkEnt == pev )
 			{
 				// if this link has a link ent which is the same ent that is removing itself, remove it!
-				WorldGraph.m_pLinkPool [ i ].m_pLinkEnt = NULL;
+				WorldGraph.m_pLinkPool [ i ].m_pLinkEnt = nullptr;
 			}
 		}
 	}
@@ -114,7 +114,7 @@ void CBaseEntity::UpdateOnRemove( void )
 //RENDERERS START
 extern int gmsgFreeEnt;
 //RENDERERS END
-void CBaseEntity :: SUB_Remove( void )
+void CBaseEntity :: SUB_Remove( )
 {
 	UpdateOnRemove();
 	if (pev->health > 0)
@@ -138,7 +138,7 @@ void CBaseEntity :: SUB_Remove( void )
 
 
 // Convenient way to explicitly do nothing (passed to functions that require a method)
-void CBaseEntity :: SUB_DoNothing( void )
+void CBaseEntity :: SUB_DoNothing( )
 {
 }
 
@@ -200,7 +200,7 @@ void CBaseEntity :: SUB_UseTargets( CBaseEntity *pActivator, USE_TYPE useType, f
 
 void FireTargets( const char *targetName, CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
-	edict_t *pentTarget = NULL;
+	edict_t *pentTarget = nullptr;
 	if ( !targetName )
 		return;
 
@@ -238,7 +238,7 @@ void CBaseDelay :: SUB_UseTargets( CBaseEntity *pActivator, USE_TYPE useType, fl
 	if (m_flDelay != 0)
 	{
 		// create a temp object to fire at a later time
-		CBaseDelay *pTemp = GetClassPtr( (CBaseDelay *)NULL);
+		CBaseDelay *pTemp = GetClassPtr( (CBaseDelay *)nullptr);
 		pTemp->pev->classname = MAKE_STRING("DelayedUse");
 
 		pTemp->pev->nextthink = gpGlobals->time + m_flDelay;
@@ -261,7 +261,7 @@ void CBaseDelay :: SUB_UseTargets( CBaseEntity *pActivator, USE_TYPE useType, fl
 		}
 		else
 		{
-			pTemp->pev->owner = NULL;
+			pTemp->pev->owner = nullptr;
 		}
 
 		return;
@@ -273,10 +273,10 @@ void CBaseDelay :: SUB_UseTargets( CBaseEntity *pActivator, USE_TYPE useType, fl
 
 	if ( m_iszKillTarget )
 	{
-		edict_t *pentKillTarget = NULL;
+		edict_t *pentKillTarget = nullptr;
 
 		ALERT( at_aiconsole, "KillTarget: %s\n", STRING(m_iszKillTarget) );
-		pentKillTarget = FIND_ENTITY_BY_TARGETNAME( NULL, STRING(m_iszKillTarget) );
+		pentKillTarget = FIND_ENTITY_BY_TARGETNAME( nullptr, STRING(m_iszKillTarget) );
 		while ( !FNullEnt(pentKillTarget) )
 		{
 			UTIL_Remove( CBaseEntity::Instance(pentKillTarget) );
@@ -329,11 +329,11 @@ void SetMovedir( entvars_t *pev )
 
 
 
-void CBaseDelay::DelayThink( void )
+void CBaseDelay::DelayThink( )
 {
-	CBaseEntity *pActivator = NULL;
+	CBaseEntity *pActivator = nullptr;
 
-	if ( pev->owner != NULL )		// A player activated this on delay
+	if ( pev->owner != nullptr )		// A player activated this on delay
 	{
 		pActivator = CBaseEntity::Instance( pev->owner );	
 	}
@@ -437,7 +437,7 @@ void CBaseToggle ::  LinearMove( Vector	vecDest, float flSpeed )
 After moving, set origin to exact final destination, call "move done" function
 ============
 */
-void CBaseToggle :: LinearMoveDone( void )
+void CBaseToggle :: LinearMoveDone( )
 {
 	UTIL_SetOrigin(pev, m_vecFinalDest);
 	pev->velocity = g_vecZero;
@@ -446,7 +446,7 @@ void CBaseToggle :: LinearMoveDone( void )
 		(this->*m_pfnCallWhenMoveDone)();
 }
 
-BOOL CBaseToggle :: IsLockedByMaster( void )
+BOOL CBaseToggle :: IsLockedByMaster( )
 {
 	if (m_sMaster && !UTIL_IsMasterTriggered(m_sMaster, m_hActivator))
 		return TRUE;
@@ -497,7 +497,7 @@ void CBaseToggle :: AngularMove( Vector vecDestAngle, float flSpeed )
 After rotating, set angle to exact final angle, call "move done" function
 ============
 */
-void CBaseToggle :: AngularMoveDone( void )
+void CBaseToggle :: AngularMoveDone( )
 {
 	pev->angles = m_vecFinalAngle;
 	pev->avelocity = g_vecZero;

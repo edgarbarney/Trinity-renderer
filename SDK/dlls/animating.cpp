@@ -177,7 +177,7 @@ float CBaseAnimating :: SetBoneController ( int iController, float flValue )
 
 //=========================================================
 //=========================================================
-void CBaseAnimating :: InitBoneControllers ( void )
+void CBaseAnimating :: InitBoneControllers ( )
 {
 	void *pmodel = GET_MODEL_PTR( ENT(pev) );
 
@@ -216,7 +216,7 @@ int CBaseAnimating :: FindTransition( int iEndingSequence, int iGoalSequence, in
 {
 	void *pmodel = GET_MODEL_PTR( ENT(pev) );
 	
-	if (piDir == NULL)
+	if (piDir == nullptr)
 	{
 		int iDir;
 		int sequence = ::FindTransition( pmodel, iEndingSequence, iGoalSequence, &iDir );
@@ -255,7 +255,7 @@ int CBaseAnimating :: ExtractBbox( int sequence, float *mins, float *maxs )
 //=========================================================
 //=========================================================
 
-void CBaseAnimating :: SetSequenceBox( void )
+void CBaseAnimating :: SetSequenceBox( )
 {
 	Vector mins, maxs;
 

@@ -44,17 +44,17 @@ enum squeak_e {
 
 class CSqueakGrenade : public CGrenade
 {
-	void Spawn( void );
-	void Precache( void );
-	int  Classify( void );
+	void Spawn( ) override;
+	void Precache( ) override;
+	int  Classify( ) override;
 	void EXPORT SuperBounceTouch( CBaseEntity *pOther );
-	void EXPORT HuntThink( void );
-	int  BloodColor( void ) { return BLOOD_COLOR_YELLOW; }
-	void Killed( entvars_t *pevAttacker, int iGib );
-	void GibMonster( void );
+	void EXPORT HuntThink( );
+	int  BloodColor( ) override { return BLOOD_COLOR_YELLOW; }
+	void Killed( entvars_t *pevAttacker, int iGib ) override;
+	void GibMonster( ) override;
 
-	virtual int		Save( CSave &save ); 
-	virtual int		Restore( CRestore &restore );
+	int		Save( CSave &save ) override; 
+	int		Restore( CRestore &restore ) override;
 	
 	static	TYPEDESCRIPTION m_SaveData[];
 
@@ -87,7 +87,7 @@ IMPLEMENT_SAVERESTORE( CSqueakGrenade, CGrenade );
 
 #define SQUEEK_DETONATE_DELAY	15.0
 
-int CSqueakGrenade :: Classify ( void )
+int CSqueakGrenade :: Classify ( )
 {
 	if (m_iMyClass != 0)
 		return m_iMyClass; // protect against recursion
@@ -109,7 +109,7 @@ int CSqueakGrenade :: Classify ( void )
 	return CLASS_ALIEN_BIOWEAPON;
 }
 
-void CSqueakGrenade :: Spawn( void )
+void CSqueakGrenade :: Spawn( )
 {
 	Precache( );
 	// motor
@@ -146,7 +146,7 @@ void CSqueakGrenade :: Spawn( void )
 	ResetSequenceInfo( );
 }
 
-void CSqueakGrenade::Precache( void )
+void CSqueakGrenade::Precache( )
 {
 	PRECACHE_MODEL("models/w_squeak.mdl");
 	PRECACHE_SOUND("squeek/sqk_blast1.wav");
@@ -163,7 +163,7 @@ void CSqueakGrenade :: Killed( entvars_t *pevAttacker, int iGib )
 {
 	pev->model = iStringNull;// make invisible
 	SetThink( &CBaseEntity::SUB_Remove );
-	SetTouch( NULL );
+	SetTouch( nullptr );
 	pev->nextthink = gpGlobals->time + 0.1;
 
 	// since squeak grenades never leave a body behind, clear out their takedamage now.
@@ -190,20 +190,20 @@ void CSqueakGrenade :: Killed( entvars_t *pevAttacker, int iGib )
 	CBaseMonster :: Killed( pevAttacker, GIB_ALWAYS );
 }
 
-void CSqueakGrenade :: GibMonster( void )
+void CSqueakGrenade :: GibMonster( )
 {
 	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "common/bodysplat.wav", 0.75, ATTN_NORM, 0, 200);		
 }
 
 
 
-void CSqueakGrenade::HuntThink( void )
+void CSqueakGrenade::HuntThink( )
 {
 	// ALERT( at_console, "think\n" );
 
 	if (!IsInWorld())
 	{
-		SetTouch( NULL );
+		SetTouch( nullptr );
 		UTIL_Remove( this );
 		return;
 	}
@@ -230,7 +230,7 @@ void CSqueakGrenade::HuntThink( void )
 		pev->velocity = pev->velocity * 0.9;
 		pev->velocity.z += 8.0;
 	}
-	else if (pev->movetype = MOVETYPE_FLY)
+	else if ((pev->movetype = MOVETYPE_FLY))
 	{
 		pev->movetype = MOVETYPE_BOUNCE;
 	}
@@ -241,7 +241,7 @@ void CSqueakGrenade::HuntThink( void )
 
 	m_flNextHunt = gpGlobals->time + 2.0;
 	
-	CBaseEntity *pOther = NULL;
+	CBaseEntity *pOther = nullptr;
 	Vector vecDir;
 	TraceResult tr;
 
@@ -328,7 +328,7 @@ void CSqueakGrenade::SuperBounceTouch( CBaseEntity *pOther )
 		return;
 
 	// at least until we've bounced once
-	pev->owner = NULL;
+	pev->owner = nullptr;
 
 	pev->angles.x = 0;
 	pev->angles.z = 0;
@@ -428,7 +428,7 @@ void CSqueak::Spawn( )
 }
 
 
-void CSqueak::Precache( void )
+void CSqueak::Precache( )
 {
 	PRECACHE_MODEL("models/w_sqknest.mdl");
 	PRECACHE_MODEL("models/v_squeak.mdl");
@@ -446,7 +446,7 @@ int CSqueak::GetItemInfo(ItemInfo *p)
 	p->pszName = STRING(pev->classname);
 	p->pszAmmo1 = "Snarks";
 	p->iMaxAmmo1 = SNARK_MAX_CARRY;
-	p->pszAmmo2 = NULL;
+	p->pszAmmo2 = nullptr;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = WEAPON_NOCLIP;
 	p->iSlot = 4;
@@ -510,7 +510,7 @@ void CSqueak::PrimaryAttack()
 		}
 
 		// find place to toss monster
-		UTIL_TraceLine( trace_origin + gpGlobals->v_forward * 20, trace_origin + gpGlobals->v_forward * 64, dont_ignore_monsters, NULL, &tr );
+		UTIL_TraceLine( trace_origin + gpGlobals->v_forward * 20, trace_origin + gpGlobals->v_forward * 64, dont_ignore_monsters, nullptr, &tr );
 
 	int flags;
 #ifdef CLIENT_WEAPONS
@@ -552,13 +552,13 @@ void CSqueak::PrimaryAttack()
 }
 
 
-void CSqueak::SecondaryAttack( void )
+void CSqueak::SecondaryAttack( )
 {
 
 }
 
 
-void CSqueak::WeaponIdle( void )
+void CSqueak::WeaponIdle( )
 {
 	if ( m_flTimeWeaponIdle > UTIL_WeaponTimeBase() )
 		return;

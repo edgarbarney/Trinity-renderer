@@ -42,7 +42,7 @@ extern entvars_t *g_pevLastInflictor;
 
 
 // HACKHACK -- The gib velocity equations don't work
-void CGib :: LimitVelocity( void )
+void CGib :: LimitVelocity( )
 {
 	float length = pev->velocity.Length();
 
@@ -65,7 +65,7 @@ void CGib :: SpawnStickyGibs( entvars_t *pevVictim, Vector vecOrigin, int cGibs 
 
 	for ( i = 0 ; i < cGibs ; i++ )
 	{
-		CGib *pGib = GetClassPtr( (CGib *)NULL );
+		CGib *pGib = GetClassPtr( (CGib *)nullptr );
 
 		pGib->Spawn( "models/stickygib.mdl" );
 		pGib->pev->body = RANDOM_LONG(0,2);
@@ -116,7 +116,7 @@ void CGib :: SpawnStickyGibs( entvars_t *pevVictim, Vector vecOrigin, int cGibs 
 			pGib->pev->solid = SOLID_BBOX;
 			UTIL_SetSize ( pGib->pev, Vector ( 0, 0 ,0 ), Vector ( 0, 0, 0 ) );
 			pGib->SetTouch ( &CGib::StickyGibTouch );
-			pGib->SetThink (NULL);
+			pGib->SetThink (nullptr);
 		}
 		pGib->LimitVelocity();
 	}
@@ -124,7 +124,7 @@ void CGib :: SpawnStickyGibs( entvars_t *pevVictim, Vector vecOrigin, int cGibs 
 
 void CGib :: SpawnHeadGib( entvars_t *pevVictim )
 {
-	CGib *pGib = GetClassPtr( (CGib *)NULL );
+	CGib *pGib = GetClassPtr( (CGib *)nullptr );
 
 	if ( g_Language == LANGUAGE_GERMAN )
 	{
@@ -186,7 +186,7 @@ void CGib :: SpawnRandomGibs( entvars_t *pevVictim, int cGibs, int human )
 
 	for ( cSplat = 0 ; cSplat < cGibs ; cSplat++ )
 	{
-		CGib *pGib = GetClassPtr( (CGib *)NULL );
+		CGib *pGib = GetClassPtr( (CGib *)nullptr );
 
 		if ( g_Language == LANGUAGE_GERMAN )
 		{
@@ -253,7 +253,7 @@ void CGib :: SpawnRandomGibs( entvars_t *pevVictim, int cGibs, int human )
 }
 
 
-BOOL CBaseMonster :: HasHumanGibs( void )
+BOOL CBaseMonster :: HasHumanGibs( )
 {
 	int myClass = Classify();
 
@@ -268,7 +268,7 @@ BOOL CBaseMonster :: HasHumanGibs( void )
 }
 
 
-BOOL CBaseMonster :: HasAlienGibs( void )
+BOOL CBaseMonster :: HasAlienGibs( )
 {
 	int myClass = Classify();
 
@@ -285,7 +285,7 @@ BOOL CBaseMonster :: HasAlienGibs( void )
 }
 
 
-void CBaseMonster::FadeMonster( void )
+void CBaseMonster::FadeMonster( )
 {
 	StopAnimation();
 	pev->velocity = g_vecZero;
@@ -300,7 +300,7 @@ void CBaseMonster::FadeMonster( void )
 // GibMonster - create some gore and get rid of a monster's
 // model.
 //=========================================================
-void CBaseMonster :: GibMonster( void )
+void CBaseMonster :: GibMonster( )
 {
 	TraceResult	tr;
 	BOOL		gibbed = FALSE;
@@ -345,7 +345,7 @@ void CBaseMonster :: GibMonster( void )
 // GetDeathActivity - determines the best type of death
 // anim to play.
 //=========================================================
-Activity CBaseMonster :: GetDeathActivity ( void )
+Activity CBaseMonster :: GetDeathActivity ( )
 {
 	Activity	deathActivity;
 	BOOL		fTriedDirection;
@@ -466,7 +466,7 @@ Activity CBaseMonster :: GetDeathActivity ( void )
 // GetSmallFlinchActivity - determines the best type of flinch
 // anim to play.
 //=========================================================
-Activity CBaseMonster :: GetSmallFlinchActivity ( void )
+Activity CBaseMonster :: GetSmallFlinchActivity ( )
 {
 	Activity	flinchActivity;
 	BOOL		fTriedDirection;
@@ -515,7 +515,7 @@ Activity CBaseMonster :: GetSmallFlinchActivity ( void )
 }
 
 
-void CBaseMonster::BecomeDead( void )
+void CBaseMonster::BecomeDead( )
 {
 	pev->takedamage = DAMAGE_YES;// don't let autoaim aim at corpses.
 	
@@ -541,7 +541,7 @@ BOOL CBaseMonster::ShouldGibMonster( int iGib )
 }
 
 
-void CBaseMonster::CallGibMonster( void )
+void CBaseMonster::CallGibMonster( )
 {
 	BOOL fade = FALSE;
 
@@ -622,7 +622,7 @@ void CBaseMonster :: Killed( entvars_t *pevAttacker, int iGib )
 	}
 	else if ( pev->flags & FL_MONSTER )
 	{
-		SetTouch( NULL );
+		SetTouch( nullptr );
 		BecomeDead();
 	}
 	
@@ -642,7 +642,7 @@ void CBaseMonster :: Killed( entvars_t *pevAttacker, int iGib )
 //
 // DON'T USE ME FOR GIBS AND STUFF IN MULTIPLAYER! 
 // SET A FUTURE THINK AND A RENDERMODE!!
-void CBaseEntity :: SUB_StartFadeOut ( void )
+void CBaseEntity :: SUB_StartFadeOut ( )
 {
 	if (pev->rendermode == kRenderNormal)
 	{
@@ -657,7 +657,7 @@ void CBaseEntity :: SUB_StartFadeOut ( void )
 	SetThink ( &CBaseEntity::SUB_FadeOut );
 }
 
-void CBaseEntity :: SUB_FadeOut ( void  )
+void CBaseEntity :: SUB_FadeOut (  )
 {
 	if ( pev->renderamt > 7 )
 	{
@@ -678,7 +678,7 @@ void CBaseEntity :: SUB_FadeOut ( void  )
 // bouncing to emit their scent. That's what this function
 // does.
 //=========================================================
-void CGib :: WaitTillLand ( void )
+void CGib :: WaitTillLand ( )
 {
 	if (!IsInWorld())
 	{
@@ -923,7 +923,7 @@ int CBaseMonster :: TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker,
 			Killed( pevAttacker, GIB_NORMAL );
 		}
 
-		g_pevLastInflictor = NULL;
+		g_pevLastInflictor = nullptr;
 
 		return 0;
 	}
@@ -1037,7 +1037,7 @@ float CBaseMonster :: DamageForce( float damage )
 	
 void RadiusDamage( Vector vecSrc, entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, float flRadius, int iClassIgnore, int bitsDamageType )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 	TraceResult	tr;
 	float		flAdjustedDamage, falloff;
 	Vector		vecSpot;
@@ -1055,7 +1055,7 @@ void RadiusDamage( Vector vecSrc, entvars_t *pevInflictor, entvars_t *pevAttacke
 		pevAttacker = pevInflictor;
 
 	// iterate on all entities in the vicinity.
-	while ((pEntity = UTIL_FindEntityInSphere( pEntity, vecSrc, flRadius )) != NULL)
+	while ((pEntity = UTIL_FindEntityInSphere( pEntity, vecSrc, flRadius )) != nullptr)
 	{
 		if ( pEntity->pev->takedamage != DAMAGE_NO )
 		{
@@ -1157,7 +1157,7 @@ CBaseEntity* CBaseMonster :: CheckTraceHullAttack( float flDist, int iDamage, in
 		return pEntity;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1387,7 +1387,7 @@ void CBaseEntity::FireBullets(ULONG cShots, Vector vecSrc, Vector vecDirShooting
 	Vector vecRight = gpGlobals->v_right;
 	Vector vecUp = gpGlobals->v_up;
 
-	if ( pevAttacker == NULL )
+	if ( pevAttacker == nullptr )
 		pevAttacker = pev;  // the default attacker is ourselves
 
 	ClearMultiDamage();
@@ -1531,7 +1531,7 @@ Vector CBaseEntity::FireBulletsPlayer ( ULONG cShots, Vector vecSrc, Vector vecD
 	Vector vecUp = gpGlobals->v_up;
 	float x, y, z;
 
-	if ( pevAttacker == NULL )
+	if ( pevAttacker == nullptr )
 		pevAttacker = pev;  // the default attacker is ourselves
 
 	ClearMultiDamage();

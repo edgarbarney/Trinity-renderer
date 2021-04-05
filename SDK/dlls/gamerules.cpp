@@ -28,7 +28,7 @@
 
 extern edict_t *EntSelectSpawnPoint( CBaseEntity *pPlayer );
 
-DLL_GLOBAL CGameRules*	g_pGameRules = NULL;
+DLL_GLOBAL CGameRules*	g_pGameRules = nullptr;
 extern DLL_GLOBAL BOOL	g_fGameOver;
 extern int gmsgDeathMsg;	// client dll messages
 extern int gmsgMOTD;
@@ -110,7 +110,7 @@ BOOL CGameRules::CanHavePlayerItem( CBasePlayer *pPlayer, CBasePlayerItem *pWeap
 //=========================================================
 // load the SkillData struct with the proper values based on the skill level.
 //=========================================================
-void CGameRules::RefreshSkillData ( void )
+void CGameRules::RefreshSkillData ( )
 {
 	int	iSkill;
 
@@ -308,7 +308,7 @@ void CGameRules::RefreshSkillData ( void )
 // instantiate the proper game rules object
 //=========================================================
 
-CGameRules *InstallGameRules( void )
+CGameRules *InstallGameRules( )
 {
 	SERVER_COMMAND( "exec game.cfg\n" );
 	SERVER_EXECUTE( );

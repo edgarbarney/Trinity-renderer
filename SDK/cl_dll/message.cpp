@@ -32,7 +32,7 @@ client_textmessage_t	g_pCustomMessage;
 char *g_pCustomName = "Custom";
 char g_pCustomText[1024];
 
-int CHudMessage::Init(void)
+int CHudMessage::Init()
 {
 	HOOK_MESSAGE( HudText );
 	HOOK_MESSAGE( GameTitle );
@@ -44,7 +44,7 @@ int CHudMessage::Init(void)
 	return 1;
 };
 
-int CHudMessage::VidInit( void )
+int CHudMessage::VidInit( )
 {
 	m_HUD_title_half = gHUD.GetSpriteIndex( "title_half" );
 	m_HUD_title_life = gHUD.GetSpriteIndex( "title_life" );
@@ -53,13 +53,13 @@ int CHudMessage::VidInit( void )
 };
 
 
-void CHudMessage::Reset( void )
+void CHudMessage::Reset( )
 {
  	memset( m_pMessages, 0, sizeof( m_pMessages[0] ) * maxHUDMessages );
 	memset( m_startTime, 0, sizeof( m_startTime[0] ) * maxHUDMessages );
 	
 	m_gameTitleTime = 0;
-	m_pGameTitle = NULL;
+	m_pGameTitle = nullptr;
 }
 
 
@@ -138,9 +138,9 @@ int CHudMessage::YPosition( float y, int height )
 }
 
 
-void CHudMessage::MessageScanNextChar( void )
+void CHudMessage::MessageScanNextChar( )
 {
-	int srcRed, srcGreen, srcBlue, destRed, destGreen, destBlue;
+	int srcRed, srcGreen, srcBlue, destRed = 0, destGreen = 0, destBlue = 0;
 	int blend;
 
 	srcRed = m_parms.pMessage->r1;
@@ -202,7 +202,7 @@ void CHudMessage::MessageScanNextChar( void )
 }
 
 
-void CHudMessage::MessageScanStart( void )
+void CHudMessage::MessageScanStart( )
 {
 	switch( m_parms.pMessage->effect )
 	{
@@ -402,7 +402,7 @@ int CHudMessage::Draw( float fTime )
 			else
 			{
 				// The message is over
-				m_pMessages[i] = NULL;
+				m_pMessages[i] = nullptr;
 			}
 		}
 	}
@@ -468,7 +468,7 @@ void CHudMessage::MessageAdd( const char *pName, float time )
 					{
 						if ( fabs( tempMessage->x - m_pMessages[j]->x ) < 0.0001 )
 						{
-							m_pMessages[j] = NULL;
+							m_pMessages[j] = nullptr;
 						}
 					}
 				}
@@ -503,7 +503,7 @@ int CHudMessage::MsgFunc_HudText( const char *pszName,  int iSize, void *pbuf )
 int CHudMessage::MsgFunc_GameTitle( const char *pszName,  int iSize, void *pbuf )
 {
 	m_pGameTitle = TextMessageGet( "GAMETITLE" );
-	if ( m_pGameTitle != NULL )
+	if ( m_pGameTitle != nullptr )
 	{
 		m_gameTitleTime = gHUD.m_flTime;
 

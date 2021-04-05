@@ -9,7 +9,7 @@
 #define VGUI_MENUSEPARATOR_H
 
 #include<VGUI.h>
-#include<VGUI_Label.h>
+#include<vgui_label.h>
 
 namespace vgui
 {
@@ -19,7 +19,7 @@ class VGUIAPI MenuSeparator : public Label
 public:
 	MenuSeparator(const char* text);
 protected:
-	virtual void paintBackground();
+	void paintBackground() override;
 };
 
 }

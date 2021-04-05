@@ -13,7 +13,7 @@
 #define SPECTATORPANEL_H
 
 #include <VGUI_Panel.h>
-#include <VGUI_Label.h>
+#include <vgui_label.h>
 #include <VGUI_Button.h>
 
 using namespace vgui;
@@ -92,7 +92,7 @@ public:
 		m_cmd = cmd;
 	}
 
-	virtual void actionPerformed( Panel * panel )
+	void actionPerformed( Panel * panel ) override
 	{
 		m_pFather->ActionSignal(m_cmd);
 	}

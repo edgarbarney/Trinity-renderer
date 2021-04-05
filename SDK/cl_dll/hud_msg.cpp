@@ -74,7 +74,7 @@ int CHud :: MsgFunc_ResetHUD(const char *pszName, int iSize, void *pbuf )
 	return 1;
 }
 
-void CAM_ToFirstPerson(void);
+void CAM_ToFirstPerson();
 
 void CHud :: MsgFunc_ViewMode( const char *pszName, int iSize, void *pbuf )
 {
@@ -103,7 +103,7 @@ void CHud :: MsgFunc_InitHUD( const char *pszName, int iSize, void *pbuf )
 	}
 
 	//Probably not a good place to put this.
-	pBeam = pBeam2 = NULL;
+	pBeam = pBeam2 = nullptr;
 }
 
 
@@ -219,7 +219,7 @@ int CHud ::MsgFunc_FreeEnt(const char *pszName, int iSize, void *pbuf)
 	if(!pEntity)
 		return 1;
 
-	pEntity->efrag = NULL;
+	pEntity->efrag = nullptr;
 	return 1;
 }
 //RENDERERS END

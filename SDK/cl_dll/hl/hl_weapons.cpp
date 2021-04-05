@@ -90,7 +90,7 @@ void AlertMessage( ALERT_TYPE atype, char *szFmt, ... )
 
 //Returns if it's multiplayer.
 //Mostly used by the client side weapons.
-bool bIsMultiplayer ( void )
+bool bIsMultiplayer ( )
 {
 	return gEngfuncs.GetMaxClients() == 1 ? 0 : 1;
 }
@@ -172,7 +172,7 @@ BOOL CBasePlayerWeapon :: DefaultReload( int iClipSize, int iAnim, float fDelay,
 CBasePlayerWeapon :: CanDeploy
 =====================
 */
-BOOL CBasePlayerWeapon :: CanDeploy( void ) 
+BOOL CBasePlayerWeapon :: CanDeploy( ) 
 {
 	BOOL bHasAmmo = 0;
 
@@ -229,7 +229,7 @@ CBasePlayerWeapon :: PlayEmptySound
 
 =====================
 */
-BOOL CBasePlayerWeapon :: PlayEmptySound( void )
+BOOL CBasePlayerWeapon :: PlayEmptySound( )
 {
 	if (m_iPlayEmptySound)
 	{
@@ -246,7 +246,7 @@ CBasePlayerWeapon :: ResetEmptySound
 
 =====================
 */
-void CBasePlayerWeapon :: ResetEmptySound( void )
+void CBasePlayerWeapon :: ResetEmptySound( )
 {
 	m_iPlayEmptySound = 1;
 }
@@ -292,7 +292,7 @@ Vector CBaseEntity::FireBulletsPlayer ( ULONG cShots, Vector vecSrc, Vector vecD
 
 	for ( ULONG iShot = 1; iShot <= cShots; iShot++ )
 	{
-		if ( pevAttacker == NULL )
+		if ( pevAttacker == nullptr )
 		{
 			// get circular gaussian spread
 			do {
@@ -322,7 +322,7 @@ CBasePlayerWeapon::ItemPostFrame
 Handles weapon firing, reloading, etc.
 =====================
 */
-void CBasePlayerWeapon::ItemPostFrame( void )
+void CBasePlayerWeapon::ItemPostFrame( )
 {
 	if ((m_fInReload) && (m_pPlayer->m_flNextAttack <= 0.0))
 	{
@@ -399,7 +399,7 @@ void CBasePlayer::SelectItem(const char *pstr)
 	if (!pstr)
 		return;
 
-	CBasePlayerItem *pItem = NULL;
+	CBasePlayerItem *pItem = nullptr;
 
 	if (!pItem)
 		return;
@@ -426,7 +426,7 @@ CBasePlayer::SelectLastItem
 
 =====================
 */
-void CBasePlayer::SelectLastItem(void)
+void CBasePlayer::SelectLastItem()
 {
 	if (!m_pLastItem)
 	{
@@ -468,7 +468,7 @@ CBasePlayer::Spawn
 
 =====================
 */
-void CBasePlayer::Spawn( void )
+void CBasePlayer::Spawn( )
 {
 	if (m_pActiveItem)
 		m_pActiveItem->Deploy( );
@@ -517,7 +517,7 @@ UTIL_ParticleBoxes
 For debugging, draw boxes for other collidable players
 =====================
 */
-void UTIL_ParticleBoxes( void )
+void UTIL_ParticleBoxes( )
 {
 	int idx;
 	physent_t *pe;
@@ -570,7 +570,7 @@ CBasePlayerWeapon::PrintState
 For debugging, print out state variables to log file
 =====================
 */
-void CBasePlayerWeapon::PrintState( void )
+void CBasePlayerWeapon::PrintState( )
 {
 	COM_Log( "c:\\hl.log", "%.4f ", gpGlobals->time );
 	COM_Log( "c:\\hl.log", "%.4f ", m_pPlayer->m_flNextAttack );
@@ -586,7 +586,7 @@ HUD_InitClientWeapons
 Set up weapons, player and functions needed to run weapons code client-side.
 =====================
 */
-void HUD_InitClientWeapons( void )
+void HUD_InitClientWeapons( )
 {
 	static int initialized = 0;
 	if ( initialized )
@@ -618,7 +618,7 @@ void HUD_InitClientWeapons( void )
 	g_engfuncs.pfnRandomLong		= gEngfuncs.pfnRandomLong;
 
 	// Allocate a slot for the local player
-	HUD_PrepEntity( &player		, NULL );
+	HUD_PrepEntity( &player		, nullptr );
 
 	// Allocate slot(s) for each weapon that we are going to be predicting
 	HUD_PrepEntity( &g_Glock	, &player );
@@ -662,7 +662,7 @@ HUD_SetLastOrg
 Remember our exact predicted origin so we can draw the egon to the right position.
 =====================
 */
-void HUD_SetLastOrg( void )
+void HUD_SetLastOrg( )
 {
 	int i;
 	
@@ -684,7 +684,7 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 {
 	int i;
 	int buttonsChanged;
-	CBasePlayerWeapon *pWeapon = NULL;
+	CBasePlayerWeapon *pWeapon = nullptr;
 	CBasePlayerWeapon *pCurrent;
 	weapon_data_t nulldata, *pfrom, *pto;
 	static int lasthealth;
@@ -768,7 +768,7 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 	{
 		if ( to->client.health <= 0 && lasthealth > 0 )
 		{
-			player.Killed( NULL, 0 );
+			player.Killed( nullptr, 0 );
 			
 		}
 		else if ( to->client.health > 0 && lasthealth <= 0 )
@@ -1053,7 +1053,7 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 	HUD_SetLastOrg();
 
 	// Wipe it so we can't use it after this frame
-	g_finalstate = NULL;
+	g_finalstate = nullptr;
 }
 
 /*
@@ -1085,7 +1085,7 @@ void _DLLEXPORT HUD_PostRunCmd( struct local_state_s *from, struct local_state_s
 	if ( g_irunninggausspred == 1 )
 	{
 		Vector forward;
-		gEngfuncs.pfnAngleVectors( v_angles, forward, NULL, NULL );
+		gEngfuncs.pfnAngleVectors( v_angles, forward, nullptr, nullptr );
 		to->client.velocity = to->client.velocity - forward * g_flApplyVel * 5; 
 		g_irunninggausspred = false;
 	}

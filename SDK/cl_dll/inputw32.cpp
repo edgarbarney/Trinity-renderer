@@ -149,7 +149,7 @@ static JOYINFOEX	ji;
 Force_CenterView_f
 ===========
 */
-void Force_CenterView_f (void)
+void Force_CenterView_f ()
 {
 	vec3_t viewangles;
 
@@ -197,9 +197,9 @@ void DLLEXPORT IN_DeactivateMouse (void)
 IN_StartupMouse
 ===========
 */
-void IN_StartupMouse (void)
+void IN_StartupMouse ()
 {
-	if ( gEngfuncs.CheckParm ("-nomouse", NULL ) ) 
+	if ( gEngfuncs.CheckParm ("-nomouse", nullptr ) ) 
 		return; 
 
 	mouseinitialized = 1;
@@ -207,16 +207,16 @@ void IN_StartupMouse (void)
 
 	if (mouseparmsvalid)
 	{
-		if ( gEngfuncs.CheckParm ("-noforcemspd", NULL ) ) 
+		if ( gEngfuncs.CheckParm ("-noforcemspd", nullptr ) ) 
 			newmouseparms[2] = originalmouseparms[2];
 
-		if ( gEngfuncs.CheckParm ("-noforcemaccel", NULL ) ) 
+		if ( gEngfuncs.CheckParm ("-noforcemaccel", nullptr ) ) 
 		{
 			newmouseparms[0] = originalmouseparms[0];
 			newmouseparms[1] = originalmouseparms[1];
 		}
 
-		if ( gEngfuncs.CheckParm ("-noforcemparms", NULL ) ) 
+		if ( gEngfuncs.CheckParm ("-noforcemparms", nullptr ) ) 
 		{
 			newmouseparms[0] = originalmouseparms[0];
 			newmouseparms[1] = originalmouseparms[1];
@@ -232,7 +232,7 @@ void IN_StartupMouse (void)
 IN_Shutdown
 ===========
 */
-void IN_Shutdown (void)
+void IN_Shutdown ()
 {
 	IN_DeactivateMouse ();
 }
@@ -256,7 +256,7 @@ IN_ResetMouse
 FIXME: Call through to engine?
 ===========
 */
-void IN_ResetMouse( void )
+void IN_ResetMouse( )
 {
 	SetCursorPos ( gEngfuncs.GetWindowCenterX(), gEngfuncs.GetWindowCenterY() );	
 }
@@ -438,7 +438,7 @@ void DLLEXPORT IN_ClearStates (void)
 IN_StartupJoystick 
 =============== 
 */  
-void IN_StartupJoystick (void) 
+void IN_StartupJoystick () 
 { 
 	int			numdevs;
 	JOYCAPS		jc;
@@ -448,7 +448,7 @@ void IN_StartupJoystick (void)
 	joy_avail = 0; 
 
 	// abort startup if user requests no joystick
-	if ( gEngfuncs.CheckParm ("-nojoy", NULL ) ) 
+	if ( gEngfuncs.CheckParm ("-nojoy", nullptr ) ) 
 		return; 
  
 	// verify joystick driver is present
@@ -532,7 +532,7 @@ PDWORD RawValuePointer (int axis)
 Joy_AdvancedUpdate_f
 ===========
 */
-void Joy_AdvancedUpdate_f (void)
+void Joy_AdvancedUpdate_f ()
 {
 
 	// called once by IN_ReadJoystick and by user whenever an update is needed
@@ -604,7 +604,7 @@ void Joy_AdvancedUpdate_f (void)
 IN_Commands
 ===========
 */
-void IN_Commands (void)
+void IN_Commands ()
 {
 	int		i, key_index;
 	DWORD	buttonstate, povstate;
@@ -674,7 +674,7 @@ void IN_Commands (void)
 IN_ReadJoystick
 =============== 
 */  
-int IN_ReadJoystick (void)
+int IN_ReadJoystick ()
 {
 
 	memset (&ji, 0, sizeof(ji));
@@ -914,7 +914,7 @@ void IN_Move ( float frametime, usercmd_t *cmd)
 IN_Init
 ===========
 */
-void IN_Init (void)
+void IN_Init ()
 {
 	m_filter				= gEngfuncs.pfnRegisterVariable ( "m_filter","0", FCVAR_ARCHIVE );
 	sensitivity				= gEngfuncs.pfnRegisterVariable ( "sensitivity","3", FCVAR_ARCHIVE ); // user mouse sensitivity setting.
