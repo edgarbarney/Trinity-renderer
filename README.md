@@ -1,7 +1,9 @@
-# Trinity-renderer
-TrinityFD is a custom version of the Trinity Rendering Engine for Half-Life, which original was abandoned.
+Archived. Check Spirit+Trinity branch of mine.
+https://github.com/edgarbarney/halflife-planckepoch/tree/spirit/spirit-1.8-trinity
 
-======================
+# Trinity-renderer
+
+TrinityFD is a custom version of the Trinity Rendering Engine for Half-Life, which original was abandoned.
 
 Half Life 1 SDK LICENSE
 ======================
